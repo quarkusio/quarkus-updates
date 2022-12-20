@@ -27,6 +27,26 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>quarkus</id>
+            <name>Quarkus Community</name>
+            <organization>Quarkus</organization>
+            <organizationUrl>https://quarkus.io</organizationUrl>
+        </developer>
+    </developers>
+
+    <mailingLists>
+        <mailingList>
+            <name>Quarkus GitHub discussions</name>
+            <archive>https://github.com/quarkusio/quarkus/discussions</archive>
+        </mailingList>
+        <mailingList>
+            <name>Quarkus Development mailing list</name>
+            <archive>https://groups.google.com/g/quarkus-dev/</archive>
+        </mailingList>
+    </mailingLists>
+
     <scm child.scm.connection.inherit.append.path="false"
          child.scm.developerConnection.inherit.append.path="false"
          child.scm.url.inherit.append.path="false">
@@ -90,6 +110,23 @@
                             <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
                             <stagingProgressTimeoutMinutes>60</stagingProgressTimeoutMinutes>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <!-- ## IMPORTANT ## In your ~/.m2/settings.xml you
+                            need to add and edit the following profile: <profile> <id>release</id> <properties>
+                            <gpg.useagent>false</gpg.useagent> <gpg.executable>/usr/local/Cellar/gnupg@1.4/1.4.23_1/bin/gpg1</gpg.executable>
+                            <- use gpg1 on Mac OS X <gpg.homedir>~/.gnupg</gpg.homedir> <- Update to your own directory <gpg.passphrase>******</gpg.passphrase> <- Add your passphrase </properties> </profile> -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

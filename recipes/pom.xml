@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>quarkus-update-recipes</artifactId>
+    <name>Quarkus Updates - Recipes</name>
 
     <build>
         <plugins>
@@ -19,6 +20,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
                 <configuration>
+                    <flattenMode>oss</flattenMode>
                 </configuration>
                 <executions>
                     <!-- enable flattening -->
