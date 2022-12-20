@@ -76,9 +76,6 @@
     <profiles>
         <profile>
             <id>release</id>
-            <modules>
-                <module>relocations</module>
-            </modules>
             <build>
                 <plugins>
                     <plugin>
