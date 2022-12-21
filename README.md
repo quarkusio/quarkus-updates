@@ -2,7 +2,7 @@
 
 This repository contains the recipes used by the Quarkus tooling to update Quarkus projects to newer versions.
 
-The recipes are contained in the `src/main/resources/quarkus-udpates/core` directory and follow a pattern. Recipes are placed in `[major.minor].yaml` (i.e. `3.0.yaml`).
+The recipes are contained in the `recipies/src/main/resources/quarkus-udpates/core` directory and follow a pattern. Recipes are placed in `[major.minor].yaml` (i.e. `3.0.yaml`).
 
 Given:
 - `currentVersion` the current Quarkus core version of the project
@@ -16,7 +16,7 @@ The Quarkus tooling will always use the latest GitHub release of the recipe dire
 
 Example:
 
-Content of the `quarkus-udpates` directory:
+Content of the `quarkus-updates` directory:
 - 2.7.yaml
 - 2.9.yaml
 - 3.0.yaml
