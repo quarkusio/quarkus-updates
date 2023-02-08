@@ -15,53 +15,6 @@
 #
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.migrate.jakarta.JavaxMigrationToJakarta
-displayName: Migrate to Jakarta EE 9
-description: Jakarta EE 9 is the first version of Jakarta EE that uses the new `jakarta` namespace.
-tags:
-  - jaxb
-  - jaxws
-  - jakarta
-
-# TODO: Update XML references if necessary.
-# TODO: Rename bootstrapping files if necessary.
-recipeList:
-  - org.openrewrite.java.migrate.jakarta.JavaxActivationMigrationToJakartaActivation
-  - org.openrewrite.java.migrate.jakarta.JavaxAnnotationMigrationToJakartaAnnotation
-  - org.openrewrite.java.migrate.jakarta.JavaxAuthenticationMigrationToJakartaAuthentication
-  - org.openrewrite.java.migrate.jakarta.JavaxAuthorizationMigrationToJakartaAuthorization
-  - org.openrewrite.java.migrate.jakarta.JavaxBatchMigrationToJakartaBatch
-  - org.openrewrite.java.migrate.jakarta.JavaxDecoratorToJakartaDecorator
-  - org.openrewrite.java.migrate.jakarta.JavaxEjbToJakartaEjb
-  - org.openrewrite.java.migrate.jakarta.JavaxElToJakartaEl
-  - org.openrewrite.java.migrate.jakarta.JavaxEnterpriseToJakartaEnterprise
-  - org.openrewrite.java.migrate.jakarta.JavaxFacesToJakartaFaces
-  - org.openrewrite.java.migrate.jakarta.JavaxInjectMigrationToJakartaInject
-  - org.openrewrite.java.migrate.jakarta.JavaxInterceptorToJakartaInterceptor
-  - org.openrewrite.java.migrate.jakarta.JavaxJmsToJakartaJms
-  - org.openrewrite.java.migrate.jakarta.JavaxJsonToJakartaJson
-  - org.openrewrite.java.migrate.jakarta.JavaxJwsToJakartaJws
-  - org.openrewrite.java.migrate.jakarta.JavaxMailToJakartaMail
-  - org.openrewrite.java.migrate.jakarta.JavaxPersistenceToJakartaPersistence
-  - org.openrewrite.java.migrate.jakarta.JavaxPersistenceXmlToJakartaPersistenceXml
-  - org.openrewrite.java.migrate.jakarta.JavaxResourceToJakartaResource
-  - org.openrewrite.java.migrate.jakarta.JavaxSecurityToJakartaSecurity
-  - org.openrewrite.java.migrate.jakarta.JavaxServletToJakartaServlet
-  - org.openrewrite.java.migrate.jakarta.JavaxTransactionMigrationToJakartaTransaction
-  - org.openrewrite.java.migrate.jakarta.JavaxValidationMigrationToJakartaValidation
-  - org.openrewrite.java.migrate.jakarta.JavaxWebsocketToJakartaWebsocket
-  - org.openrewrite.java.migrate.jakarta.JavaxWsToJakartaWs
-  - org.openrewrite.java.migrate.jakarta.JavaxXmlBindMigrationToJakartaXmlBind
-  - org.openrewrite.java.migrate.jakarta.JavaxXmlSoapToJakartaXmlSoap
-  - org.openrewrite.java.migrate.jakarta.JavaxXmlWsMigrationToJakartaXmlWs
-  - org.openrewrite.java.migrate.jakarta.JacksonJavaxToJakarta
-  - org.openrewrite.java.migrate.jakarta.EhcacheJavaxToJakarta
-  - org.openrewrite.java.migrate.jakarta.JohnzonJavaxToJakarta
-  - org.openrewrite.java.migrate.jakarta.RestAssuredJavaxToJakarta
-  - org.openrewrite.java.migrate.hibernate.MigrateToHibernateDependencies61
-
----
-type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.migrate.jakarta.JavaxActivationMigrationToJakartaActivation
 displayName: Migrate deprecated `javax.activation` packages to `jakarta.activation`
 description: Java EE has been rebranded to Jakarta EE, necessitating a package relocation.
