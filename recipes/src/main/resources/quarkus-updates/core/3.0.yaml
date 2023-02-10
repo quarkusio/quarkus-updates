@@ -911,3 +911,14 @@ recipeList:
       elementName: persistence
       newValue: https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd
       fileMatcher: "**/persistence.xml"
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.migrate.NativeTestToQuarkusIntegrationTest
+displayName: Migrate @NativeTest to @QuarkusIntegrationTest
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.test.junit.NativeImageTest
+      newFullyQualifiedTypeName: io.quarkus.test.junit.QuarkusIntegrationTest
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.test.junit.DisabledOnNativeImage
+      newFullyQualifiedTypeName: io.quarkus.test.junit.DisabledOnIntegrationTest
