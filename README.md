@@ -19,16 +19,16 @@ Example:
 Content of the `quarkus-updates` directory:
 - 2.7.yaml
 - 2.9.yaml
-- 3.0.yaml
+- 3alpha.yaml
 - 3.1.yaml
 - 3.5.yaml
 
 Recipes applied for a project in version 2.0.0.Final updating to 3.0.0.Alpha1 (`currentVersion=2.0`, `targetVersion=3.0`):
 - 2.7.yaml
 - 2.9.yaml
-- 3.0.yaml
+- 3alpha.yaml
 
 Recipes applied for a project in version 2.7.0.Final updating to 3.1.0.Final (`currentVersion=2.0`, `targetVersion=3.0`):
 - 2.9.yaml
-- 3.0.yaml
+- 3alpha.yaml
 - 3.1.yaml
