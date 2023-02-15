@@ -989,15 +989,17 @@ recipeList:
       oldArtifactId: keycloak-admin-client
       newGroupId: org.keycloak
       newArtifactId: keycloak-admin-client-jakarta
-  - org.openrewrite.maven.ExcludeDependency:
-      groupId: com.sun.activation
-      artifactId: jakarta.activation
-  - org.openrewrite.maven.ExcludeDependency:
-      groupId: com.sun.activation
-      artifactId: javax.activation
-  - org.openrewrite.maven.ExcludeDependency:
-      groupId: org.glassfish
-      artifactId: jakarta.el
+# Commented for now as OpenRewrite doesn't reload the model and adds the exclusions
+# even when the artifacts are not transitive dependencies in Quarkus 3
+#  - org.openrewrite.maven.ExcludeDependency:
+#      groupId: com.sun.activation
+#      artifactId: jakarta.activation
+#  - org.openrewrite.maven.ExcludeDependency:
+#      groupId: com.sun.activation
+#      artifactId: javax.activation
+#  - org.openrewrite.maven.ExcludeDependency:
+#      groupId: org.glassfish
+#      artifactId: jakarta.el
 
 ####
 # Rename javax service files
