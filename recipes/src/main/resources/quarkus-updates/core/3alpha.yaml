@@ -1021,6 +1021,24 @@ recipeList:
       newGroupId: org.keycloak
       newArtifactId: keycloak-admin-client-jakarta
 
+####
+# Rename javax service files
+####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus30.RenameJavaxServiceFiles
+displayName: Rename a file example
+recipeList:
+  - org.openrewrite.RenameFile:
+      fileMatcher: '**/META-INF/services/javax.ws.rs.ext.Providers'
+      fileName: jakarta.ws.rs.ext.Providers
+  - org.openrewrite.RenameFile:
+      fileMatcher: '**/META-INF/services/javax.ws.rs.client.ClientBuilder'
+      fileName: jakarta.ws.rs.client.ClientBuilder
+  - org.openrewrite.RenameFile:
+      fileMatcher: '**/META-INF/services/javax.ws.rs.sse.SseEventSource$Builder'
+      fileName: jakarta.ws.rs.sse.SseEventSource$Builder
+
 #####
 # Additional recipes for Quarkus 3 not related to the Jakarta migration
 #####
