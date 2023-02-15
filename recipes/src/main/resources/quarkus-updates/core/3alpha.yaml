@@ -989,6 +989,15 @@ recipeList:
       oldArtifactId: keycloak-admin-client
       newGroupId: org.keycloak
       newArtifactId: keycloak-admin-client-jakarta
+  - org.openrewrite.maven.ExcludeDependency:
+      groupId: com.sun.activation
+      artifactId: jakarta.activation
+  - org.openrewrite.maven.ExcludeDependency:
+      groupId: com.sun.activation
+      artifactId: javax.activation
+  - org.openrewrite.maven.ExcludeDependency:
+      groupId: org.glassfish
+      artifactId: jakarta.el
 
 ####
 # Rename javax service files
