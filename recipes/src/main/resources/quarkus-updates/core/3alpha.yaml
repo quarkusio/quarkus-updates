@@ -797,111 +797,93 @@ recipeList:
       oldArtifactId: jackson-module-jaxb-annotations
       newGroupId: com.fasterxml.jackson.module
       newArtifactId: jackson-module-jakarta-xmlbind-annotations
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeManagedDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.module
       oldArtifactId: jackson-module-jaxb-annotations
       newGroupId: com.fasterxml.jackson.module
       newArtifactId: jackson-module-jakarta-xmlbind-annotations
-      newVersion: 2.14.x
   # JAXRS providers
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-cbor-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-cbor-provider
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeManagedDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-cbor-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-cbor-provider
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-json-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-json-provider
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeManagedDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-json-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-json-provider
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-smile-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-smile-provider
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeManagedDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-smile-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-smile-provider
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-xml-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-xml-provider
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeManagedDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-xml-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-xml-provider
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-yaml-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-yaml-provider
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeManagedDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-yaml-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-yaml-provider
-      newVersion: 2.14.x
   # JSONP datatypes
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.datatype
       oldArtifactId: jackson-datatype-jsr353
       newGroupId: com.fasterxml.jackson.datatype
       newArtifactId: jackson-datatype-jakarta-jsonp
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeManagedDependencyGroupIdAndArtifactId:
       oldGroupId: com.fasterxml.jackson.datatype
       oldArtifactId: jackson-datatype-jsr353
       newGroupId: com.fasterxml.jackson.datatype
       newArtifactId: jackson-datatype-jakarta-jsonp
-      newVersion: 2.14.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.glassfish
       oldArtifactId: javax.json
       newGroupId: org.eclipse.parsson
       newArtifactId: parsson
-      newVersion: 1.x
   - org.openrewrite.maven.ChangeManagedDependencyGroupIdAndArtifactId:
       oldGroupId: org.glassfish
       oldArtifactId: javax.json
       newGroupId: org.eclipse.parsson
       newArtifactId: parsson
-      newVersion: 1.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.glassfish
       oldArtifactId: jakarta.json
       newGroupId: org.eclipse.parsson
       newArtifactId: parsson
-      newVersion: 1.x
   - org.openrewrite.maven.ChangeManagedDependencyGroupIdAndArtifactId:
       oldGroupId: org.glassfish
       oldArtifactId: jakarta.json
       newGroupId: org.eclipse.parsson
       newArtifactId: parsson
-      newVersion: 1.x
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: com.fasterxml.jackson.datatype.jsr353.JSR353Module
       newFullyQualifiedTypeName: com.fasterxml.jackson.datatype.jsonp.JSONPModule
@@ -928,17 +910,10 @@ type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.JavaxToJakartaAdditionalMigration
 recipeList:
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: com.sun.activation
-      oldArtifactId: jakarta.activation
-      newGroupId: org.eclipse.angus
-      newArtifactId: angus-activation
-      newVersion: 2.x
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.glassfish
       oldArtifactId: jakarta.el
       newGroupId: org.glassfish.expressly
       newArtifactId: expressly
-      newVersion: 5.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-core
@@ -979,37 +954,31 @@ recipeList:
       oldArtifactId: jboss-jaxrs-api_2.1_spec
       newGroupId: jakarta.ws.rs
       newArtifactId: jakarta.ws.rs-api
-      newVersion: 3.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.jboss.spec.javax.xml.bind
       oldArtifactId: jboss-jaxb-api_2.3_spec
       newGroupId: jakarta.xml.bind
       newArtifactId: jakarta.xml.bind-api
-      newVersion: 4.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.jboss.spec.javax.transaction
       oldArtifactId: jboss-transaction-api_1.3_spec
       newGroupId: jakarta.transaction
       newArtifactId: jakarta.transaction-api
-      newVersion: 2.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: com.sun.activation
       oldArtifactId: jakarta.activation
       newGroupId: org.eclipse.angus
       newArtifactId: angus-activation
-      newVersion: 2.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: com.sun.activation
       oldArtifactId: javax.activation
       newGroupId: org.eclipse.angus
       newArtifactId: angus-activation
-      newVersion: 2.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.jboss.spec.javax.ejb
       oldArtifactId: jboss-ejb-api_3.1_spec
       newGroupId: jakarta.ejb
       newArtifactId: jakarta.ejb-api
-      newVersion: 4.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.keycloak
       oldArtifactId: keycloak-admin-client
