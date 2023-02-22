@@ -1041,6 +1041,9 @@ recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: io.quarkus.test.junit.DisabledOnNativeImage
       newFullyQualifiedTypeName: io.quarkus.test.junit.DisabledOnIntegrationTest
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.jboss.resteasy.reactive.MultipartForm
+      newFullyQualifiedTypeName: jakarta.ws.rs.BeanParam      
 
 
 #####
