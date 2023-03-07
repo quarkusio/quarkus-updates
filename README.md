@@ -28,7 +28,7 @@ Recipes applied for a project in version 2.0.0.Final updating to 3.0.0.Alpha1 (`
 - 2.9.yaml
 - 3alpha.yaml
 
-Recipes applied for a project in version 2.7.0.Final updating to 3.1.0.Final (`currentVersion=2.0`, `targetVersion=3.0`):
+Recipes applied for a project in version 2.7.0.Final updating to 3.1.0.Final (`currentVersion=2.7`, `targetVersion=3.1`):
 - 2.9.yaml
 - 3alpha.yaml
 - 3.1.yaml
