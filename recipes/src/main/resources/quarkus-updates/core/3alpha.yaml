@@ -1052,6 +1052,118 @@ recipeList:
       newFullyQualifiedTypeName: io.quarkus.hibernate.reactive.panache.common.WithTransaction
 
 #####
+# Update the Quarkiverse extensions
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus30.UpgradeQuarkiverse
+recipeList:
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.vault
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.amazonservices
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.cxf
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jsch
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jberet
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.artemis
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.config
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.freemarker
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.githubapp
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.mybatis
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.messaginghub
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.prettytime
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.xmlsec
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jef
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.githubaction
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.hibernatesearchextras
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jackson-jq
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jdbc
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.microprofile
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.minio
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.pact
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.poi
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.primefaces
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.reactivemessaging.http
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.renarde
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.shardingsphere
+      artifactId: '*'
+      newVersion: 2.x
+
+#####
 # Adjust properties in application.properties
 #####
 ---
