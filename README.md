@@ -32,3 +32,9 @@ Recipes applied for a project in version 2.7.0.Final updating to 3.1.0.Final (`c
 - 2.9.yaml
 - 3alpha.yaml
 - 3.1.yaml
+
+## Release
+
+```
+./mvnw -Prelease release:prepare release:perform
+```
