@@ -1050,6 +1050,9 @@ recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: io.quarkus.hibernate.reactive.panache.common.runtime.ReactiveTransactional
       newFullyQualifiedTypeName: io.quarkus.hibernate.reactive.panache.common.WithTransaction
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.arc.Priority
+      newFullyQualifiedTypeName: jakarta.annotation.Priority
 
 #####
 # Update the Quarkiverse extensions
