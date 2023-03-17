@@ -1197,6 +1197,10 @@ recipeList:
       oldPropertyKey: quarkus.openshift.group
       newPropertyKey: quarkus.openshift.part-of
       fileMatcher: "**/application*.properties"
+  - org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.jib.labels
+      newPropertyKey: quarkus.container-image.labels
+      fileMatcher: "**/application*.properties"
 
 #####
 # Adjust properties in application.yml
@@ -1229,6 +1233,10 @@ recipeList:
       oldPropertyKey: quarkus.openshift.group
       newPropertyKey: quarkus.openshift.part-of
       fileMatcher: "**/application*.yml"
+  - org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.jib.labels
+      newPropertyKey: quarkus.container-image.labels
+      fileMatcher: "**/application*.yml"
 
 #####
 # Adjust properties in application.yaml
@@ -1260,6 +1268,10 @@ recipeList:
   - org.openrewrite.yaml.ChangePropertyKey:
       oldPropertyKey: quarkus.openshift.group
       newPropertyKey: quarkus.openshift.part-of
+      fileMatcher: "**/application*.yaml"
+  - org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.jib.labels
+      newPropertyKey: quarkus.container-image.labels
       fileMatcher: "**/application*.yaml"
 
 #####
