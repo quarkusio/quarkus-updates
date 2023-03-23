@@ -887,6 +887,10 @@ recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: com.fasterxml.jackson.datatype.jsr353.JSR353Module
       newFullyQualifiedTypeName: com.fasterxml.jackson.datatype.jsonp.JSONPModule
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: com.fasterxml.jackson.jaxrs
+      newPackageName: com.fasterxml.jackson.jakarta.rs
+      recursive: true
 
 ---
 # Currently this recipe is only updating the artifacts to a version that is compatible with J2EE 9. There still may be
