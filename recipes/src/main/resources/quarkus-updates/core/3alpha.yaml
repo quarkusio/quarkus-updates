@@ -1057,6 +1057,10 @@ recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: io.quarkus.arc.Priority
       newFullyQualifiedTypeName: jakarta.annotation.Priority
+  - org.openrewrite.text.FindAndReplace:
+      find: quarkus-bootstrap-maven-plugin
+      replace: quarkus-extension-maven-plugin
+      fileMatcher: '**/pom.xml'
 
 #####
 # Update the Quarkiverse extensions
