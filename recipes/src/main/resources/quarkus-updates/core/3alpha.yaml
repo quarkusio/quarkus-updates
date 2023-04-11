@@ -921,18 +921,39 @@ recipeList:
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-core
-      newGroupId: org.hibernate
-      newArtifactId: hibernate-core-jakarta
+      newGroupId: org.hibernate.orm
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-envers
-      newGroupId: org.hibernate
-      newArtifactId: hibernate-envers-jakarta
+      newGroupId: org.hibernate.orm
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-jpamodelgen
-      newGroupId: org.hibernate
-      newArtifactId: hibernate-jpamodelgen-jakarta
+      newGroupId: org.hibernate.orm
+  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-spatial
+      newGroupId: org.hibernate.orm
+  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-testing
+      newGroupId: org.hibernate.orm
+  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-micrometer
+      newGroupId: org.hibernate.orm
+  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-jcache
+      newGroupId: org.hibernate.orm
+  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-infinispan
+      newGroupId: org.hibernate.orm
+  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-ehcache
+      newGroupId: org.hibernate.orm
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.hibernate.search
       oldArtifactId: hibernate-search-mapper-orm-coordination-outbox-polling
@@ -943,11 +964,6 @@ recipeList:
       oldArtifactId: hibernate-search-mapper-orm
       newGroupId: org.hibernate.search
       newArtifactId: hibernate-search-mapper-orm-jakarta
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: org.hibernate.reactive
-      oldArtifactId: hibernate-reactive-core
-      newGroupId: org.hibernate.reactive
-      newArtifactId: hibernate-reactive-core-jakarta
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.hibernate
       oldArtifactId: quarkus-local-cache
