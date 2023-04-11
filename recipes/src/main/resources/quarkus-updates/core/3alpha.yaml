@@ -29,6 +29,10 @@ type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.UpgradeQuarkiverse
 recipeList:
   - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkus.bot
+      artifactId: 'build-reporter-*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.vault
       artifactId: '*'
       newVersion: 3.x
