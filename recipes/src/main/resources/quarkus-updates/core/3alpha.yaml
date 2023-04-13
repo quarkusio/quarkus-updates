@@ -1155,6 +1155,9 @@ recipeList:
   - org.openrewrite.RenameFile:
       fileMatcher: '**/META-INF/services/javax.ws.rs.sse.SseEventSource$Builder'
       fileName: jakarta.ws.rs.sse.SseEventSource$Builder
+  - org.openrewrite.RenameFile:
+      fileMatcher: '**/META-INF/services/javax.servlet.ServletContainerInitializer'
+      fileName: jakarta.servlet.ServletContainerInitializer
 
 #####
 # Additional recipes for Quarkus 3 not related to the Jakarta migration
