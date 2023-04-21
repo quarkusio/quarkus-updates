@@ -33,23 +33,11 @@ recipeList:
       artifactId: 'build-reporter-*'
       newVersion: 3.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
-      groupId: io.quarkiverse.vault
+      groupId: io.quarkiverse.amazonalexa
       artifactId: '*'
-      newVersion: 3.x
+      newVersion: 2.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.amazonservices
-      artifactId: '*'
-      newVersion: 2.x
-  - org.openrewrite.maven.UpgradeDependencyVersion:
-      groupId: io.quarkiverse.cxf
-      artifactId: '*'
-      newVersion: 2.x
-  - org.openrewrite.maven.UpgradeDependencyVersion:
-      groupId: io.quarkiverse.jsch
-      artifactId: '*'
-      newVersion: 3.x
-  - org.openrewrite.maven.UpgradeDependencyVersion:
-      groupId: io.quarkiverse.jberet
       artifactId: '*'
       newVersion: 2.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
@@ -57,7 +45,56 @@ recipeList:
       artifactId: '*'
       newVersion: 3.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.asyncapi
+      artifactId: '*'
+      newVersion: 0.1.x
+  # No release yet so nothing to do
+  #- org.openrewrite.maven.UpgradeDependencyVersion:
+  #    groupId: io.quarkiverse.authzed
+  #    artifactId: '*'
+  #    newVersion: 1.x
+  # No release yet so nothing to do
+  #- org.openrewrite.maven.UpgradeDependencyVersion:
+  #    groupId: io.quarkiverse.azureservices
+  #    artifactId: '*'
+  #    newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.certmanager
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.config
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.cucumber
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.cxf
+      artifactId: '*'
+      newVersion: 2.x
+  # TODO needs release
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.dapr
+      artifactId: '*'
+      newVersion: 2.x
+  # TODO needs release
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.doma
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.quarkus-elasticsearch-reactive
+      artifactId: '*'
+      newVersion: 1.x
+  # TODO needs release
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.embedded.postgresql
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.file-vault
       artifactId: '*'
       newVersion: 2.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
@@ -65,43 +102,108 @@ recipeList:
       artifactId: '*'
       newVersion: 1.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
-      groupId: io.quarkiverse.githubapp
-      artifactId: '*'
-      newVersion: 2.x
-  - org.openrewrite.maven.UpgradeDependencyVersion:
-      groupId: io.quarkiverse.mybatis
-      artifactId: '*'
-      newVersion: 2.x
-  - org.openrewrite.maven.UpgradeDependencyVersion:
-      groupId: io.quarkiverse.messaginghub
-      artifactId: '*'
-      newVersion: 2.x
-  - org.openrewrite.maven.UpgradeDependencyVersion:
-      groupId: io.quarkiverse.prettytime
-      artifactId: '*'
-      newVersion: 2.x
-  - org.openrewrite.maven.UpgradeDependencyVersion:
-      groupId: io.quarkiverse.xmlsec
-      artifactId: '*'
-      newVersion: 2.x
-  - org.openrewrite.maven.UpgradeDependencyVersion:
-      groupId: io.quarkiverse.jef
-      artifactId: '*'
-      newVersion: 3.x
-  - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.githubaction
       artifactId: '*'
       newVersion: 2.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.githubapp
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.googlecloudservices
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.helm
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.hibernatesearchextras
       artifactId: '*'
       newVersion: 2.x
+  # TODO work and release needed
+  #- org.openrewrite.maven.UpgradeDependencyVersion:
+  #    groupId: io.quarkiverse.hivemqclient
+  #    artifactId: '*'
+  #    newVersion: 2.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.jackson-jq
       artifactId: '*'
       newVersion: 2.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jberet
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.jdbc
+      artifactId: quarkus-jdbc-clickhouse
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jdbc
+      artifactId: quarkus-jdbc-sqlite
+      newVersion: 3.x
+  # TODO needs release
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jdbi
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jef
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jgit
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jgrapht
+      artifactId: '*'
+      newVersion: 1.3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jooq
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jpastreamer
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.jsch
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.kerberos
+      artifactId: '*'
+      newVersion: 2.x
+  # TODO needs release
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.logging.cloudwatch
+      artifactId: '*'
+      newVersion: 6.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.loggingjson
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.loggingsentry
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.logging.splunk
+      artifactId: '*'
+      newVersion: 3.x
+  # TODO needs release
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.mavenresolver
+      artifactId: '*'
+      newVersion: 1.x
+  # TODO needs release
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.mfa
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.micrometer.registry
       artifactId: '*'
       newVersion: 3.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
@@ -112,30 +214,184 @@ recipeList:
       groupId: io.quarkiverse.minio
       artifactId: '*'
       newVersion: 3.x
+  # TODO needs release
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.mockk
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.mockserver
+      artifactId: '*'
+      newVersion: 1.x
+  # TODO Not able to build it
+  #- org.openrewrite.maven.UpgradeDependencyVersion:
+  #    groupId: io.quarkiverse.morphia
+  #    artifactId: '*'
+  #    newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.mybatis
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.neo4j
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.ngrok
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.omnifaces
+      artifactId: '*'
+      newVersion: 4.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.openapi.generator
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.opencv
+      artifactId: '*'
+      newVersion: 2.x
+  # TODO needs release
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.openfga
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.opensearch
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.opentelemetry.exporter
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.operatorsdk
+      artifactId: '*'
+      newVersion: 6.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.pact
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.pinot
       artifactId: '*'
       newVersion: 1.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.poi
       artifactId: '*'
       newVersion: 2.x
+  # Pooled JMS
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.messaginghub
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.prettytime
+      artifactId: '*'
+      newVersion: 2.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.primefaces
       artifactId: '*'
       newVersion: 3.x
+  # TODO needs work and a release
+  #- org.openrewrite.maven.UpgradeDependencyVersion:
+  #    groupId: io.quarkiverse.pusher.beams
+  #    artifactId: '*'
+  #    newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.quinoa
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.quteserverpages
+      artifactId: '*'
+      newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.rabbitmqclient
+      artifactId: '*'
+      newVersion: 3.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.quarkus-reactive-h2-client
+      artifactId: '*'
+      newVersion: 0.2.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.reactivemessaging.http
       artifactId: '*'
       newVersion: 2.x
+  # This one is not useful for Quarkus 3 so wasn't migrated
+  #- org.openrewrite.maven.UpgradeDependencyVersion:
+  #    groupId: io.quarkiverse.quarkus-reactive-mysql-pool-client
+  #    artifactId: '*'
+  #    newVersion: 1.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.renarde
       artifactId: '*'
       newVersion: 3.x
+  # TODO not sure if it's used?
+  #- org.openrewrite.maven.UpgradeDependencyVersion:
+  #    groupId:  io.quarkiverse.rsocket
+  #    artifactId: '*'
+  #    newVersion: 1.x
+  # TODO needs work and a release
+  #- org.openrewrite.maven.UpgradeDependencyVersion:
+  #    groupId:  io.quarkiverse.satoken
+  #    artifactId: '*'
+  #    newVersion: 2.x
+  # TODO needs work and a release
+  #- org.openrewrite.maven.UpgradeDependencyVersion:
+  #    groupId:  io.quarkiverse.scala
+  #    artifactId: '*'
+  #    newVersion: 1.x
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.shardingsphere
       artifactId: '*'
       newVersion: 2.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.systemd.notify
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.tektonclient
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.tika
+      artifactId: '*'
+      newVersion: 2.x
+  # TODO needs release
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.univocityparsers
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.unleash
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.vault
+      artifactId: '*'
+      newVersion: 3.x
+  # TODO needs release
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.wiremock
+      artifactId: '*'
+      newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId: io.quarkiverse.xmlsec
+      artifactId: '*'
+      newVersion: 2.x
+  # TODO needs work and a release
+  #- org.openrewrite.maven.UpgradeDependencyVersion:
+  #    groupId: io.quarkiverse.zanzibar
+  #    artifactId: '*'
+  #    newVersion: 1.x
+  - org.openrewrite.maven.UpgradeDependencyVersion:
+      groupId:  io.quarkiverse.zeebe
+      artifactId: '*'
+      newVersion: 1.x
+
+
 
 ---
 type: specs.openrewrite.org/v1beta/recipe
