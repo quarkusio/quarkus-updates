@@ -31,7 +31,7 @@ recipeList:
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkus.bot
       artifactId: 'build-reporter-*'
-      newVersion: 3.x
+      newVersion: 3.0.0
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.amazonalexa
       artifactId: '*'
