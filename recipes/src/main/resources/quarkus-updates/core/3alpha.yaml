@@ -209,11 +209,10 @@ recipeList:
       groupId: io.quarkiverse.microprofile
       artifactId: '*'
       newVersion: 3.x
-  # TODO needs final release
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.minio
       artifactId: '*'
-      newVersion: 3.x
+      newVersion: 3.0.0
   - org.openrewrite.maven.UpgradeDependencyVersion:
       groupId: io.quarkiverse.mockk
       artifactId: '*'
