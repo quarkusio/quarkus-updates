@@ -30,7 +30,7 @@ name: custom
 displayName: customNme
 description: customDesc
 recipeList:
-  - org.apache.camel.quarkus.poc.SayHelloRecipe
+  - org.apache.camel.quarkus.update.SayHelloRecipe
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.UpgradeQuarkiverse
