@@ -985,7 +985,6 @@ recipeList:
   - org.openrewrite.java.ChangePackage:
       oldPackageName: javax.transaction
       newPackageName: jakarta.transaction
-      recursive: true
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: javax.transaction
       oldArtifactId: javax.transaction-api
@@ -1644,8 +1643,9 @@ recipeList:
       find: javax.validation.spi.
       replace: jakarta.validation.spi.
   - org.openrewrite.text.FindAndReplace:
-      find: javax.transaction.
-      replace: jakarta.transaction.
+      regex: true
+      find: javax\.transaction\.([A-Z])
+      replace: jakarta.transaction.$1
   - org.openrewrite.text.FindAndReplace:
       find: javax.xml.bind.attachment.
       replace: jakarta.xml.bind.attachment.
@@ -2060,8 +2060,9 @@ recipeList:
       find: javax.validation.spi.
       replace: jakarta.validation.spi.
   - org.openrewrite.text.FindAndReplace:
-      find: javax.transaction.
-      replace: jakarta.transaction.
+      regex: true
+      find: javax\.transaction\.([A-Z])
+      replace: jakarta.transaction.$1
   - org.openrewrite.text.FindAndReplace:
       find: javax.xml.bind.attachment.
       replace: jakarta.xml.bind.attachment.
@@ -2476,8 +2477,9 @@ recipeList:
       find: javax.validation.spi.
       replace: jakarta.validation.spi.
   - org.openrewrite.text.FindAndReplace:
-      find: javax.transaction.
-      replace: jakarta.transaction.
+      regex: true
+      find: javax\.transaction\.([A-Z])
+      replace: jakarta.transaction.$1
   - org.openrewrite.text.FindAndReplace:
       find: javax.xml.bind.attachment.
       replace: jakarta.xml.bind.attachment.
@@ -2892,8 +2894,9 @@ recipeList:
       find: javax.validation.spi.
       replace: jakarta.validation.spi.
   - org.openrewrite.text.FindAndReplace:
-      find: javax.transaction.
-      replace: jakarta.transaction.
+      regex: true
+      find: javax\.transaction\.([A-Z])
+      replace: jakarta.transaction.$1
   - org.openrewrite.text.FindAndReplace:
       find: javax.xml.bind.attachment.
       replace: jakarta.xml.bind.attachment.
@@ -3308,8 +3311,9 @@ recipeList:
       find: javax.validation.spi.
       replace: jakarta.validation.spi.
   - org.openrewrite.text.FindAndReplace:
-      find: javax.transaction.
-      replace: jakarta.transaction.
+      regex: true
+      find: javax\.transaction\.([A-Z])
+      replace: jakarta.transaction.$1
   - org.openrewrite.text.FindAndReplace:
       find: javax.xml.bind.attachment.
       replace: jakarta.xml.bind.attachment.
@@ -3724,8 +3728,9 @@ recipeList:
       find: javax.validation.spi.
       replace: jakarta.validation.spi.
   - org.openrewrite.text.FindAndReplace:
-      find: javax.transaction.
-      replace: jakarta.transaction.
+      regex: true
+      find: javax\.transaction\.([A-Z])
+      replace: jakarta.transaction.$1
   - org.openrewrite.text.FindAndReplace:
       find: javax.xml.bind.attachment.
       replace: jakarta.xml.bind.attachment.
@@ -4140,8 +4145,9 @@ recipeList:
       find: javax.validation.spi.
       replace: jakarta.validation.spi.
   - org.openrewrite.text.FindAndReplace:
-      find: javax.transaction.
-      replace: jakarta.transaction.
+      regex: true
+      find: javax\.transaction\.([A-Z])
+      replace: jakarta.transaction.$1
   - org.openrewrite.text.FindAndReplace:
       find: javax.xml.bind.attachment.
       replace: jakarta.xml.bind.attachment.
@@ -4556,8 +4562,9 @@ recipeList:
       find: javax.validation.spi.
       replace: jakarta.validation.spi.
   - org.openrewrite.text.FindAndReplace:
-      find: javax.transaction.
-      replace: jakarta.transaction.
+      regex: true
+      find: javax\.transaction\.([A-Z])
+      replace: jakarta.transaction.$1
   - org.openrewrite.text.FindAndReplace:
       find: javax.xml.bind.attachment.
       replace: jakarta.xml.bind.attachment.
