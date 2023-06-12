@@ -3,8 +3,12 @@
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Set;
 
 public class PropertiesToRecipe {
+
+    private static final Set<String> NON_RECURSIVE_PACKAGES = Set.of("javax.transaction");
+
     public static void main(String[] args) throws Exception {
         if (args.length < 1) {
             System.err.println("Usage: ./PropertiesToRecipe.java <properties-file>");
@@ -40,9 +44,16 @@ public class PropertiesToRecipe {
         System.out.println("        filePattern: \"" + filesGlob + "\"");
         System.out.println("recipeList:");
         props.forEach((key, value) -> {
-            System.out.println("  - org.openrewrite.text.FindAndReplace:");
-            System.out.println("      find: " + key + ".");
-            System.out.println("      replace: " + value + ".");
+            if (NON_RECURSIVE_PACKAGES.contains(key)) {
+                System.out.println("  - org.openrewrite.text.FindAndReplace:");
+                System.out.println("      regex: true");
+                System.out.println("      find: " + key.toString().replace(".", "\\.") + "\\.([A-Z])");
+                System.out.println("      replace: " + value + ".$1");
+            } else {
+                System.out.println("  - org.openrewrite.text.FindAndReplace:");
+                System.out.println("      find: " + key + ".");
+                System.out.println("      replace: " + value + ".");
+            }
         });
     }
 }
