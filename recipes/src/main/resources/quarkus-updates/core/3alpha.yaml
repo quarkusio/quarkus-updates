@@ -1445,10 +1445,11 @@ recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: io.quarkus.arc.Priority
       newFullyQualifiedTypeName: jakarta.annotation.Priority
-  - org.openrewrite.text.FindAndReplace:
-      find: quarkus-bootstrap-maven-plugin
-      replace: quarkus-extension-maven-plugin
-      fileMatcher: '**/pom.xml'
+  - org.openrewrite.maven.ChangePluginGroupIdAndArtifactId:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-bootstrap-maven-plugin
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-extension-maven-plugin
 
 #####
 # Additional recipes for Kotlin
@@ -1457,17 +1458,8 @@ recipeList:
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.Kotlin
 recipeList:
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/pom.xml"
 recipeList:
-  - org.openrewrite.text.FindAndReplace:
-      find: 'all-open:annotation=javax.ws.'
-      replace: 'all-open:annotation=jakarta.ws.'
-  - org.openrewrite.text.FindAndReplace:
-      find: 'all-open:annotation=javax.enterprise.'
-      replace: 'all-open:annotation=jakarta.enterprise.'
+  - io.quarkus.updates.core.quarkus30.AdjustKotlinAllOpenDirectives
 
 #####
 # Adjust properties in application.properties
