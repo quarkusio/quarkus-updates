@@ -1445,10 +1445,11 @@ recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: io.quarkus.arc.Priority
       newFullyQualifiedTypeName: jakarta.annotation.Priority
-  - org.openrewrite.text.FindAndReplace:
-      find: quarkus-bootstrap-maven-plugin
-      replace: quarkus-extension-maven-plugin
-      fileMatcher: '**/pom.xml'
+  - org.openrewrite.maven.ChangePluginGroupIdAndArtifactId:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-bootstrap-maven-plugin
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-extension-maven-plugin
 
 #####
 # Additional recipes for Kotlin
