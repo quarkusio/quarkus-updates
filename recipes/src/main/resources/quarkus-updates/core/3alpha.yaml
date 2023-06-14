@@ -1458,17 +1458,8 @@ recipeList:
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.Kotlin
 recipeList:
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/pom.xml"
 recipeList:
-  - org.openrewrite.text.FindAndReplace:
-      find: 'all-open:annotation=javax.ws.'
-      replace: 'all-open:annotation=jakarta.ws.'
-  - org.openrewrite.text.FindAndReplace:
-      find: 'all-open:annotation=javax.enterprise.'
-      replace: 'all-open:annotation=jakarta.enterprise.'
+  - io.quarkus.updates.core.quarkus30.AdjustKotlinAllOpenDirectives
 
 #####
 # Adjust properties in application.properties
