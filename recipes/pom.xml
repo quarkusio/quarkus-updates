@@ -14,6 +14,16 @@
 
     <properties>
         <maven.compiler.release>11</maven.compiler.release>
+
+        <!-- Make sure all these versions are aligned and use a compatible OpenRewrite version -->
+        <!--   https://central.sonatype.com/artifact/org.openrewrite.recipe/rewrite-recipe-bom/2.0.3/versions -->
+        <rewrite-recipe-bom.version>1.19.4</rewrite-recipe-bom.version>
+        <!--   https://central.sonatype.com/artifact/org.openrewrite.maven/rewrite-maven-plugin/5.2.4/versions -->
+        <rewrite-maven-plugin.version>4.46.0</rewrite-maven-plugin.version>
+        <!--   for now, we don't know where to find compatibility information for the Gradle plugin -->
+        <rewrite-gradle-plugin.version>5.40.6</rewrite-gradle-plugin.version>
+
+        <lombok.version>1.18.28</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -21,7 +31,7 @@
             <dependency>
                 <groupId>org.openrewrite.recipe</groupId>
                 <artifactId>rewrite-recipe-bom</artifactId>
-                <version>1.19.0</version>
+                <version>${rewrite-recipe-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -97,7 +107,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.28</version>
+            <version>${lombok.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -110,12 +120,28 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources-filtered</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <propertiesEncoding>UTF-8</propertiesEncoding>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
