@@ -26,6 +26,14 @@
 #####
 ---
 type: specs.openrewrite.org/v1beta/recipe
+name: custom
+displayName: customNme
+description: customDesc
+recipeList:
+  - org.apache.camel.quarkus.update.ExtendedContextRecipe
+  - org.apache.camel.quarkus.update.CamelAPIsRecipe
+---
+type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.UpgradeQuarkiverse
 recipeList:
   - org.openrewrite.maven.UpgradeDependencyVersion:
