@@ -1,0 +1,40 @@
+#####
+# Replace io.quakus.test.junit.mockito.InjectMock with io.quarkus.test.InjectMock
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus32.InjectMock
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.test.junit.mockito.InjectMock
+      newFullyQualifiedTypeName: io.quarkus.test.InjectMock
+
+#####
+# Adjust properties in application.properties
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus32.ApplicationProperties
+applicability:
+  singleSource:
+    - org.openrewrite.FindSourceFiles:
+        filePattern: "**/application*.properties"
+recipeList:
+  - org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.transaction-manager.object-store-directory
+      newPropertyKey: quarkus.transaction-manager.object-store.directory
+
+#####
+# Adjust properties in application.yml/yaml
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus32.ApplicationYml
+applicability:
+  singleSource:
+    - org.openrewrite.FindSourceFiles:
+        filePattern: "**/application*.y*ml"
+recipeList:
+  - org.openrewrite.yaml.ChangePropertyKey:
+      oldPropertyKey: quarkus.transaction-manager.object-store-directory
+      newPropertyKey: quarkus.transaction-manager.object-store.directory
