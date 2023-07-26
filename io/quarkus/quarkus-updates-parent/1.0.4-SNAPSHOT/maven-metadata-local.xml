@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-updates-parent</artifactId>
+  <versioning>
+    <lastUpdated>20230718045503</lastUpdated>
+    <snapshot>
+      <localCopy>true</localCopy>
+    </snapshot>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.0.4-SNAPSHOT</value>
+        <updated>20230718045503</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+  <version>1.0.4-SNAPSHOT</version>
+</metadata>

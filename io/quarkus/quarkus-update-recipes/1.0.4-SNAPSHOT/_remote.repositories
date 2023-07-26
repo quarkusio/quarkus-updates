@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Tue Jul 18 10:25:08 IST 2023
+quarkus-update-recipes-1.0.4-SNAPSHOT.pom>=
+quarkus-update-recipes-1.0.4-SNAPSHOT.jar>=
+quarkus-update-recipes-1.0.4-SNAPSHOT-core.jar>=
+quarkus-update-recipes-1.0.4-SNAPSHOT-sources.jar>=

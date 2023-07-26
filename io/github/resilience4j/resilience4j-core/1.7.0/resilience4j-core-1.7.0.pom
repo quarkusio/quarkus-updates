@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.github.resilience4j</groupId>
+  <artifactId>resilience4j-core</artifactId>
+  <version>1.7.0</version>
+  <dependencies>
+    <dependency>
+      <groupId>io.vavr</groupId>
+      <artifactId>vavr</artifactId>
+      <version>0.10.2</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.30</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <name>resilience4j</name>
+  <packaging>jar</packaging>
+  <url>https://resilience4j.readme.io</url>
+  <description>Resilience4j is a lightweight, easy-to-use fault tolerance library designed for Java8 and functional programming</description>
+  <licenses>
+    <license>
+      <name>Apache-2.0</name>
+      <url>https://github.com/resilience4j/resilience4j/blob/master/LICENSE.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>https://github.com/resilience4j/resilience4j.git</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>RobWin</id>
+      <name>Robert Winkler</name>
+    </developer>
+    <developer>
+      <id>storozhukBM</id>
+      <name>Bogdan Storozhuk</name>
+    </developer>
+    <developer>
+      <id>Romeh</id>
+      <name>Mahmoud Romeh</name>
+    </developer>
+    <developer>
+      <id>dlsrb6342</id>
+      <name>Ingyu Hwhang</name>
+    </developer>
+    <developer>
+      <id>Hexmind</id>
+      <name>Tomasz Skowroński</name>
+    </developer>
+    <developer>
+      <id>drmaas</id>
+      <name>Dan Maas</name>
+    </developer>
+  </developers>
+</project>

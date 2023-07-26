@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apache.camel</groupId>
+    <artifactId>core</artifactId>
+    <version>3.18.7</version>
+  </parent>
+  <groupId>org.apache.camel</groupId>
+  <artifactId>camel-core-engine</artifactId>
+  <version>3.18.7</version>
+  <name>Camel :: Core Engine</name>
+  <description>Just the Camel Core engine without any core components</description>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <properties>
+    <camel.osgi.dynamic>org.apache.camel.spring.util;${camel.osgi.import.strict.version},
+            org.apache.camel.spring.pollingconsumer;${camel.osgi.import.strict.version},
+            org.apache.camel.processor.interceptor.jpa;${camel.osgi.import.strict.version},
+            org.apache.camel.pollconsumer.quartz;${camel.osgi.import.strict.version},
+            org.apache.camel.component.caffeine;${camel.osgi.import.strict.version},
+            net.sf.saxon</camel.osgi.dynamic>
+    <firstVersion>3.0.0</firstVersion>
+    <camel.osgi.import>javax.xml.bind*;version="[2.2,3.0)",
+            *</camel.osgi.import>
+    <platform.skip.tests>false</platform.skip.tests>
+    <label>core</label>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>2.3.3</version>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-api</artifactId>
+      <version>3.18.7</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-base-engine</artifactId>
+      <version>3.18.7</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-core-reifier</artifactId>
+      <version>3.18.7</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-management-api</artifactId>
+      <version>3.18.7</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-support</artifactId>
+      <version>3.18.7</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-util</artifactId>
+      <version>3.18.7</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>${lifecycle-mapping-version}</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.apache.camel</groupId>
+                    <artifactId>camel-package-maven-plugin</artifactId>
+                    <versionRange>${project.version}</versionRange>
+                    <goals>
+                      <goal>generate-eips-list</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-package-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-configurer</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>generate-configurer</goal>
+            </goals>
+            <configuration>
+              <discoverClasses>false</discoverClasses>
+              <classes>
+                <class>org.apache.camel.ExtendedCamelContext=org.apache.camel.impl.ExtendedCamelContext</class>
+                <class>org.apache.camel.spi.RestConfiguration=org.apache.camel.impl.RestConfiguration</class>
+              </classes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <_plugin>org.apache.felix.bundleplugin.BlueprintPlugin,
+                            aQute.lib.spring.SpringXMLType,
+                            org.apache.felix.bundleplugin.JpaPlugin,
+                            org.apache.camel.maven.bundle.CamelPlugin</_plugin>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

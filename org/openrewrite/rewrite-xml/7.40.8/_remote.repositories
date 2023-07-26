@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Wed Jul 12 15:21:53 IST 2023
+rewrite-xml-7.40.8.pom>central=
+rewrite-xml-7.40.8.jar>central=

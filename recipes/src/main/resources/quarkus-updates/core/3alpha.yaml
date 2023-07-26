@@ -32,6 +32,8 @@ description: customDesc
 recipeList:
   - org.apache.camel.quarkus.update.ExtendedContextRecipe
   - org.apache.camel.quarkus.update.CamelAPIsRecipe
+  - org.apache.camel.quarkus.update.CamelBeanRecipe
+  - org.apache.camel.quarkus.update.CamelEIPRecipe 
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.UpgradeQuarkiverse
