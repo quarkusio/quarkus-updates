@@ -1,0 +1,145 @@
+#
+# Copyright 2021 the original author or authors.
+# <p>
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# <p>
+# https://www.apache.org/licenses/LICENSE-2.0
+# <p>
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+#####
+# Rules coming from https://github.com/openrewrite/rewrite-migrate-java/blob/main/src/main/resources/META-INF/rewrite/jakarta-ee-9.yml
+# modified to:
+# - use the Jakarta EE 10 versions (except for JPA as we are waiting for the Hibernate ORM 6 upgrade)
+# - not add new dependencies but transform them
+#####
+
+#####
+# Update the Camel - Quarkus extensions
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.camel30.CamelQuarkusMigrationRecipe
+displayName: Migrate `camel3` application to `camel4.`
+description: Migrate `camel3` quarkus application to `camel4` quarkus.
+recipeList:
+  - io.quarkus.updates.camel30.xml.XmlDslRecipe
+  - io.quarkus.updates.camel30.yaml.CamelQuarkusYamlRouteConfigurationSequenceRecipe
+  - io.quarkus.updates.camel30.yaml.CamelQuarkusYamlStepsInFromRecipe
+  - io.quarkus.updates.camel30.java.CamelAPIsRecipe
+  - io.quarkus.updates.camel30.java.CamelEIPRecipe
+  - io.quarkus.updates.camel30.java.CamelBeanRecipe
+  - io.quarkus.updates.camel30.java.CamelHttpRecipe
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.camel.migrate.ChangeTypes
+displayName: Migrate moved types between Came 2.x and Camel 3.x
+description: Change type of classes related to change of API.
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.apache.camel.support.IntrospectionSupport
+      newFullyQualifiedTypeName: org.apache.camel.impl.engine.IntrospectionSupport
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.camel.migrate.removedExtensions
+displayName: Remove non existin camel-quarkus extensions
+description: Removal of maven dependencies for extension, which are no longer part of camel 3.x.
+#todo would be better to put a comment about removed extension and possible alternatives, once the openrewrite recipe allows that
+recipeList:
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-activemq
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-activemq
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-atmos
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-avro-rpc
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-caffeine-lrucache
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-datasonnet
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-dozer
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-elasticsearch-rest
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-gora
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-hbase
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-iota
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-jbpm
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-jclouds
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-johnzon
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-microprofile-metrics
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-milo
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-opentracing
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-optaplanner
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-rabbitmq
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-smallrye-reactive-messaging
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-solr
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-tika
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-vm
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-xmlsecurity
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.apache.camel.quarkus
+      artifactId: camel-quarkus-xstream
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.camel.migrate.ChangePropertyValue
+displayName: Camel API changes in application.properties
+description: Apache Camel API migration from version 3.20 or higher to 4.0. Removal of deprecated APIs, which could be part of the application.properties.
+#todo would be better to put a comment about changed property and its alternative, once the openrewrite recipe allows that
+recipeList:
+  - org.openrewrite.properties.ChangePropertyValue:
+      propertyKey: camel.threadpool.rejectedPolicy
+      newValue: "Abort #DiscardOldest has been removed, consider Abort"
+      oldValue: DiscardOldest
+  - org.openrewrite.properties.ChangePropertyValue:
+        propertyKey: camel.threadpool.rejectedPolicy
+        newValue: "Abort #Discard has been removed, consider Abort"
+        oldValue: Discard
