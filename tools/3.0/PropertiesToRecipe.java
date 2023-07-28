@@ -29,9 +29,8 @@ public class PropertiesToRecipe {
         generateRecipe("io.quarkus.updates.core.quarkus30.JavaxToJakartaCodestarts", "**/src/main/codestarts/**/*.java", props);
         generateRecipe("io.quarkus.updates.core.quarkus30.JavaxToJakartaCodestartsTests", "**/src/test/resources/__snapshots__/**/*.java", props);
         generateRecipe("io.quarkus.updates.core.quarkus30.JavaxToJakartaKotlin", "**/*.kt", props);
-        generateRecipe("io.quarkus.updates.core.quarkus30.JavaxToJakartaApplicationProperties", "**/application.properties", props);
-        generateRecipe("io.quarkus.updates.core.quarkus30.JavaxToJakartaApplicationYaml", "**/application.yaml", props);
-        generateRecipe("io.quarkus.updates.core.quarkus30.JavaxToJakartaApplicationYml", "**/application.yml", props);
+        generateRecipe("io.quarkus.updates.core.quarkus30.JavaxToJakartaKotlinCodestarts", "**/src/main/codestarts/**/*.kt", props);
+        generateRecipe("io.quarkus.updates.core.quarkus30.JavaxToJakartaKotlinCodestartsTests", "**/src/test/resources/__snapshots__/**/*.kt", props);
     }
 
     private static void generateRecipe(String name, String filesGlob, Properties props) {
