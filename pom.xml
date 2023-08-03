@@ -10,7 +10,7 @@
 
     <groupId>io.quarkus</groupId>
     <artifactId>quarkus-updates-parent</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Quarkus Updates - Parent</name>
@@ -49,7 +49,7 @@
         <url>https://github.com/quarkusio/quarkus-updates</url>
         <connection>scm:git:git@github.com:quarkusio/quarkus-updates.git</connection>
         <developerConnection>scm:git:git@github.com:quarkusio/quarkus-updates.git</developerConnection>
-        <tag>1.0.4</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
