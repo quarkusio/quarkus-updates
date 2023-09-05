@@ -23,6 +23,33 @@ recipeList:
   - org.openrewrite.properties.ChangePropertyKey:
       oldPropertyKey: quarkus.transaction-manager.object-store-directory
       newPropertyKey: quarkus.transaction-manager.object-store.directory
+- org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.opentelemetry.enabled
+      newPropertyKey: quarkus.otel.enabled
+- org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.opentelemetry.tracer.enabled
+      newPropertyKey: quarkus.otel.traces.enabled
+- org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.opentelemetry.tracer.suppress-non-application-uris
+      newPropertyKey: quarkus.otel.traces.suppress-non-application-uris
+- org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.opentelemetry.tracer.include-static-resources
+      newPropertyKey: quarkus.otel.traces.include-static-resources
+- org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.opentelemetry.propagators
+      newPropertyKey: quarkus.otel.propagators
+- org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.opentelemetry.tracer.resource-attributes
+      newPropertyKey: quarkus.otel.resource.attributes
+- org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.opentelemetry.tracer.exporter.otlp.enabled
+      newPropertyKey: quarkus.otel.exporter.otlp.enabled
+- org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.opentelemetry.tracer.exporter.otlp.headers
+      newPropertyKey: quarkus.otel.exporter.otlp.traces.headers
+- org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: quarkus.opentelemetry.tracer.exporter.otlp.endpoint
+      newPropertyKey: quarkus.otel.exporter.otlp.traces.legacy-endpoint
 
 #####
 # Adjust properties in application.yml/yaml
