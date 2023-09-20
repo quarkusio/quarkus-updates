@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -9,11 +10,11 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>quarkus-update-recipes</artifactId>
-    <name>Quarkus Updates - Recipes</name>
+    <artifactId>quarkus-update-recipes-unit-tests</artifactId>
+    <name>Quarkus Updates - Recipes - Unit tests</name>
 
     <properties>
-        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.release>17</maven.compiler.release>
 
         <!-- Make sure all these versions are aligned and use a compatible OpenRewrite version -->
         <!--   https://central.sonatype.com/artifact/org.openrewrite.recipe/rewrite-recipe-bom/2.0.3/versions -->
@@ -22,17 +23,20 @@
         <rewrite-maven-plugin.version>4.46.0</rewrite-maven-plugin.version>
         <!--   for now, we don't know where to find compatibility information for the Gradle plugin -->
         <rewrite-gradle-plugin.version>5.40.6</rewrite-gradle-plugin.version>
-        <!-- If version from rewrite-recipe-bom is used, error occures during testing ->
-         NoSuchMethod 'com.fasterxml.jackson.core.util.TextBuffer com.fasterxml.jackson.core.io.IOContext.constructReadConstrainedTextBuffer()'
-        -->
-        <rewrite-migrate-java.version>1.16.0</rewrite-migrate-java.version>
+
         <!-- tests-->
         <junit.version>5.4.0</junit.version>
         <surefire.plugin.version>3.1.0</surefire.plugin.version>
+        <!-- Camel quarkus version used by the tests -->
+        <camel-quarkus.version>2.13.3</camel-quarkus.version>
         <!-- Http version used by the tests -->
         <http.version>4.5.14</http.version>
 
         <lombok.version>1.18.28</lombok.version>
+
+        <!-- Maven plugins versions -->
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <license-maven-plugin.version>4.2</license-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -41,6 +45,13 @@
                 <groupId>org.openrewrite.recipe</groupId>
                 <artifactId>rewrite-recipe-bom</artifactId>
                 <version>${rewrite-recipe-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel.quarkus</groupId>
+                <artifactId>camel-quarkus-bom</artifactId>
+                <version>${camel-quarkus.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -82,11 +93,6 @@
             <groupId>org.openrewrite</groupId>
             <artifactId>rewrite-java-17</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openrewrite.recipe</groupId>
-            <artifactId>rewrite-migrate-java</artifactId>
-            <version>${rewrite-migrate-java.version}</version>
         </dependency>
 
         <!-- rewrite-maven dependency only necessary for Maven Recipe development -->
@@ -132,6 +138,13 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- recipes -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-update-recipes</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- For authoring tests for any kind of Recipe -->
         <dependency>
             <groupId>org.openrewrite</groupId>
@@ -150,6 +163,52 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!--test dependencies -->
+
+        <!-- Camel quarkus testing -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core-model</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-support</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-catalog</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-main</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-activemq</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-bean</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${http.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -172,28 +231,10 @@
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
                 <configuration>
                     <propertiesEncoding>UTF-8</propertiesEncoding>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>generate-core-update-recipe-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/main/assembly/core.xml</descriptor>
-                            </descriptors>
-                            <appendAssemblyId>true</appendAssemblyId>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -224,16 +265,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>15</source>
+                    <target>15</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -253,7 +294,54 @@
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
+
+    <profiles>
+
+        <profile>
+            <!-- Sanity checks and formatting are disabled when building with '-Dquickly' -->
+            <id>full</id>
+            <activation>
+                <property>
+                    <name>!quickly</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>default-test</id>
+                                <phase>test</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>format</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.mycila</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>license-format</id>
+                                <goals>
+                                    <goal>format</goal>
+                                </goals>
+                                <phase>validate</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>

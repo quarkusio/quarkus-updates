@@ -64,6 +64,7 @@
 
     <modules>
         <module>recipes</module>
+        <module>recipes-unit-tests</module>
     </modules>
 
     <distributionManagement>
