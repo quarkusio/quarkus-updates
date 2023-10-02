@@ -89,11 +89,6 @@
             <artifactId>rewrite-java-11</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.openrewrite</groupId>
-            <artifactId>rewrite-java-17</artifactId>
-            <scope>provided</scope>
-        </dependency>
 
         <!-- rewrite-maven dependency only necessary for Maven Recipe development -->
         <dependency>
@@ -208,7 +203,6 @@
             <version>${http.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
