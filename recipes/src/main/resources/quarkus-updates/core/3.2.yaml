@@ -20,7 +20,7 @@ applicability:
     - org.openrewrite.FindSourceFiles:
         filePattern: "**/application*.properties"
 recipeList:
-  - org.openrewrite.properties.ChangePropertyKey:
+- org.openrewrite.properties.ChangePropertyKey:
       oldPropertyKey: quarkus.transaction-manager.object-store-directory
       newPropertyKey: quarkus.transaction-manager.object-store.directory
 - org.openrewrite.properties.ChangePropertyKey:
