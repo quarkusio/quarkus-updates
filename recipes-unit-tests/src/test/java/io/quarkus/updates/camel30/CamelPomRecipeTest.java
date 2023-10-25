@@ -226,8 +226,8 @@ public class CamelPomRecipeTest implements RewriteTest {
                                 <quarkus.platform.version>${quarkus.version}</quarkus.platform.version>
                                 <camel-quarkus.platform.group-id>org.apache.camel.quarkus</camel-quarkus.platform.group-id>
                                 <camel-quarkus.platform.artifact-id>camel-quarkus-bom</camel-quarkus.platform.artifact-id>
-                                <camel-quarkus.platform.version>2.13.3</camel-quarkus.platform.version>
-                                <camel-quarkus.version>2.13.3</camel-quarkus.version><!-- This needs to be set to the underlying CQ version from command line when testing against Platform BOMs -->
+                                <camel-quarkus.platform.version>2.13.2</camel-quarkus.platform.version>
+                                <camel-quarkus.version>2.13.2</camel-quarkus.version><!-- This needs to be set to the underlying CQ version from command line when testing against Platform BOMs -->
 
                                 <quarkus.banner.enabled>false</quarkus.banner.enabled>
                                 <maven.compiler.source>17</maven.compiler.source>
@@ -486,8 +486,8 @@ public class CamelPomRecipeTest implements RewriteTest {
                                 <quarkus.platform.version>${quarkus.version}</quarkus.platform.version>
                                 <camel-quarkus.platform.group-id>org.apache.camel.quarkus</camel-quarkus.platform.group-id>
                                 <camel-quarkus.platform.artifact-id>camel-quarkus-bom</camel-quarkus.platform.artifact-id>
-                                <camel-quarkus.platform.version>2.13.3</camel-quarkus.platform.version>
-                                <camel-quarkus.version>2.13.3</camel-quarkus.version><!-- This needs to be set to the underlying CQ version from command line when testing against Platform BOMs -->
+                                <camel-quarkus.platform.version>2.13.2</camel-quarkus.platform.version>
+                                <camel-quarkus.version>2.13.2</camel-quarkus.version><!-- This needs to be set to the underlying CQ version from command line when testing against Platform BOMs -->
 
                                 <quarkus.banner.enabled>false</quarkus.banner.enabled>
                                 <maven.compiler.source>17</maven.compiler.source>

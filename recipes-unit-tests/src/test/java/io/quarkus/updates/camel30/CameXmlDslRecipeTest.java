@@ -73,4 +73,55 @@ public class CameXmlDslRecipeTest implements RewriteTest {
                     </routes>
                 """));
     }
+
+    @Test
+    void testCircuitBreakerFull() {
+        rewriteRun(xml("""
+                <differentContext>
+                    <circuitBreaker>
+                        <resilience4jConfiguration>
+                            <bulkheadEnabled>5643</bulkheadEnabled>
+                            <bulkheadMaxConcurrentCalls>aaaa</bulkheadMaxConcurrentCalls>
+                            <bulkheadMaxWaitDuration>1</bulkheadMaxWaitDuration>
+                            <timeoutEnabled>true</timeoutEnabled>
+                            <timeoutExecutorService>1</timeoutExecutorService>
+                            <timeoutDuration>1</timeoutDuration>
+                            <timeoutCancelRunningFuture></timeoutCancelRunningFuture>
+                        </resilience4jConfiguration>
+                    </circuitBreaker>
+                </differentContext>
+                                                """, """
+            <differentContext>
+                <circuitBreaker>
+                    <resilience4jConfiguration bulkheadEnabled="5643" bulkheadMaxConcurrentCalls="aaaa" bulkheadMaxWaitDuration="1" timeoutEnabled="true" timeoutExecutorService="1" timeoutDuration="1">
+                    </resilience4jConfiguration>
+                </circuitBreaker>
+            </differentContext>
+                """));
+    }
+
+    @Test
+    void testCircuitBreaker() {
+        rewriteRun(xml("""
+                <route>
+                    <from uri="direct:start"/>
+                    <circuitBreaker>
+                        <resilience4jConfiguration>
+                            <timeoutEnabled>true</timeoutEnabled>
+                            <timeoutDuration>2000</timeoutDuration>
+                        </resilience4jConfiguration>
+                    </circuitBreaker>
+                    <to uri="mock:result"/>
+                </route>
+                                                """, """
+                <route>
+                    <from uri="direct:start"/>
+                    <circuitBreaker>
+                        <resilience4jConfiguration timeoutEnabled="true" timeoutDuration="2000">
+                        </resilience4jConfiguration>
+                    </circuitBreaker>
+                    <to uri="mock:result"/>
+                </route>
+                """));
+    }
 }
