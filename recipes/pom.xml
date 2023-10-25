@@ -117,13 +117,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- rewrite-maven dependency is required for pom.xml recipe testing -->
-        <dependency>
-            <groupId>org.openrewrite</groupId>
-            <artifactId>rewrite-maven</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- lombok is optional, but recommended for authoring recipes -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -166,9 +159,18 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <java.io.tmpdir>${project.build.directory}</java.io.tmpdir>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -220,40 +222,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.plugin.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-api</artifactId>
-                        <version>${surefire.plugin.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <systemPropertyVariables>
-                        <maven.repo.local>${settings.localRepository}</maven.repo.local>
-                        <java.io.tmpdir>${project.build.directory}</java.io.tmpdir>
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
 </project>
