@@ -31,3 +31,16 @@ recipeList:
   - org.openrewrite.yaml.ChangePropertyKey:
       oldPropertyKey: quarkus.hibernate-search-orm.automatic-indexing.synchronization.strategy
       newPropertyKey: quarkus.hibernate-search-orm.indexing.plan.synchronization.strategy
+
+#####
+# Adjust artifact for GraalVM substitutions
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus33.GraalVMSubstitutionsArtifact
+recipeList:
+  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+      oldGroupId: org.graalvm.nativeimage
+      oldArtifactId: svm
+      newGroupId: org.graalvm.sdk
+      newArtifactId: graal-sdk
