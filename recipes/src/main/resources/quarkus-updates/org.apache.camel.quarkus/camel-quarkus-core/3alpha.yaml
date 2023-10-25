@@ -143,3 +143,23 @@ recipeList:
         propertyKey: camel.threadpool.rejectedPolicy
         newValue: "Abort #Discard has been removed, consider Abort"
         oldValue: Discard
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.camel.migrate.ChangeManagedChoiceMBeanMethodName
+displayName: Change of method names brought by Camel JMX API changes
+recipeList:
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.apache.camel.api.management.mbean.ManagedChoiceMBean choiceStatistics()
+      newMethodName: extendedInformation
+      matchOverrides: null
+      ignoreDefinition: null
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.camel.migrate.ChangeManagedFailoverLoadBalancerMBeanMethodName
+displayName: Change of method names brought by Camel JMX API changes
+recipeList:
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.apache.camel.api.management.mbean.ManagedFailoverLoadBalancerMBean exceptionStatistics()
+      newMethodName: extendedInformation
+      matchOverrides: null
+      ignoreDefinition: null
