@@ -1,0 +1,10 @@
+#####
+# Replace io.smallrye.mutiny.groups.UniAndGroup*.combinedWith(..) with io.smallrye.mutiny.groups.UniAndGroup*.with(..)
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus35.MutinyUniAndGroupCombinedWith
+recipeList:
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: io.smallrye.mutiny.groups.UniAndGroup* combinedWith(..)
+      newMethodName: with
