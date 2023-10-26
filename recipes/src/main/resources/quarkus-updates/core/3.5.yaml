@@ -1,0 +1,21 @@
+#####
+# Replace io.smallrye.mutiny.groups.UniAndGroup*.combinedWith(..) with io.smallrye.mutiny.groups.UniAndGroup*.with(..)
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus35.MutinyUniAndGroupCombinedWith
+recipeList:
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: io.smallrye.mutiny.groups.UniAndGroup* combinedWith(..)
+      newMethodName: with
+
+#####
+# Replace io.smallrye.mutiny.groups.UniMemoize.atLeast(..) with io.smallrye.mutiny.groups.UniMemoize.forFixedDuration(..)
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus35.MutinyUniMemoizeAtLeast
+recipeList:
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: io.smallrye.mutiny.groups.UniMemoize atLeast(..)
+      newMethodName: forFixedDuration
