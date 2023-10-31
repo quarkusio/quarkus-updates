@@ -9,6 +9,6 @@ public class CamelQuarkusTestUtil {
     }
 
     public static RecipeSpec recipe(RecipeSpec spec, String... activerecipes) {
-        return spec.recipeFromResource("/quarkus-updates/org.apache.camel.quarkus/camel-quarkus-core/3alpha.yaml", activerecipes);
+        return spec.recipeFromResource("/quarkus-updates/org.apache.camel.quarkus/camel-quarkus/3alpha.yaml", activerecipes);
     }
 }
