@@ -165,13 +165,8 @@ public class AdjustApplicationPropertiesWithJakarta extends Recipe {
     }
 
     @Override
-    public TreeVisitor<?, ExecutionContext> getSingleSourceApplicableTest() {
-        return new HasSourcePath<>("**/application*.properties");
-    }
-
-    @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
-        return new AdjustApplicationPropertiesWithJakartaVisitor<>();
+        return Preconditions.check(new HasSourcePath<>("**/application*.properties"), new AdjustApplicationPropertiesWithJakartaVisitor<>());
     }
 
     public class AdjustApplicationPropertiesWithJakartaVisitor<P> extends PropertiesVisitor<P> {

@@ -95,6 +95,9 @@ public class CamelAPIsRecipe extends Recipe {
                 // BacklogTracerEventMessage moved from `org.apache.camel.api.management.mbean.BacklogTracerEventMessage`
                 // to  `org.apache.camel.spi.BacklogTracerEventMessage`
                 //TODO should be refactorable to yaml recipe simply, but ChangePackage does not work from yaml declaration
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
                 doAfterVisit(
                         new ChangePackage("org.apache.camel.api.management.mbean.BacklogTracerEventMessage",
                         "org.apache.camel.spi.BacklogTracerEventMessage", null));
@@ -111,6 +114,9 @@ public class CamelAPIsRecipe extends Recipe {
                         .anyMatch(f -> TypeUtils.isOfClassType(f.getType(), "org.apache.camel.spi.OnCamelContextStart"))) {
 
                     doAfterVisit(new ImplementInterface<ExecutionContext>(cd, "org.apache.camel.spi.OnCamelContextStarting"));
+                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
                     doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStart", null));
 
                 } //Removed org.apache.camel.spi.OnCamelContextStop. Use org.apache.camel.spi.OnCamelContextStopping instead.
@@ -118,6 +124,9 @@ public class CamelAPIsRecipe extends Recipe {
                         .anyMatch(f -> TypeUtils.isOfClassType(f.getType(), "org.apache.camel.spi.OnCamelContextStop"))) {
 
                     doAfterVisit(new ImplementInterface<ExecutionContext>(cd, "org.apache.camel.spi.OnCamelContextStopping"));
+                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
                     doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStop", null));
 
                 }
@@ -292,8 +301,8 @@ public class CamelAPIsRecipe extends Recipe {
                 else if (getMethodMatcher(MATCHER_GET_NAME_RESOLVER).matches(mi)) {
                     if (mi.getSelect() instanceof J.MethodInvocation && getMethodMatcher(MATCHER_CONTEXT_GET_EXT).matches(((J.MethodInvocation) mi.getSelect()).getMethodType())) {
                         J.MethodInvocation innerInvocation = (J.MethodInvocation) mi.getSelect();
-                        mi = mi.withTemplate(JavaTemplate.builder(() -> getCursor().getParentOrThrow(), "PluginHelper.getComponentNameResolver(#{any(org.apache.camel.CamelContext)})")
-                                        .build(),
+                        mi = JavaTemplate.builder("PluginHelper.getComponentNameResolver(#{any(org.apache.camel.CamelContext)})")/*[Rewrite8 migration] contextSensitive() could be unnecessary, please follow the migration guide*/.contextSensitive()
+                                .build().apply(/*[Rewrite8 migration] getCursor() could be updateCursor() if the J instance is updated, or it should be updated to point to the correct cursor, please follow the migration guide*/getCursor(),
                                 mi.getCoordinates().replace(), innerInvocation.getSelect());
                         doAfterVisit(new AddImport<>("org.apache.camel.support.PluginHelper", null, false));
                     }

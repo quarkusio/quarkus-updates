@@ -36,10 +36,25 @@ public class CamelHttpRecipe extends Recipe {
         return new AbstractCamelQuarkusJavaVisitor() {
             @Override
             protected J.Import doVisitImport(J.Import _import, ExecutionContext context) {
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
                 doAfterVisit( new ChangePackage("org.apache.http.HttpHost", "org.apache.hc.core5.http.HttpHost", null));
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
                 doAfterVisit( new ChangePackage("org.apache.http.client.protocol.HttpClientContext", "org.apache.hc.client5.http.protocol.HttpClientContext", null));
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
                 doAfterVisit( new ChangePackage("org.apache.http.impl.client", "org.apache.hc.client5.http.impl.auth", null));
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
                 doAfterVisit( new ChangePackage("org.apache.http.protocol.HttpContext", "org.apache.hc.core5.http.protocol.HttpContext", null));
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
                 doAfterVisit( new ChangePackage("org.apache.http", "org.apache.hc.client5.http", null));
 
                 return super.doVisitImport(_import, context);
@@ -52,11 +67,10 @@ public class CamelHttpRecipe extends Recipe {
                 //The component has been upgraded to use Apache HttpComponents v5
                 //AuthScope.ANY -> new AuthScope(null, -1)
                 if("ANY".equals(f.getSimpleName()) && "org.apache.http.auth.AuthScope".equals(f.getType().toString())) {
-                    JavaTemplate.Builder templateBuilder = JavaTemplate.builder(this::getCursor, "new AuthScope(null, -1)")
+                    JavaTemplate.Builder templateBuilder = JavaTemplate.builder( "new AuthScope(null, -1)")/*[Rewrite8 migration] contextSensitive() could be unnecessary, please follow the migration guide*/.contextSensitive()
                             .imports("org.apache.hc.client5.http.auth.AuthScope");
-                    J.NewClass nc = f.withTemplate(
-                                        templateBuilder.build(),
-                                        f.getCoordinates().replace())
+                    J.NewClass nc =  templateBuilder.build().apply(/*[Rewrite8 migration] getCursor() could be updateCursor() if the J instance is updated, or it should be updated to point to the correct cursor, please follow the migration guide*/getCursor(),
+                            f.getCoordinates().replace())
                                      .withPrefix(f.getPrefix()
                     );
                     getCursor().putMessage("authScopeNewClass", nc);

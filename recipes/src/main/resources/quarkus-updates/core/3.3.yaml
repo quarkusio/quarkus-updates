@@ -4,10 +4,6 @@
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus33.ApplicationProperties
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/application*.properties"
 recipeList:
   - org.openrewrite.properties.ChangePropertyKey:
       oldPropertyKey: quarkus.hibernate-search-orm.automatic-indexing.synchronization.strategy
@@ -16,6 +12,9 @@ recipeList:
       oldPropertyKey: quarkus\.hibernate-search-orm\.(.+)\.automatic-indexing\.synchronization\.strategy
       newPropertyKey: quarkus.hibernate-search-orm.$1.indexing.plan.synchronization.strategy
       regex: true
+preconditions:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: "**/application*.properties"
 
 #####
 # Adjust properties in application.yml/yaml
@@ -23,14 +22,13 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus33.ApplicationYml
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/application*.y*ml"
 recipeList:
   - org.openrewrite.yaml.ChangePropertyKey:
       oldPropertyKey: quarkus.hibernate-search-orm.automatic-indexing.synchronization.strategy
       newPropertyKey: quarkus.hibernate-search-orm.indexing.plan.synchronization.strategy
+preconditions:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: "**/application*.y*ml"
 
 #####
 # Adjust artifact for GraalVM substitutions
