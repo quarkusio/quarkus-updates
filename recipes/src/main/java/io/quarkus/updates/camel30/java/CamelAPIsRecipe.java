@@ -96,11 +96,9 @@ public class CamelAPIsRecipe extends Recipe {
                 // to  `org.apache.camel.spi.BacklogTracerEventMessage`
                 //TODO should be refactorable to yaml recipe simply, but ChangePackage does not work from yaml declaration
                 // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
-                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
-                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
                 doAfterVisit(
                         new ChangePackage("org.apache.camel.api.management.mbean.BacklogTracerEventMessage",
-                        "org.apache.camel.spi.BacklogTracerEventMessage", null));
+                        "org.apache.camel.spi.BacklogTracerEventMessage", null).getVisitor());
 
                 return im;
             }
@@ -115,9 +113,7 @@ public class CamelAPIsRecipe extends Recipe {
 
                     doAfterVisit(new ImplementInterface<ExecutionContext>(cd, "org.apache.camel.spi.OnCamelContextStarting"));
                     // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
-                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
-                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
-                    doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStart", null));
+                    doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStart", null).getVisitor());
 
                 } //Removed org.apache.camel.spi.OnCamelContextStop. Use org.apache.camel.spi.OnCamelContextStopping instead.
                 else if(cd.getImplements() != null && cd.getImplements().stream()
@@ -125,9 +121,7 @@ public class CamelAPIsRecipe extends Recipe {
 
                     doAfterVisit(new ImplementInterface<ExecutionContext>(cd, "org.apache.camel.spi.OnCamelContextStopping"));
                     // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
-                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
-                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
-                    doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStop", null));
+                    doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStop", null).getVisitor());
 
                 }
                 return cd;

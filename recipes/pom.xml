@@ -29,6 +29,7 @@
         <http.version>4.5.14</http.version>
 
         <lombok.version>1.18.28</lombok.version>
+        <slf4j.version>1.7.36</slf4j.version>
     </properties>
 
     <dependencyManagement>
@@ -64,6 +65,11 @@
         <!-- You only need the version that corresponds to your current
         Java version. It is fine to add all of them, though, as
         they can coexist on a classpath. -->
+        <dependency>
+            <groupId>org.openrewrite</groupId>
+            <artifactId>rewrite-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.openrewrite</groupId>
             <artifactId>rewrite-java-8</artifactId>
@@ -109,6 +115,14 @@
         <dependency>
             <groupId>org.openrewrite</groupId>
             <artifactId>rewrite-xml</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
             <scope>provided</scope>
         </dependency>
 
