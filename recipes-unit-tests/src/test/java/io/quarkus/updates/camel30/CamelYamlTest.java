@@ -33,6 +33,7 @@ public class CamelYamlTest implements RewriteTest {
 
     @Test
     void testStepsToFrom1() {
+        //language=yaml
         rewriteRun(Assertions.yaml("""
                   route:
                     from:
@@ -50,6 +51,7 @@ public class CamelYamlTest implements RewriteTest {
 
     @Test
     void testStepsToFrom2() {
+        //language=yaml
         rewriteRun(Assertions.yaml("""
                     from:
                       uri: "direct:info"
@@ -65,6 +67,7 @@ public class CamelYamlTest implements RewriteTest {
 
     @Test
     void testStepsToFrom3() {
+        //language=yaml
         rewriteRun(Assertions.yaml("""
                 - from:
                     uri: "direct:start"
@@ -94,6 +97,7 @@ public class CamelYamlTest implements RewriteTest {
 
     @Test
     void testRouteConfigurationWithOnException() {
+        //language=yaml
         rewriteRun(Assertions.yaml("""
                 - route-configuration:
                     - id: "yamlRouteConfiguration"
@@ -124,6 +128,7 @@ public class CamelYamlTest implements RewriteTest {
 
     @Test
     void testRouteConfigurationWithoutOnException() {
+        //language=yaml
         rewriteRun(Assertions.yaml("""
                 - route-configuration:
                     - id: "__id"
@@ -135,6 +140,7 @@ public class CamelYamlTest implements RewriteTest {
 
     @Test
     void testDoubleDocument() {
+        //language=yaml
         rewriteRun(Assertions.yaml("""
                 - route-configuration:
                     - id: "yamlRouteConfiguration1"
@@ -190,6 +196,7 @@ public class CamelYamlTest implements RewriteTest {
 
     @Test
     void testDoubleDocumentSimple() {
+        //language=yaml
         rewriteRun(Assertions.yaml("""
                 - route-configuration:
                     - id: "__id1"
@@ -207,6 +214,7 @@ public class CamelYamlTest implements RewriteTest {
 
     @Test
     void testRouteConfigurationIdempotent() {
+        //language=yaml
         rewriteRun(Assertions.yaml("""
                   - route-configuration:
                       id: "yamlRouteConfiguration"

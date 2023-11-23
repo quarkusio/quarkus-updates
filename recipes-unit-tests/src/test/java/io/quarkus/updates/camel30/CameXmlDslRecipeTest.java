@@ -35,6 +35,7 @@ public class CameXmlDslRecipeTest implements RewriteTest {
 
     @Test
     void testDescription() {
+        //language=xml
         rewriteRun(xml("""
                 <routes xmlns="http://camel.apache.org/schema/spring">
                     <route id="myRoute">
@@ -76,6 +77,7 @@ public class CameXmlDslRecipeTest implements RewriteTest {
 
     @Test
     void testCircuitBreakerFull() {
+        //language=xml
         rewriteRun(xml("""
                 <differentContext>
                     <circuitBreaker>
@@ -102,6 +104,7 @@ public class CameXmlDslRecipeTest implements RewriteTest {
 
     @Test
     void testCircuitBreaker() {
+        //language=xml
         rewriteRun(xml("""
                 <route>
                     <from uri="direct:start"/>

@@ -1,12 +1,12 @@
 package io.quarkus.updates.camel30;
 
-import static org.openrewrite.java.Assertions.java;
-
 import org.junit.jupiter.api.Test;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 import org.openrewrite.test.TypeValidation;
+
+import static org.openrewrite.java.Assertions.java;
 
 public class CamelHttpTest implements RewriteTest {
 
@@ -20,6 +20,7 @@ public class CamelHttpTest implements RewriteTest {
 
     @Test
     void testHttp() {
+        //language=java
         rewriteRun(java(
                 """
                             import jakarta.inject.Named;

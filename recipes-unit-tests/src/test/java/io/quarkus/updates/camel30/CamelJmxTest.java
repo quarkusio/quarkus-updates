@@ -20,6 +20,7 @@ public class CamelJmxTest implements RewriteTest {
 
     @Test
     void testRenamedMethods() {
+        //language=java
         rewriteRun(java(
                 """
                             import org.apache.camel.api.management.mbean.ManagedChoiceMBean;

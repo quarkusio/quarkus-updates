@@ -19,6 +19,7 @@ public class CamelPomRecipeTest implements RewriteTest {
 
     @Test
     void testRemovedExtensions() {
+        //language=xml
         rewriteRun(pomXml(
                 """
                         <project>
@@ -186,6 +187,7 @@ public class CamelPomRecipeTest implements RewriteTest {
 
     @Test
     void testRemovedComponentsReal() {
+        //language=xml
         rewriteRun(pomXml(
                 """
                         <?xml version="1.0" encoding="UTF-8"?>
