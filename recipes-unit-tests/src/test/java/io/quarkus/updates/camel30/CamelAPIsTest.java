@@ -14,7 +14,7 @@ public class CamelAPIsTest implements RewriteTest {
     public void defaults(RecipeSpec spec) {
         CamelQuarkusTestUtil.recipe(spec)
                 .parser(JavaParser.fromJavaVersion().logCompilationWarningsAndErrors(true).classpath("camel-api",
-                        "camel-support", "camel-core-model", "camel-util", "camel-catalog", "camel-main"))
+                        "camel-support", "camel-core-model", "camel-util", "camel-catalog", "camel-main", "camel-management-api"))
                 .typeValidationOptions(TypeValidation.none());
     }
 
@@ -1022,19 +1022,19 @@ public class CamelAPIsTest implements RewriteTest {
         rewriteRun(java("""
                 import org.apache.camel.api.management.mbean.BacklogTracerEventMessage;
 
-                public class Test  {
+                public class Test {
 
                     public void test() {
-                        org.apache.camel.api.management.mbean.BacklogTracerEventMessage msg;
+                        BacklogTracerEventMessage msg;
                     }
                 }
                 """, """
                 import org.apache.camel.spi.BacklogTracerEventMessage;
 
-                public class Test  {
+                public class Test {
 
                     public void test() {
-                        org.apache.camel.spi.BacklogTracerEventMessage msg;
+                        BacklogTracerEventMessage msg;
                     }
                 }
                 """));

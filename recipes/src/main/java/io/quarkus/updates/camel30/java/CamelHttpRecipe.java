@@ -7,11 +7,14 @@ import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
 import org.openrewrite.internal.lang.Nullable;
+import org.openrewrite.java.ChangeFieldType;
 import org.openrewrite.java.ChangePackage;
+import org.openrewrite.java.ChangeType;
 import org.openrewrite.java.JavaTemplate;
 import org.openrewrite.java.tree.J;
 
 import io.quarkus.updates.camel30.AbstractCamelQuarkusJavaVisitor;
+import org.openrewrite.java.tree.JavaType;
 
 @EqualsAndHashCode(callSuper = true)
 @Value
@@ -33,15 +36,41 @@ public class CamelHttpRecipe extends Recipe {
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
 
+
         return new AbstractCamelQuarkusJavaVisitor() {
             @Override
             protected J.Import doVisitImport(J.Import _import, ExecutionContext context) {
-                // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
-                doAfterVisit( new ChangePackage("org.apache.http.HttpHost", "org.apache.hc.core5.http.HttpHost", null).getVisitor());
-                doAfterVisit( new ChangePackage("org.apache.http.client.protocol.HttpClientContext", "org.apache.hc.client5.http.protocol.HttpClientContext", null).getVisitor());
-                doAfterVisit( new ChangePackage("org.apache.http.impl.client", "org.apache.hc.client5.http.impl.auth", null).getVisitor());
-                doAfterVisit( new ChangePackage("org.apache.http.protocol.HttpContext", "org.apache.hc.core5.http.protocol.HttpContext", null).getVisitor());
-                doAfterVisit( new ChangePackage("org.apache.http", "org.apache.hc.client5.http", null).getVisitor());
+                doAfterVisit(
+                        new ChangeType("org.apache.http.HttpHost",
+                                "org.apache.hc.core5.http.HttpHost", true).getVisitor());
+                doAfterVisit(
+                        new ChangeType(
+                                "org.apache.http.client.protocol.HttpClientContext",
+                                "org.apache.hc.client5.http.protocol.HttpClientContext", true).getVisitor());
+                doAfterVisit(
+                        new ChangeType(
+                                "org.apache.http.protocol.HttpContext",
+                                "org.apache.hc.core5.http.protocol.HttpContext", true).getVisitor());
+                doAfterVisit(
+                    new ChangeType(
+                            "org.apache.http.impl.auth.BasicScheme",
+                            "org.apache.hc.client5.http.impl.auth.BasicScheme", true).getVisitor());
+                doAfterVisit(
+                    new ChangeType(
+                            "org.apache.http.impl.client.BasicAuthCache",
+                            "org.apache.hc.client5.http.impl.auth.BasicAuthCache", true).getVisitor());
+                doAfterVisit(
+                    new ChangeType(
+                            "org.apache.http.impl.client.BasicCredentialsProvider",
+                            "org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider", true).getVisitor());
+                doAfterVisit(
+                    new ChangeType(
+                            "org.apache.http.auth.AuthScope",
+                            "org.apache.hc.client5.http.auth.AuthScope", true).getVisitor());
+                doAfterVisit(
+                    new ChangeType(
+                            "org.apache.http.auth.UsernamePasswordCredentials",
+                            "org.apache.hc.client5.http.auth.UsernamePasswordCredentials", true).getVisitor());
 
                 return super.doVisitImport(_import, context);
             }
