@@ -58,7 +58,26 @@
     </issueManagement>
 
     <properties>
-        <flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
+        <!-- Make sure all these versions are aligned and use a compatible OpenRewrite version -->
+        <!--   https://central.sonatype.com/artifact/org.openrewrite.recipe/rewrite-recipe-bom/2.5.0/versions -->
+        <rewrite-recipe-bom.version>2.5.0</rewrite-recipe-bom.version>
+        <!--   https://central.sonatype.com/artifact/org.openrewrite.maven/rewrite-maven-plugin/5.13.0/versions -->
+        <rewrite-maven-plugin.version>5.13.0</rewrite-maven-plugin.version>
+        <!--   https://plugins.gradle.org/plugin/org.openrewrite.rewrite -->
+        <rewrite-gradle-plugin.version>6.5.7</rewrite-gradle-plugin.version>
+        <!-- tests-->
+        <junit.version>5.10.1</junit.version>
+        <!-- Http version used by the tests -->
+        <http.version>4.5.14</http.version>
+
+        <lombok.version>1.18.28</lombok.version>
+        <slf4j.version>1.7.36</slf4j.version>
+
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
+        <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
     </properties>
 
@@ -66,6 +85,46 @@
         <module>recipes</module>
         <module>recipes-unit-tests</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.openrewrite.recipe</groupId>
+                <artifactId>rewrite-recipe-bom</artifactId>
+                <version>${rewrite-recipe-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven-assembly-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
     <distributionManagement>
         <snapshotRepository>
@@ -78,18 +137,6 @@
         </repository>
     </distributionManagement>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>flatten-maven-plugin</artifactId>
-                    <version>${flatten-maven-plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
-
     <profiles>
         <profile>
             <id>release</id>
@@ -98,7 +145,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>
-                        <version>3.0.0-M7</version>
+                        <version>3.0.1</version>
                         <configuration>
                             <tagNameFormat>@{project.version}</tagNameFormat>
                             <autoVersionSubmodules>true</autoVersionSubmodules>

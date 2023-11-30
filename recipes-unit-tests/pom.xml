@@ -15,39 +15,16 @@
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
-
-        <!-- Make sure all these versions are aligned and use a compatible OpenRewrite version -->
-        <!--   https://central.sonatype.com/artifact/org.openrewrite.recipe/rewrite-recipe-bom/2.0.3/versions -->
-        <rewrite-recipe-bom.version>2.5.0</rewrite-recipe-bom.version>
-        <!--   https://central.sonatype.com/artifact/org.openrewrite.maven/rewrite-maven-plugin/5.2.4/versions -->
-        <rewrite-maven-plugin.version>4.46.0</rewrite-maven-plugin.version>
-        <!--   for now, we don't know where to find compatibility information for the Gradle plugin -->
-        <rewrite-gradle-plugin.version>5.40.6</rewrite-gradle-plugin.version>
-
-        <!-- tests-->
-        <junit.version>5.4.0</junit.version>
-        <surefire.plugin.version>3.1.0</surefire.plugin.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <!-- Camel quarkus version used by the tests -->
         <camel-quarkus.version>2.13.3</camel-quarkus.version>
         <!-- Http version used by the tests -->
         <http.version>4.5.14</http.version>
-
-        <lombok.version>1.18.28</lombok.version>
-
-        <!-- Maven plugins versions -->
-        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-        <license-maven-plugin.version>4.2</license-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.openrewrite.recipe</groupId>
-                <artifactId>rewrite-recipe-bom</artifactId>
-                <version>${rewrite-recipe-bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.apache.camel.quarkus</groupId>
                 <artifactId>camel-quarkus-bom</artifactId>
@@ -217,10 +194,6 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -232,7 +205,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven-resources-plugin.version}</version>
                 <configuration>
                     <propertiesEncoding>UTF-8</propertiesEncoding>
                 </configuration>
@@ -269,10 +241,10 @@
 
         <profile>
             <!-- Sanity checks and formatting are disabled when building with '-Dquickly' -->
-            <id>full</id>
+            <id>quickly</id>
             <activation>
                 <property>
-                    <name>!quickly</name>
+                    <name>quickly</name>
                 </property>
             </activation>
             <build>
@@ -280,12 +252,9 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>default-test</id>
-                                <phase>test</phase>
-                            </execution>
-                        </executions>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
