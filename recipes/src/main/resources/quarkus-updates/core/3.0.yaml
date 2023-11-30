@@ -390,8 +390,8 @@ recipeList:
       newArtifactId: jakarta.faces-api
       newVersion: 4.x
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      groupId: org.glassfish
-      artifactId: javax.faces
+      oldGroupId: org.glassfish
+      oldArtifactId: javax.faces
       newGroupId: org.glassfish
       newArtifactId: jakarta.faces
       newVersion: 4.x
