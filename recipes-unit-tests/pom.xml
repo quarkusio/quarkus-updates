@@ -18,7 +18,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <!-- Camel quarkus version used by the tests -->
-        <camel-quarkus.version>2.13.3</camel-quarkus.version>
+        <camel-quarkus.version>3.6.0</camel-quarkus.version>
         <!-- Http version used by the tests -->
         <http.version>4.5.14</http.version>
     </properties>
