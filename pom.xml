@@ -70,7 +70,7 @@
         <!-- Http version used by the tests -->
         <http.version>4.5.14</http.version>
 
-        <lombok.version>1.18.28</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
         <slf4j.version>1.7.36</slf4j.version>
 
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
