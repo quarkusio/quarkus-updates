@@ -37,7 +37,7 @@ preconditions:
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus33.GraalVMSubstitutionsArtifact
 recipeList:
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.graalvm.nativeimage
       oldArtifactId: svm
       newGroupId: org.graalvm.sdk
