@@ -1,7 +1,6 @@
 package io.quarkus.updates.camel30;
 
 import org.openrewrite.Cursor;
-import org.openrewrite.ExecutionContext;
 import org.openrewrite.Tree;
 import org.openrewrite.java.tree.Comment;
 import org.openrewrite.java.tree.Expression;
@@ -225,16 +224,16 @@ public class RecipesUtil {
         WEBSERVICE("webservice"),
         WEBSOCKET("websocket"),
         WORKFLOW("workflow");
-    
+
         private final String value;
-    
+
         Category(final String value) {
             this.value = value;
         }
-    
+
         /**
          * Returns the string representation of this value
-         * 
+         *
          * @return Returns the string representation of this value
          */
         public String getValue() {
