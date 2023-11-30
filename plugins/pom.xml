@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-updates-parent</artifactId>
+        <version>1.0.9-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <!-- This artifact is there only to get Dependabot to track the Maven plugin dependency -->
+    <!-- We cannot do the same for the Gradle plugin unfortunately so we will have to keep track of it manually -->
+    <artifactId>quarkus-plugins</artifactId>
+    <name>Quarkus Updates - Plugins</name>
+
+    <properties>
+        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openrewrite.maven</groupId>
+            <artifactId>rewrite-maven-plugin</artifactId>
+            <version>${rewrite-maven-plugin.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
