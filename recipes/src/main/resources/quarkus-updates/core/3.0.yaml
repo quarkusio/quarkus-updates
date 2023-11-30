@@ -52,7 +52,7 @@ recipeList:
       oldPackageName: javax.activation
       newPackageName: jakarta.activation
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.activation
       oldArtifactId: javax.activation-api
       newGroupId: jakarta.activation
@@ -75,7 +75,7 @@ recipeList:
       artifactId: jakarta.annotation-api
       newVersion: 2.x
   - io.quarkus.updates.core.quarkus30.ChangeJavaxAnnotationToJakarta
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.annotation
       oldArtifactId: javax.annotation-api
       newGroupId: jakarta.annotation
@@ -199,7 +199,7 @@ recipeList:
       oldPackageName: javax.security.auth.message
       newPackageName: jakarta.security.auth.message
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.security.auth.message
       oldArtifactId: javax.security.auth.message-api
       newGroupId: jakarta.authentication
@@ -226,7 +226,7 @@ recipeList:
       oldPackageName: javax.security.jacc
       newPackageName: jakarta.security.jacc
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.security.jacc
       oldArtifactId: javax.security.jacc-api
       newGroupId: jakarta.authorization
@@ -252,7 +252,7 @@ recipeList:
       oldPackageName: javax.batch
       newPackageName: jakarta.batch
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.batch
       oldArtifactId: javax.batch-api
       newGroupId: jakarta.batch
@@ -278,7 +278,7 @@ recipeList:
       oldPackageName: javax.validation
       newPackageName: jakarta.validation
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.validation
       oldArtifactId: validation-api
       newGroupId: jakarta.validation
@@ -299,7 +299,7 @@ recipeList:
       oldPackageName: javax.decorator
       newPackageName: jakarta.decorator
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.enterprise
       oldArtifactId: cdi-api
       newGroupId: jakarta.enterprise
@@ -320,7 +320,7 @@ recipeList:
       oldPackageName: javax.ejb
       newPackageName: jakarta.ejb
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.ejb
       oldArtifactId: javax.ejb-api
       newGroupId: jakarta.ejb
@@ -341,7 +341,7 @@ recipeList:
       oldPackageName: javax.el
       newPackageName: jakarta.el
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.el
       oldArtifactId: javax.el-api
       newGroupId: jakarta.el
@@ -362,7 +362,7 @@ recipeList:
       oldPackageName: javax.enterprise
       newPackageName: jakarta.enterprise
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.enterprise
       oldArtifactId: cdi-api
       newGroupId: jakarta.enterprise
@@ -383,15 +383,15 @@ recipeList:
       oldPackageName: javax.faces
       newPackageName: jakarta.faces
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.faces
       oldArtifactId: javax.faces-api
       newGroupId: jakarta.faces
       newArtifactId: jakarta.faces-api
       newVersion: 4.x
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      groupId: org.glassfish
-      artifactId: javax.faces
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: org.glassfish
+      oldArtifactId: javax.faces
       newGroupId: org.glassfish
       newArtifactId: jakarta.faces
       newVersion: 4.x
@@ -415,7 +415,7 @@ recipeList:
       oldPackageName: javax.inject
       newPackageName: jakarta.inject
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.inject
       oldArtifactId: javax.inject-api
       newGroupId: jakarta.inject
@@ -436,7 +436,7 @@ recipeList:
       oldPackageName: javax.interceptor
       newPackageName: jakarta.interceptor
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.interceptor
       oldArtifactId: javax.interceptor-api
       newGroupId: jakarta.interceptor
@@ -457,7 +457,7 @@ recipeList:
       oldPackageName: javax.jms
       newPackageName: jakarta.jms
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.jms
       oldArtifactId: javax.jms-api
       newGroupId: jakarta.jms
@@ -478,7 +478,7 @@ recipeList:
       oldPackageName: javax.json
       newPackageName: jakarta.json
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.json
       oldArtifactId: javax.json-api
       newGroupId: jakarta.json
@@ -499,7 +499,7 @@ recipeList:
       oldPackageName: javax.jws
       newPackageName: jakarta.jws
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.jws
       oldArtifactId: javax.jws-api
       newGroupId: jakarta.jws
@@ -520,7 +520,7 @@ recipeList:
       oldPackageName: javax.mail
       newPackageName: jakarta.mail
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.mail
       oldArtifactId: javax.mail-api
       newGroupId: jakarta.mail
@@ -542,7 +542,7 @@ recipeList:
       oldPackageName: javax.persistence
       newPackageName: jakarta.persistence
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.persistence
       oldArtifactId: javax.persistence
       newGroupId: jakarta.persistence
@@ -564,7 +564,7 @@ recipeList:
       oldPackageName: javax.resource
       newPackageName: jakarta.resource
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.resource
       oldArtifactId: javax.resource-api
       newGroupId: jakarta.resource
@@ -585,7 +585,7 @@ recipeList:
       oldPackageName: javax.security.enterprise
       newPackageName: jakarta.security.enterprise
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.security.enterprise
       oldArtifactId: javax.security.enterprise-api
       newGroupId: jakarta.security.enterprise
@@ -606,7 +606,7 @@ recipeList:
       oldPackageName: javax.servlet
       newPackageName: jakarta.servlet
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.servlet
       oldArtifactId: javax.servlet-api
       newGroupId: jakarta.servlet
@@ -631,7 +631,7 @@ recipeList:
   - org.openrewrite.java.ChangePackage:
       oldPackageName: javax.transaction
       newPackageName: jakarta.transaction
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.transaction
       oldArtifactId: javax.transaction-api
       newGroupId: jakarta.transaction
@@ -652,7 +652,7 @@ recipeList:
       oldPackageName: javax.websocket
       newPackageName: jakarta.websocket
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.websocket
       oldArtifactId: javax.websocket-api
       newGroupId: jakarta.websocket
@@ -673,7 +673,7 @@ recipeList:
       oldPackageName: javax.ws
       newPackageName: jakarta.ws
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.ws.rs
       oldArtifactId: javax.ws.rs-api
       newGroupId: jakarta.ws.rs
@@ -703,13 +703,13 @@ recipeList:
       oldPackageName: javax.xml.bind
       newPackageName: jakarta.xml.bind
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.xml.bind
       oldArtifactId: jaxb-api
       newGroupId: jakarta.xml.bind
       newArtifactId: jakarta.xml.bind-api
       newVersion: 4.x
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: com.sun.xml.bind
       oldArtifactId: jaxb-impl
       newGroupId: org.glassfish.jaxb
@@ -730,7 +730,7 @@ recipeList:
       oldPackageName: javax.xml.soap
       newPackageName: jakarta.xml.soap
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.xml.soap
       oldArtifactId: javax.xml.soap-api
       newGroupId: jakarta.xml.soap
@@ -756,7 +756,7 @@ recipeList:
       oldPackageName: javax.xml.ws
       newPackageName: jakarta.xml.ws
       recursive: true
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: javax.xml.ws
       oldArtifactId: jaxws-api
       newGroupId: jakarta.xml.ws
@@ -804,7 +804,7 @@ description: >
 
 recipeList:
   # JAXB annotations support
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: com.fasterxml.jackson.module
       oldArtifactId: jackson-module-jaxb-annotations
       newGroupId: com.fasterxml.jackson.module
@@ -815,7 +815,7 @@ recipeList:
       newGroupId: com.fasterxml.jackson.module
       newArtifactId: jackson-module-jakarta-xmlbind-annotations
   # JAXRS providers
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-cbor-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
@@ -825,7 +825,7 @@ recipeList:
       oldArtifactId: jackson-jaxrs-cbor-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-cbor-provider
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-json-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
@@ -835,7 +835,7 @@ recipeList:
       oldArtifactId: jackson-jaxrs-json-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-json-provider
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-smile-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
@@ -845,7 +845,7 @@ recipeList:
       oldArtifactId: jackson-jaxrs-smile-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-smile-provider
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-xml-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
@@ -855,7 +855,7 @@ recipeList:
       oldArtifactId: jackson-jaxrs-xml-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-xml-provider
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: com.fasterxml.jackson.jaxrs
       oldArtifactId: jackson-jaxrs-yaml-provider
       newGroupId: com.fasterxml.jackson.jakarta.rs
@@ -866,7 +866,7 @@ recipeList:
       newGroupId: com.fasterxml.jackson.jakarta.rs
       newArtifactId: jackson-jakarta-rs-yaml-provider
   # JSONP datatypes
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: com.fasterxml.jackson.datatype
       oldArtifactId: jackson-datatype-jsr353
       newGroupId: com.fasterxml.jackson.datatype
@@ -876,7 +876,7 @@ recipeList:
       oldArtifactId: jackson-datatype-jsr353
       newGroupId: com.fasterxml.jackson.datatype
       newArtifactId: jackson-datatype-jakarta-jsonp
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.glassfish
       oldArtifactId: javax.json
       newGroupId: org.eclipse.parsson
@@ -886,7 +886,7 @@ recipeList:
       oldArtifactId: javax.json
       newGroupId: org.eclipse.parsson
       newArtifactId: parsson
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.glassfish
       oldArtifactId: jakarta.json
       newGroupId: org.eclipse.parsson
@@ -925,98 +925,98 @@ recipeList:
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.JavaxToJakartaAdditionalMigration
 recipeList:
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.glassfish
       oldArtifactId: jakarta.el
       newGroupId: org.glassfish.expressly
       newArtifactId: expressly
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-core
       newGroupId: org.hibernate.orm
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-envers
       newGroupId: org.hibernate.orm
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-jpamodelgen
       newGroupId: org.hibernate.orm
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-spatial
       newGroupId: org.hibernate.orm
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-testing
       newGroupId: org.hibernate.orm
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-micrometer
       newGroupId: org.hibernate.orm
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-jcache
       newGroupId: org.hibernate.orm
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-infinispan
       newGroupId: org.hibernate.orm
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate
       oldArtifactId: hibernate-ehcache
       newGroupId: org.hibernate.orm
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate.search
       oldArtifactId: hibernate-search-mapper-orm-coordination-outbox-polling
       newGroupId: org.hibernate.search
       newArtifactId: hibernate-search-mapper-orm-coordination-outbox-polling-jakarta
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate.search
       oldArtifactId: hibernate-search-mapper-orm
       newGroupId: org.hibernate.search
       newArtifactId: hibernate-search-mapper-orm-jakarta
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.hibernate
       oldArtifactId: quarkus-local-cache
       newGroupId: org.hibernate
       newArtifactId: quarkus-local-cache-jakarta
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.jboss.spec.javax.ws.rs
       oldArtifactId: jboss-jaxrs-api_2.1_spec
       newGroupId: jakarta.ws.rs
       newArtifactId: jakarta.ws.rs-api
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.jboss.spec.javax.xml.bind
       oldArtifactId: jboss-jaxb-api_2.3_spec
       newGroupId: jakarta.xml.bind
       newArtifactId: jakarta.xml.bind-api
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.jboss.spec.javax.transaction
       oldArtifactId: jboss-transaction-api_1.3_spec
       newGroupId: jakarta.transaction
       newArtifactId: jakarta.transaction-api
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: com.sun.activation
       oldArtifactId: jakarta.activation
       newGroupId: org.eclipse.angus
       newArtifactId: angus-activation
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: com.sun.activation
       oldArtifactId: javax.activation
       newGroupId: org.eclipse.angus
       newArtifactId: angus-activation
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.jboss.spec.javax.ejb
       oldArtifactId: jboss-ejb-api_3.1_spec
       newGroupId: jakarta.ejb
       newArtifactId: jakarta.ejb-api
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.keycloak
       oldArtifactId: keycloak-admin-client
       newGroupId: org.keycloak
       newArtifactId: keycloak-admin-client-jakarta
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+  - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.keycloak
       oldArtifactId: keycloak-admin-client
       newGroupId: org.keycloak
@@ -1123,10 +1123,6 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.ApplicationProperties
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/application*.properties"
 recipeList:
   - org.openrewrite.properties.ChangePropertyKey:
       oldPropertyKey: quarkus.kubernetes.expose
@@ -1149,6 +1145,9 @@ recipeList:
   - org.openrewrite.properties.ChangePropertyKey:
       oldPropertyKey: quarkus.jib.labels
       newPropertyKey: quarkus.container-image.labels
+preconditions:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: "**/application*.properties"
 
 #####
 # Adjust properties in application.yml/yaml
@@ -1156,10 +1155,6 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.ApplicationYml
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/application*.y*ml"
 recipeList:
   - org.openrewrite.yaml.ChangePropertyKey:
       oldPropertyKey: quarkus.kubernetes.expose
@@ -1182,6 +1177,9 @@ recipeList:
   - org.openrewrite.yaml.ChangePropertyKey:
       oldPropertyKey: quarkus.jib.labels
       newPropertyKey: quarkus.container-image.labels
+preconditions:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: "**/application*.y*ml"
 
 #####
 # Generated by PropertiesToRecipe.java from jakarta-renames.properties
@@ -1189,10 +1187,6 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.JavaxToJakartaDocumentationAdoc
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/*.adoc"
 recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.json.bind.config.
@@ -1603,13 +1597,12 @@ recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.validation.
       replace: jakarta.validation.
+preconditions:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: "**/*.adoc"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.JavaxToJakartaDocumentationMd
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/*.md"
 recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.json.bind.config.
@@ -2020,13 +2013,12 @@ recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.validation.
       replace: jakarta.validation.
+preconditions:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: "**/*.md"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.JavaxToJakartaCodestarts
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/src/main/codestarts/**/*.java"
 recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.json.bind.config.
@@ -2437,13 +2429,12 @@ recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.validation.
       replace: jakarta.validation.
+preconditions:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: "**/src/main/codestarts/**/*.java"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.JavaxToJakartaCodestartsTests
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/src/test/resources/__snapshots__/**/*.java"
 recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.json.bind.config.
@@ -2854,13 +2845,12 @@ recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.validation.
       replace: jakarta.validation.
+preconditions:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: "**/src/test/resources/__snapshots__/**/*.java"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.JavaxToJakartaKotlin
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/*.kt"
 recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.json.bind.config.
@@ -3271,13 +3261,12 @@ recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.validation.
       replace: jakarta.validation.
+preconditions:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: "**/*.kt"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.JavaxToJakartaKotlinCodestarts
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/src/main/codestarts/**/*.kt"
 recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.json.bind.config.
@@ -3688,13 +3677,12 @@ recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.validation.
       replace: jakarta.validation.
+preconditions:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: "**/src/main/codestarts/**/*.kt"
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.JavaxToJakartaKotlinCodestartsTests
-applicability:
-  singleSource:
-    - org.openrewrite.FindSourceFiles:
-        filePattern: "**/src/test/resources/__snapshots__/**/*.kt"
 recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.json.bind.config.
@@ -4105,3 +4093,6 @@ recipeList:
   - org.openrewrite.text.FindAndReplace:
       find: javax.validation.
       replace: jakarta.validation.
+preconditions:
+  - org.openrewrite.FindSourceFiles:
+      filePattern: "**/src/test/resources/__snapshots__/**/*.kt"

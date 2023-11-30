@@ -3,16 +3,21 @@ package io.quarkus.updates.camel30.java;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 
+import org.openrewrite.Cursor;
 import org.openrewrite.ExecutionContext;
+import org.openrewrite.Preconditions;
 import org.openrewrite.Recipe;
 import org.openrewrite.Tree;
 import org.openrewrite.TreeVisitor;
 import org.openrewrite.internal.lang.Nullable;
 import org.openrewrite.java.AddImport;
+import org.openrewrite.java.ChangeFieldType;
 import org.openrewrite.java.ChangePackage;
+import org.openrewrite.java.ChangeType;
 import org.openrewrite.java.ImplementInterface;
 import org.openrewrite.java.JavaTemplate;
 import org.openrewrite.java.RemoveImplements;
+import org.openrewrite.java.search.UsesMethod;
 import org.openrewrite.java.tree.Comment;
 import org.openrewrite.java.tree.J;
 import org.openrewrite.java.tree.JavaType;
@@ -94,10 +99,11 @@ public class CamelAPIsRecipe extends Recipe {
                 //
                 // BacklogTracerEventMessage moved from `org.apache.camel.api.management.mbean.BacklogTracerEventMessage`
                 // to  `org.apache.camel.spi.BacklogTracerEventMessage`
-                //TODO should be refactorable to yaml recipe simply, but ChangePackage does not work from yaml declaration
                 doAfterVisit(
-                        new ChangePackage("org.apache.camel.api.management.mbean.BacklogTracerEventMessage",
-                        "org.apache.camel.spi.BacklogTracerEventMessage", null));
+                        new ChangeType(
+                                "org.apache.camel.api.management.mbean.BacklogTracerEventMessage",
+                                "org.apache.camel.spi.BacklogTracerEventMessage", true).getVisitor());
+
 
                 return im;
             }
@@ -111,14 +117,16 @@ public class CamelAPIsRecipe extends Recipe {
                         .anyMatch(f -> TypeUtils.isOfClassType(f.getType(), "org.apache.camel.spi.OnCamelContextStart"))) {
 
                     doAfterVisit(new ImplementInterface<ExecutionContext>(cd, "org.apache.camel.spi.OnCamelContextStarting"));
-                    doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStart", null));
+                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                    doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStart", null).getVisitor());
 
                 } //Removed org.apache.camel.spi.OnCamelContextStop. Use org.apache.camel.spi.OnCamelContextStopping instead.
                 else if(cd.getImplements() != null && cd.getImplements().stream()
                         .anyMatch(f -> TypeUtils.isOfClassType(f.getType(), "org.apache.camel.spi.OnCamelContextStop"))) {
 
                     doAfterVisit(new ImplementInterface<ExecutionContext>(cd, "org.apache.camel.spi.OnCamelContextStopping"));
-                    doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStop", null));
+                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
+                    doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStop", null).getVisitor());
 
                 }
                 return cd;
@@ -228,17 +236,17 @@ public class CamelAPIsRecipe extends Recipe {
                     getCursor().putMessage("adapt_cast", mi.getSelect().getId());
                 } else
                 // context.getExtension(ExtendedCamelContext.class).getComponentNameResolver() -> PluginHelper.getComponentNameResolver(context)
-                if (getMethodMatcher(MATCHER_CONTEXT_GET_ENDPOINT_MAP).matches(mi)) {
+                if (getMethodMatcher(MATCHER_CONTEXT_GET_ENDPOINT_MAP).matches(mi, false)) {
                     mi = mi.withName(new J.Identifier(UUID.randomUUID(), mi.getPrefix(), Markers.EMPTY,
                             "/* " + mi.getSimpleName() + " has been removed, consider getEndpointRegistry() instead */", mi.getType(), null));
                 }
                 // ProducerTemplate.asyncCallback() has been replaced by 'asyncSend(') or 'asyncRequest()'
-                else if(getMethodMatcher(M_PRODUCER_TEMPLATE_ASYNC_CALLBACK).matches(mi)) {
+                else if(getMethodMatcher(M_PRODUCER_TEMPLATE_ASYNC_CALLBACK).matches(mi, false)) {
                     Comment comment = RecipesUtil.createMultinlineComment(String.format(" Method '%s()' has been replaced by 'asyncSend()' or 'asyncRequest()'.", mi.getSimpleName()));
                     mi = mi.withComments(Collections.singletonList(comment));
                 }
                 //context.adapt(ModelCamelContext.class) -> ((ModelCamelContext) context)
-                else if (getMethodMatcher(M_CONTEXT_ADAPT).matches(mi)) {
+                else if (getMethodMatcher(M_CONTEXT_ADAPT).matches(mi, false)) {
                     if (mi.getType().isAssignableFrom(Pattern.compile("org.apache.camel.model.ModelCamelContext"))) {
                         J.Identifier type = RecipesUtil.createIdentifier(mi.getPrefix(), "ModelCamelContext", "java.lang.Object");
                         J.ControlParentheses cp  =  RecipesUtil.createParentheses(RecipesUtil.createTypeCast(type, mi.getSelect()));
@@ -251,25 +259,25 @@ public class CamelAPIsRecipe extends Recipe {
                     }
                 }
                 //exchange.adapt(ExtendedExchange.class) -> exchange.getExchangeExtension()
-                else if (getMethodMatcher(M_EXCHANGE_ADAPT).matches(mi)
+                else if (getMethodMatcher(M_EXCHANGE_ADAPT).matches(mi, false)
                         && mi.getType().isAssignableFrom(Pattern.compile("org.apache.camel.ExtendedExchange"))) {
                     mi = mi.withName(mi.getName().withSimpleName("getExchangeExtension")).withArguments(Collections.emptyList());
                     maybeRemoveImport("org.apache.camel.ExtendedExchange");
                 }
                 //newExchange.getProperty(ExchangePropertyKey.FAILURE_HANDLED) -> newExchange.getExchangeExtension().isFailureHandled()
-                else if(getMethodMatcher(M_EXCHANGE_GET_PROPERTY).matches(mi)
+                else if(getMethodMatcher(M_EXCHANGE_GET_PROPERTY).matches(mi, false)
                         && mi.getArguments().get(0).toString().endsWith("FAILURE_HANDLED")) {
                     mi = mi.withName(mi.getName().withSimpleName("getExchangeExtension().isFailureHandled")).withArguments(Collections.emptyList());
                     maybeRemoveImport("org.apache.camel.ExchangePropertyKey");
                 }
                 //exchange.removeProperty(ExchangePropertyKey.FAILURE_HANDLED); -> exchange.getExchangeExtension().setFailureHandled(false);
-                else if(getMethodMatcher(M_EXCHANGE_REMOVE_PROPERTY).matches(mi)
+                else if(getMethodMatcher(M_EXCHANGE_REMOVE_PROPERTY).matches(mi, false)
                         && mi.getArguments().get(0).toString().endsWith("FAILURE_HANDLED")) {
                     mi = mi.withName(mi.getName().withSimpleName("getExchangeExtension().setFailureHandled")).withArguments(Collections.singletonList(RecipesUtil.createIdentifier(Space.EMPTY, "false", "java.lang.Boolean")));
                     maybeRemoveImport("org.apache.camel.ExchangePropertyKey");
                 }
                 //exchange.setProperty(ExchangePropertyKey.FAILURE_HANDLED, failureHandled); -> exchange.getExchangeExtension().setFailureHandled(failureHandled);
-                else if(getMethodMatcher(M_EXCHANGE_SET_PROPERTY).matches(mi)
+                else if(getMethodMatcher(M_EXCHANGE_SET_PROPERTY).matches(mi, false)
                         && mi.getArguments().get(0).toString().endsWith("FAILURE_HANDLED")) {
                     mi = mi.withName(mi.getName()
                                     .withSimpleName("getExchangeExtension().setFailureHandled"))
@@ -277,29 +285,29 @@ public class CamelAPIsRecipe extends Recipe {
                     maybeRemoveImport("org.apache.camel.ExchangePropertyKey");
                 }
                 //'org.apache.camel.catalogCamelCatalog.archetypeCatalogAsXml()` has been removed
-                else if(getMethodMatcher(M_CATALOG_ARCHETYPE_AS_XML).matches(mi)) {
+                else if(getMethodMatcher(M_CATALOG_ARCHETYPE_AS_XML).matches(mi, false)) {
                     mi = mi.withComments(Collections.singletonList(RecipesUtil.createMultinlineComment(" Method '" + mi.getSimpleName() + "' has been removed. ")));
                 }
                 //context().setDumpRoutes(true); -> context().setDumpRoutes("xml");(or "yaml")
-                else if(getMethodMatcher(M_CONTEXT_SET_DUMP_ROUTES).matches(mi)) {
+                else if(getMethodMatcher(M_CONTEXT_SET_DUMP_ROUTES).matches(mi, false)) {
                     mi = mi.withComments(Collections.singletonList(RecipesUtil.createMultinlineComment(" Method '" + mi.getSimpleName() + "' accepts String parameter ('xml' or 'yaml' or 'false'). ")));
                 }
                 //Boolean isDumpRoutes(); -> getDumpRoutes(); with returned type String
-                else if(getMethodMatcher(M_CONTEXT_IS_DUMP_ROUTES).matches(mi)) {
+                else if(getMethodMatcher(M_CONTEXT_IS_DUMP_ROUTES).matches(mi, false)) {
                     mi = mi.withName(mi.getName().withSimpleName("getDumpRoutes")).withComments(Collections.singletonList(RecipesUtil.createMultinlineComment(" Method 'getDumpRoutes' returns String value ('xml' or 'yaml' or 'false'). ")));
                 }
                 // context.getExtension(ExtendedCamelContext.class).getComponentNameResolver() -> PluginHelper.getComponentNameResolver(context)
                 else if (getMethodMatcher(MATCHER_GET_NAME_RESOLVER).matches(mi)) {
                     if (mi.getSelect() instanceof J.MethodInvocation && getMethodMatcher(MATCHER_CONTEXT_GET_EXT).matches(((J.MethodInvocation) mi.getSelect()).getMethodType())) {
                         J.MethodInvocation innerInvocation = (J.MethodInvocation) mi.getSelect();
-                        mi = mi.withTemplate(JavaTemplate.builder(() -> getCursor().getParentOrThrow(), "PluginHelper.getComponentNameResolver(#{any(org.apache.camel.CamelContext)})")
-                                        .build(),
+                        mi = JavaTemplate.builder("PluginHelper.getComponentNameResolver(#{any(org.apache.camel.CamelContext)})")/*[Rewrite8 migration] contextSensitive() could be unnecessary, please follow the migration guide*/.contextSensitive()
+                                .build().apply(/*[Rewrite8 migration] getCursor() could be updateCursor() if the J instance is updated, or it should be updated to point to the correct cursor, please follow the migration guide*/getCursor(),
                                 mi.getCoordinates().replace(), innerInvocation.getSelect());
                         doAfterVisit(new AddImport<>("org.apache.camel.support.PluginHelper", null, false));
                     }
                 }
                 // (CamelRuntimeCatalog) context.getExtension(RuntimeCamelCatalog.class) -> context.getCamelContextExtension().getContextPlugin(RuntimeCamelCatalog.class);
-                else if (getMethodMatcher(MATCHER_CONTEXT_GET_EXT).matches(mi)) {
+                else if (getMethodMatcher(MATCHER_CONTEXT_GET_EXT).matches(mi, false)) {
 
                     mi = mi.withName(mi.getName().withSimpleName("getCamelContextExtension().getContextPlugin"))
                             .withMethodType(mi.getMethodType());

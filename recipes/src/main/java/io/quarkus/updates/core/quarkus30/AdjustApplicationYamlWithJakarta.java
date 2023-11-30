@@ -1,9 +1,6 @@
 package io.quarkus.updates.core.quarkus30;
 
-import org.openrewrite.ExecutionContext;
-import org.openrewrite.HasSourcePath;
-import org.openrewrite.Recipe;
-import org.openrewrite.TreeVisitor;
+import org.openrewrite.*;
 import org.openrewrite.internal.StringUtils;
 import org.openrewrite.internal.lang.Nullable;
 import org.openrewrite.yaml.YamlIsoVisitor;
@@ -28,13 +25,8 @@ public class AdjustApplicationYamlWithJakarta extends Recipe {
     }
 
     @Override
-    public TreeVisitor<?, ExecutionContext> getSingleSourceApplicableTest() {
-        return new HasSourcePath<>("**/application*.y*ml");
-    }
-
-    @Override
-    public YamlVisitor<ExecutionContext> getVisitor() {
-        return new YamlIsoVisitor<ExecutionContext>() {
+    public TreeVisitor<?, ExecutionContext> getVisitor() {
+        return Preconditions.check(new HasSourcePath<>("**/application*.y*ml"), new YamlIsoVisitor<ExecutionContext>() {
             @Override
             public Yaml.Mapping.Entry visitMappingEntry(Yaml.Mapping.Entry entry, ExecutionContext ctx) {
                 Yaml.Mapping.Entry e = super.visitMappingEntry(entry, ctx);
@@ -44,7 +36,7 @@ public class AdjustApplicationYamlWithJakarta extends Recipe {
                 }
                 return e;
             }
-        };
+        });
     }
 
     @Nullable // returns null if value should not change

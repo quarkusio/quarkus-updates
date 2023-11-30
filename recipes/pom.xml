@@ -14,38 +14,9 @@
 
     <properties>
         <maven.compiler.release>11</maven.compiler.release>
-
-        <!-- Make sure all these versions are aligned and use a compatible OpenRewrite version -->
-        <!--   https://central.sonatype.com/artifact/org.openrewrite.recipe/rewrite-recipe-bom/2.0.3/versions -->
-        <rewrite-recipe-bom.version>1.19.4</rewrite-recipe-bom.version>
-        <!--   https://central.sonatype.com/artifact/org.openrewrite.maven/rewrite-maven-plugin/5.2.4/versions -->
-        <rewrite-maven-plugin.version>4.46.0</rewrite-maven-plugin.version>
-        <!--   for now, we don't know where to find compatibility information for the Gradle plugin -->
-        <rewrite-gradle-plugin.version>5.40.6</rewrite-gradle-plugin.version>
-        <!-- If version from rewrite-recipe-bom is used, error occures during testing ->
-         NoSuchMethod 'com.fasterxml.jackson.core.util.TextBuffer com.fasterxml.jackson.core.io.IOContext.constructReadConstrainedTextBuffer()'
-        -->
-        <rewrite-migrate-java.version>1.16.0</rewrite-migrate-java.version>
-        <!-- tests-->
-        <junit.version>5.4.0</junit.version>
-        <surefire.plugin.version>3.1.0</surefire.plugin.version>
-        <!-- Http version used by the tests -->
-        <http.version>4.5.14</http.version>
-
-        <lombok.version>1.18.28</lombok.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.openrewrite.recipe</groupId>
-                <artifactId>rewrite-recipe-bom</artifactId>
-                <version>${rewrite-recipe-bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <!-- rewrite-java dependencies only necessary for Java Recipe development -->
@@ -70,6 +41,11 @@
         they can coexist on a classpath. -->
         <dependency>
             <groupId>org.openrewrite</groupId>
+            <artifactId>rewrite-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openrewrite</groupId>
             <artifactId>rewrite-java-8</artifactId>
             <scope>provided</scope>
         </dependency>
@@ -86,7 +62,6 @@
         <dependency>
             <groupId>org.openrewrite.recipe</groupId>
             <artifactId>rewrite-migrate-java</artifactId>
-            <version>${rewrite-migrate-java.version}</version>
         </dependency>
 
         <!-- rewrite-maven dependency only necessary for Maven Recipe development -->
@@ -114,6 +89,14 @@
         <dependency>
             <groupId>org.openrewrite</groupId>
             <artifactId>rewrite-xml</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -159,10 +142,6 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>

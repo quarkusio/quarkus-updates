@@ -1,12 +1,12 @@
 package io.quarkus.updates.camel30;
 
-import static org.openrewrite.java.Assertions.java;
-
 import org.junit.jupiter.api.Test;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 import org.openrewrite.test.TypeValidation;
+
+import static org.openrewrite.java.Assertions.java;
 
 public class CamelHttpTest implements RewriteTest {
 
@@ -14,12 +14,14 @@ public class CamelHttpTest implements RewriteTest {
     public void defaults(RecipeSpec spec) {
         CamelQuarkusTestUtil.recipe(spec)
                 .parser(JavaParser.fromJavaVersion().logCompilationWarningsAndErrors(true).classpath("camel-api",
-                        "camel-support", "camel-core-model", "camel-util", "camel-catalog", "camel-main", "httpclient"))
+                        "camel-support", "camel-core-model", "camel-util", "camel-catalog", "camel-main", "httpclient"
+                ,"httpcore", "httpclient"))
                 .typeValidationOptions(TypeValidation.none());
     }
 
     @Test
     void testHttp() {
+        //language=java
         rewriteRun(java(
                 """
                             import jakarta.inject.Named;
@@ -61,14 +63,12 @@ public class CamelHttpTest implements RewriteTest {
                         """,
                 """
                             import jakarta.inject.Named;
-
-                            import org.apache.hc.core5.http.HttpHost;
-                            import org.apache.hc.client5.http.auth.AuthScope;
                             import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
-                            import org.apache.hc.client5.http.protocol.HttpClientContext;
-                            import org.apache.hc.client5.http.impl.auth.BasicScheme;
                             import org.apache.hc.client5.http.impl.auth.BasicAuthCache;
                             import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+                            import org.apache.hc.client5.http.impl.auth.BasicScheme;
+                            import org.apache.hc.client5.http.protocol.HttpClientContext;
+                            import org.apache.hc.core5.http.HttpHost;
                             import org.apache.hc.core5.http.protocol.HttpContext;
                             import org.eclipse.microprofile.config.ConfigProvider;
 

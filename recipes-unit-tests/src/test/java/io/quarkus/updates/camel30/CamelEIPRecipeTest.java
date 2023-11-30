@@ -19,6 +19,7 @@ public class CamelEIPRecipeTest implements RewriteTest {
 
     @Test
     void testRemovedEIPInOptionalOut() {
+        //language=java
         rewriteRun(java("""
                     import org.apache.camel.builder.RouteBuilder;
 
@@ -51,6 +52,7 @@ public class CamelEIPRecipeTest implements RewriteTest {
 
     @Test
     void testRemovedEIPOutOptionalIn() {
+        //language=java
         rewriteRun(java("""
                     import org.apache.camel.builder.RouteBuilder;
 
@@ -83,6 +85,7 @@ public class CamelEIPRecipeTest implements RewriteTest {
 
     @Test
     void testRemovedEIPOutIn() {
+        //language=java
         rewriteRun(java("""
                         import org.apache.camel.ExchangePattern;
                         import org.apache.camel.builder.RouteBuilder;

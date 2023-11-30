@@ -37,10 +37,9 @@ public class PropertiesToRecipe {
         System.out.println("---");
         System.out.println("type: specs.openrewrite.org/v1beta/recipe");
         System.out.println("name: " + name);
-        System.out.println("applicability:");
-        System.out.println("  singleSource:");
-        System.out.println("    - org.openrewrite.FindSourceFiles:");
-        System.out.println("        filePattern: \"" + filesGlob + "\"");
+        System.out.println("preconditions:");
+        System.out.println("  - org.openrewrite.FindSourceFiles:");
+        System.out.println("      filePattern: \"" + filesGlob + "\"");
         System.out.println("recipeList:");
         props.forEach((key, value) -> {
             if (NON_RECURSIVE_PACKAGES.contains(key)) {
