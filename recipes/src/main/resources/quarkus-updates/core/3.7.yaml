@@ -1,0 +1,15 @@
+#####
+# Adjust artifact for Hibernate Search outbox polling
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.HibernateSearchOutboxPolling
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-hibernate-search-orm-coordination-outbox-polling
+      newArtifactId: quarkus-hibernate-search-orm-outbox-polling
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: org.hibernate.search.mapper.orm.coordination.outboxpolling
+      newPackageName: org.hibernate.search.mapper.orm.outboxpolling
+      recursive: true

@@ -1,0 +1,17 @@
+#####
+# Adjust artifacts for Jaeger and SmallRye OpenTracing
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus36.JaegerSmallRyeOpenTracing
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-jaeger
+      newGroupId: io.quarkiverse.jaeger
+      newVersion: 1.0.0
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-smallrye-opentracing
+      newGroupId: io.quarkiverse.opentracing
+      newVersion: 1.0.0
