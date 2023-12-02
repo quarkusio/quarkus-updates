@@ -15,7 +15,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class AdjustApplicationPropertiesWithJakarta extends Recipe {
 
-    static final List<String> JAKARTA_PACKAGES = Arrays.asList(new String[] {
+    static final List<String> JAKARTA_PACKAGES = Arrays.asList(
             "javax.activation",
             "javax.annotation.security",
             "javax.annotation.sql",
@@ -151,8 +151,7 @@ public class AdjustApplicationPropertiesWithJakarta extends Recipe {
             "javax.xml.ws.spi.http",
             "javax.xml.ws.spi",
             "javax.xml.ws.wsaddressing",
-            "javax.xml.ws"
-    });
+            "javax.xml.ws");
 
     @Override
     public String getDisplayName() {
@@ -166,7 +165,7 @@ public class AdjustApplicationPropertiesWithJakarta extends Recipe {
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
-        return Preconditions.check(new HasSourcePath<>("**/application*.properties"), new AdjustApplicationPropertiesWithJakartaVisitor<>());
+        return Preconditions.check(new FindSourceFiles("**/application*.properties"), new AdjustApplicationPropertiesWithJakartaVisitor<>());
     }
 
     public class AdjustApplicationPropertiesWithJakartaVisitor<P> extends PropertiesVisitor<P> {
