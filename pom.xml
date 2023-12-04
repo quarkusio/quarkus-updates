@@ -82,9 +82,10 @@
     </properties>
 
     <modules>
+        <!-- plugins has to be first as it is not deployed on Maven Central -->
+        <module>plugins</module>
         <module>recipes</module>
         <module>recipes-unit-tests</module>
-        <module>plugins</module>
     </modules>
 
     <dependencyManagement>

@@ -21,8 +21,6 @@
         <camel-quarkus.version>2.13.3</camel-quarkus.version>
         <!-- Http version used by the tests -->
         <http.version>4.5.14</http.version>
-
-        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     </properties>
 
     <dependencyManagement>
