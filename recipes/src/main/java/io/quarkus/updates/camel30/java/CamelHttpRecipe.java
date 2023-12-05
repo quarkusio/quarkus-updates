@@ -71,6 +71,10 @@ public class CamelHttpRecipe extends Recipe {
                     new ChangeType(
                             "org.apache.http.auth.UsernamePasswordCredentials",
                             "org.apache.hc.client5.http.auth.UsernamePasswordCredentials", true).getVisitor());
+                doAfterVisit(
+                    new ChangeType(
+                            "org.apache.http.conn.ssl.NoopHostnameVerifier",
+                            "org.apache.hc.client5.http.conn.ssl.NoopHostnameVerifier", true).getVisitor());
 
                 return super.doVisitImport(_import, context);
             }
@@ -82,9 +86,8 @@ public class CamelHttpRecipe extends Recipe {
                 //The component has been upgraded to use Apache HttpComponents v5
                 //AuthScope.ANY -> new AuthScope(null, -1)
                 if("ANY".equals(f.getSimpleName()) && "org.apache.http.auth.AuthScope".equals(f.getType().toString())) {
-                    JavaTemplate.Builder templateBuilder = JavaTemplate.builder( "new AuthScope(null, -1)")/*[Rewrite8 migration] contextSensitive() could be unnecessary, please follow the migration guide*/.contextSensitive()
-                            .imports("org.apache.hc.client5.http.auth.AuthScope");
-                    J.NewClass nc =  templateBuilder.build().apply(/*[Rewrite8 migration] getCursor() could be updateCursor() if the J instance is updated, or it should be updated to point to the correct cursor, please follow the migration guide*/getCursor(),
+                    JavaTemplate.Builder templateBuilder = JavaTemplate.builder( "new AuthScope(null, -1)");
+                    J.NewClass nc =  templateBuilder.build().apply(updateCursor(fieldAccess),
                             f.getCoordinates().replace())
                                      .withPrefix(f.getPrefix()
                     );
@@ -106,6 +109,7 @@ public class CamelHttpRecipe extends Recipe {
                 //use a new class instead of original element
                 J.NewClass newClass = getCursor().getMessage("authScopeNewClass");
                 if(newClass != null) {
+                    maybeAddImport("org.apache.hc.client5.http.auth.AuthScope", null, false);
                     return newClass;
                 }
 
