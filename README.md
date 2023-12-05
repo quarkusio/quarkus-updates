@@ -1,5 +1,7 @@
 # Quarkus Update Recipes
 
+[![Version](https://img.shields.io/maven-central/v/io.quarkus/quarkus-update-recipes?logo=apache-maven&style=flat-square)](https://search.maven.org/artifact/io.quarkus/quarkus-update-recipes)
+
 This repository contains the recipes used by the Quarkus tooling to update Quarkus projects to newer versions.
 
 The recipes are contained in the `recipes/src/main/resources/quarkus-updates/core` directory and follow a pattern. Recipes are placed in `[major.minor].yaml` (i.e. `3.0.yaml`).
