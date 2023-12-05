@@ -63,6 +63,7 @@ public class CamelHttpTest implements RewriteTest {
                         """,
                 """
                             import jakarta.inject.Named;
+                            import org.apache.hc.client5.http.auth.AuthScope;
                             import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
                             import org.apache.hc.client5.http.impl.auth.BasicAuthCache;
                             import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
@@ -95,6 +96,43 @@ public class CamelHttpTest implements RewriteTest {
 
                                     return context;
                                 }
+                            }
+                        """));
+    }
+    @Test
+    void testNoopHostnameVerifier() {
+        //language=java
+        rewriteRun(java(
+                """
+                            import jakarta.inject.Named;
+                            import org.apache.camel.CamelContext;
+                            import org.apache.http.conn.ssl.NoopHostnameVerifier;
+                            import org.eclipse.microprofile.config.ConfigProvider;
+                            
+                            public class HttpProducers {
+                            
+                                CamelContext context;
+
+                                @Named
+                                public NoopHostnameVerifier x509HostnameVerifier() {
+                                    return NoopHostnameVerifier.INSTANCE;
+                                }  
+                            }
+                        """,
+                """
+                            import jakarta.inject.Named;
+                            import org.apache.camel.CamelContext;
+                            import org.apache.hc.client5.http.conn.ssl.NoopHostnameVerifier;
+                            import org.eclipse.microprofile.config.ConfigProvider;
+                            
+                            public class HttpProducers {
+                                
+                                CamelContext context;
+                                
+                                @Named
+                                public NoopHostnameVerifier x509HostnameVerifier() {
+                                    return NoopHostnameVerifier.INSTANCE;
+                                }                                  
                             }
                         """));
     }
