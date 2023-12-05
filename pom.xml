@@ -62,7 +62,7 @@
         <!--   https://central.sonatype.com/artifact/org.openrewrite.recipe/rewrite-recipe-bom/2.5.0/versions -->
         <rewrite-recipe-bom.version>2.5.1</rewrite-recipe-bom.version>
         <!--   https://central.sonatype.com/artifact/org.openrewrite.maven/rewrite-maven-plugin/5.13.0/versions -->
-        <rewrite-maven-plugin.version>5.14.1</rewrite-maven-plugin.version>
+        <rewrite-maven-plugin.version>5.15.2</rewrite-maven-plugin.version>
         <!--   https://plugins.gradle.org/plugin/org.openrewrite.rewrite -->
         <rewrite-gradle-plugin.version>6.5.10</rewrite-gradle-plugin.version>
         <!-- tests-->
