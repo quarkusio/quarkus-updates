@@ -13,3 +13,7 @@ recipeList:
       oldPackageName: org.hibernate.search.mapper.orm.coordination.outboxpolling
       newPackageName: org.hibernate.search.mapper.orm.outboxpolling
       recursive: true
+  - org.openrewrite.maven.UpgradePluginVersion:
+      groupId: org.apache.maven.plugins
+      artifactId: maven-compiler-plugin
+      newVersion: 3.12.1
