@@ -64,7 +64,7 @@
         <!--   https://central.sonatype.com/artifact/org.openrewrite.maven/rewrite-maven-plugin/5.13.0/versions -->
         <rewrite-maven-plugin.version>5.14.1</rewrite-maven-plugin.version>
         <!--   https://plugins.gradle.org/plugin/org.openrewrite.rewrite -->
-        <rewrite-gradle-plugin.version>6.5.10</rewrite-gradle-plugin.version>
+        <rewrite-gradle-plugin.version>6.6.2</rewrite-gradle-plugin.version>
         <!-- tests-->
         <junit.version>5.10.1</junit.version>
         <!-- Http version used by the tests -->
