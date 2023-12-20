@@ -100,12 +100,10 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- lombok is optional, but recommended for authoring recipes -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-            <optional>true</optional>
         </dependency>
 
         <!-- For authoring tests for any kind of Recipe -->
