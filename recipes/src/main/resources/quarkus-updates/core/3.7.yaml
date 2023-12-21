@@ -13,26 +13,121 @@ recipeList:
       oldPackageName: org.hibernate.search.mapper.orm.coordination.outboxpolling
       newPackageName: org.hibernate.search.mapper.orm.outboxpolling
       recursive: true
+
+#####
+# Update Maven plugins
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.MavenPlugins
+recipeList:
   - org.openrewrite.maven.UpgradePluginVersion:
       groupId: org.apache.maven.plugins
       artifactId: maven-compiler-plugin
       newVersion: 3.12.0
-  - org.openrewrite.maven.ChangePropertyValue:
-      key: compiler-plugin.version
-      newValue: 3.12.0
   - org.openrewrite.maven.UpgradePluginVersion:
       groupId: org.apache.maven.plugins
       artifactId: maven-surefire-plugin
       newVersion: 3.2.3
-  - org.openrewrite.maven.ChangePropertyValue:
-      key: surefire-plugin.version
-      newValue: 3.2.3
-  - io.quarkus.updates.core.quarkus37.UpgradeMavenCompilerJavaVersion:
-      key: maven.compiler.release
-      newVersion: 17
-  - io.quarkus.updates.core.quarkus37.UpgradeMavenCompilerJavaVersion:
-      key: maven.compiler.source
-      newVersion: 17
-  - io.quarkus.updates.core.quarkus37.UpgradeMavenCompilerJavaVersion:
-      key: maven.compiler.target
-      newVersion: 17
+
+#####
+# Upgrade to Java 17
+#
+# These rules were extracted from OpenRewrite to avoid unnecessary noise when upgrading.
+# Typically, we do not update multiline strings to text blocks.
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.UpgradeToJava17
+displayName: Migrate to Java 17
+description: >
+  This recipe will apply changes commonly needed when migrating to Java 17. Specifically, for those
+  applications that are built on Java 8, this recipe will update and add dependencies on J2EE libraries that are no
+  longer directly bundled with the JDK. This recipe will also replace deprecated API with equivalents when there is a
+  clear migration strategy. Build files will also be updated to use Java 17 as the target/source and plugins will be
+  also be upgraded to versions that are compatible with Java 17.
+tags:
+  - java17
+recipeList:
+  - org.openrewrite.github.SetupJavaUpgradeJavaVersion:
+      minimumJavaMajorVersion: 17
+  - org.openrewrite.java.migrate.RemoveMethodInvocation:
+      methodPattern: java.lang.Runtime traceInstructions(boolean)
+  - org.openrewrite.java.migrate.RemoveMethodInvocation:
+      methodPattern: java.lang.System traceMethodCalls(boolean)
+  - org.openrewrite.maven.UpgradePluginVersion:
+      groupId: org.apache.maven.plugins
+      artifactId: maven-checkstyle-plugin
+      newVersion: 3.x
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.JavaVersion17
+displayName: Change Maven Java version property values to 17
+description: Change maven.compiler.source and maven.compiler.target values to 17.
+tags:
+  - java17
+  - compiler
+recipeList:
+  - org.openrewrite.java.migrate.UpgradeJavaVersion:
+      version: 17
+  - org.openrewrite.java.migrate.maven.UseMavenCompilerPluginReleaseConfiguration:
+      releaseVersion: 17
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.DeprecatedJavaxSecurityCert
+displayName: Use `java.security.cert` instead of `javax.security.cert`
+description: The `javax.security.cert` package has been deprecated for removal.
+tags:
+  - java17
+recipeList:
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: javax.security.cert
+      newPackageName: java.security.cert
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.RemovedLegacySunJSSEProviderName
+displayName: Use `SunJSSE` instead of `com.sun.net.ssl.internal.ssl.Provider`
+description: The `com.sun.net.ssl.internal.ssl.Provider` provider name was removed.
+tags:
+  - java17
+recipeList:
+  - org.openrewrite.java.migrate.ReplaceStringLiteralValue:
+      oldLiteralValue: com.sun.net.ssl.internal.ssl.Provider
+      newLiteralValue: SunJSSE
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.DeprecatedLogRecordThreadID
+displayName: Adopt `setLongThreadID` in `java.util.logging.LogRecord`
+description: Avoid using the deprecated methods in `java.util.logging.LogRecord`
+tags:
+  - java17
+recipeList:
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: java.util.logging.LogRecord getThreadID()
+      newMethodName: getLongThreadID
+  - org.openrewrite.java.migrate.ChangeMethodInvocationReturnType:
+      methodPattern: java.util.logging.LogRecord getLongThreadID()
+      newReturnType: long
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: java.util.logging.LogRecord setThreadID(int)
+      newMethodName: setLongThreadID
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.Jre17AgentMainPreMainPublic
+displayName: Set visibility of `premain` and `agentmain` methods to `public`
+description: Check for a behavior change in Java agents.
+tags:
+  - java17
+recipeList:
+  - org.openrewrite.java.ChangeMethodAccessLevel:
+      methodPattern: "*..* agentmain(java.lang.String)"
+      newAccessLevel: public
+  - org.openrewrite.java.ChangeMethodAccessLevel:
+      methodPattern: "*..* agentmain(java.lang.String, java.lang.instrument.Instrumentation)"
+      newAccessLevel: public
+  - org.openrewrite.java.ChangeMethodAccessLevel:
+      methodPattern: "*..* premain(java.lang.String)"
+      newAccessLevel: public
+  - org.openrewrite.java.ChangeMethodAccessLevel:
+      methodPattern: "*..* premain(java.lang.String, java.lang.instrument.Instrumentation)"
+      newAccessLevel: public

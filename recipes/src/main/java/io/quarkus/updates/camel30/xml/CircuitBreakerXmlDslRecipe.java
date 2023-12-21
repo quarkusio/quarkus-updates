@@ -111,7 +111,7 @@ public class CircuitBreakerXmlDslRecipe extends Recipe {
 
                 for(Map.Entry<String, XPathMatcher> entry : ATTRIBUTE_MATCHERS.entrySet()) {
                     if (entry.getValue().matches(getCursor())) {
-                        if(t.getValue().isPresent()) {
+                        if(t.getValue().isPresent() && !t.getValue().get().isEmpty()) {
                             Map<String, String> values = ctx.getMessage(RESILIENCE4J_XPATH, new LinkedHashMap<>());
                             values.put(entry.getKey(), t.getValue().get());
                             ctx.putMessage(RESILIENCE4J_XPATH, values);
