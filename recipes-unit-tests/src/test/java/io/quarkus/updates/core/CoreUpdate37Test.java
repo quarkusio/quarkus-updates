@@ -121,7 +121,7 @@ public class CoreUpdate37Test implements RewriteTest {
                 <version>999-SNAPSHOT</version>
 
                 <properties>
-                    <compiler-plugin.version>3.12.0</compiler-plugin.version>
+                    <compiler-plugin.version>3.12.1</compiler-plugin.version>
                     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
                     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
                     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
@@ -214,7 +214,7 @@ public class CoreUpdate37Test implements RewriteTest {
                 <version>999-SNAPSHOT</version>
 
                 <properties>
-                    <compiler-plugin.version>3.12.0</compiler-plugin.version>
+                    <compiler-plugin.version>3.12.1</compiler-plugin.version>
                     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
                     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
                     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
