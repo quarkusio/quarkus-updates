@@ -31,6 +31,51 @@ recipeList:
       newVersion: 3.2.3
 
 #####
+# Adjust jpamodelgen annotation processor
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.ReplaceJpaModelgenAnnotationProcessor
+recipeList:
+  - io.quarkus.updates.core.quarkus37.ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-jpamodelgen
+      newGroupId: org.hibernate.orm
+      newVersion: 6.x
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.AddJpaModelgenAnnotationProcessor
+recipeList:
+  - io.quarkus.updates.core.quarkus37.AddMavenCompilerAnnotationProcessor:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-jpamodelgen
+preconditions:
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-jpamodelgen
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.AddJpaModelgenAnnotationProcessorIfOldArtifact
+recipeList:
+  - io.quarkus.updates.core.quarkus37.AddMavenCompilerAnnotationProcessor:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-jpamodelgen
+preconditions:
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: org.hibernate
+      artifactId: hibernate-jpamodelgen
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.RemoveJpaModelgenDependencies
+recipeList:
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.hibernate
+      artifactId: hibernate-jpamodelgen
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-jpamodelgen
+
+#####
 # Upgrade to Java 17
 #
 # These rules were extracted from OpenRewrite to avoid unnecessary noise when upgrading.
