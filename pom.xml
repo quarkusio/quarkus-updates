@@ -74,7 +74,7 @@
         <http.version>4.5.14</http.version>
 
         <lombok.version>1.18.30</lombok.version>
-        <slf4j.version>1.7.36</slf4j.version>
+        <slf4j.version>2.0.11</slf4j.version>
 
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.2.3</maven-surefire-plugin.version>
