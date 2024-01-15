@@ -15,6 +15,34 @@ recipeList:
       recursive: true
 
 #####
+# Adjust artifact for REST Client -> RESTEasy Client renaming
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.ResteasyClientRenaming
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-rest-client
+      newArtifactId: quarkus-resteasy-client
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-rest-client-jackson
+      newArtifactId: quarkus-resteasy-client-jackson
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-rest-client-jaxb
+      newArtifactId: quarkus-resteasy-client-jaxb
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-rest-client-jsonb
+      newArtifactId: quarkus-resteasy-client-jsonb
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-rest-client-mutiny
+      newArtifactId: quarkus-resteasy-client-mutiny
+
+#####
 # Update Maven plugins
 #####
 ---

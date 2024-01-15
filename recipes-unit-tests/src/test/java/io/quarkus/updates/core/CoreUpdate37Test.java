@@ -4,6 +4,7 @@ import static org.openrewrite.maven.Assertions.pomXml;
 
 import java.nio.file.Path;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
@@ -14,7 +15,7 @@ public class CoreUpdate37Test implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
-        CoreTestUtil.recipe(spec, Path.of("quarkus-updates", "core", "3.7.yaml"))
+        CoreTestUtil.recipe(spec, Path.of("quarkus-updates", "core", "3.7.yaml"), "3.7.0")
                 .parser(JavaParser.fromJavaVersion().logCompilationWarningsAndErrors(true))
                 .typeValidationOptions(TypeValidation.none());
     }
@@ -81,7 +82,6 @@ public class CoreUpdate37Test implements RewriteTest {
                     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
                     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
                     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-                    <quarkus.platform.version>3.6.4</quarkus.platform.version>
                     <skipITs>true</skipITs>
                     <surefire-plugin.version>3.1.2</surefire-plugin.version>
                 </properties>
@@ -126,7 +126,6 @@ public class CoreUpdate37Test implements RewriteTest {
                     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
                     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
                     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-                    <quarkus.platform.version>3.6.4</quarkus.platform.version>
                     <skipITs>true</skipITs>
                     <surefire-plugin.version>3.2.3</surefire-plugin.version>
                 </properties>
@@ -176,7 +175,6 @@ public class CoreUpdate37Test implements RewriteTest {
                     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
                     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
                     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-                    <quarkus.platform.version>3.6.4</quarkus.platform.version>
                     <skipITs>true</skipITs>
                     <surefire-plugin.version>3.1.2</surefire-plugin.version>
                 </properties>
@@ -219,7 +217,6 @@ public class CoreUpdate37Test implements RewriteTest {
                     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
                     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
                     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-                    <quarkus.platform.version>3.6.4</quarkus.platform.version>
                     <skipITs>true</skipITs>
                     <surefire-plugin.version>3.2.3</surefire-plugin.version>
                 </properties>
@@ -812,6 +809,100 @@ public class CoreUpdate37Test implements RewriteTest {
                             </plugin>
                         </plugins>
                     </build>
+                </project>
+                """));
+    }
+
+    @Test
+    @Disabled("Pending the release of 3.7.0")
+    void testResteasyClientRenaming() {
+        //language=xml
+        rewriteRun(pomXml("""
+                <project>
+                    <modelVersion>4.0.0</modelVersion>
+                    <groupId>io.quarkus.bot</groupId>
+                    <artifactId>release</artifactId>
+                    <version>999-SNAPSHOT</version>
+                    <properties>
+                        <quarkus.version>3.6.4</quarkus.version>
+                    </properties>
+                    <dependencyManagement>
+                        <dependencies>
+                            <dependency>
+                                <groupId>io.quarkus</groupId>
+                                <artifactId>quarkus-bom</artifactId>
+                                <version>${quarkus.version}</version>
+                                <type>pom</type>
+                                <scope>import</scope>
+                            </dependency>
+                        </dependencies>
+                    </dependencyManagement>
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-jackson</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-jaxb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-jsonb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-mutiny</artifactId>
+                        </dependency>
+                    </dependencies>
+                </project>
+                """,
+                """
+                <project>
+                    <modelVersion>4.0.0</modelVersion>
+                    <groupId>io.quarkus.bot</groupId>
+                    <artifactId>release</artifactId>
+                    <version>999-SNAPSHOT</version>
+                    <properties>
+                        <quarkus.version>3.7.0</quarkus.version>
+                    </properties>
+                    <dependencyManagement>
+                        <dependencies>
+                            <dependency>
+                                <groupId>io.quarkus</groupId>
+                                <artifactId>quarkus-bom</artifactId>
+                                <version>${quarkus.version}</version>
+                                <type>pom</type>
+                                <scope>import</scope>
+                            </dependency>
+                        </dependencies>
+                    </dependencyManagement>
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-client</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-client-jackson</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-client-jaxb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-client-jsonb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-client-mutiny</artifactId>
+                        </dependency>
+                    </dependencies>
                 </project>
                 """));
     }
