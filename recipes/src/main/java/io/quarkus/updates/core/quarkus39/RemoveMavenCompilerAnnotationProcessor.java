@@ -1,6 +1,5 @@
 package io.quarkus.updates.core.quarkus39;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.openrewrite.ExecutionContext;
@@ -51,29 +50,19 @@ public class RemoveMavenCompilerAnnotationProcessor extends Recipe {
                         Optional<Xml.Tag> annotationProcessorPathsWrapper = configuration.get()
                                 .getChild("annotationProcessorPaths");
                         if (annotationProcessorPathsWrapper.isPresent()) {
-                            List<Xml.Tag> annotationProcessorPaths = annotationProcessorPathsWrapper.get().getChildren();
-                            String childName = annotationProcessorPaths.size() > 0 ? annotationProcessorPaths.get(0).getName()
-                                    : "path";
-
-                            mavenCompilerPluginTag = FilterTagChildrenVisitor.filterTagChildren(mavenCompilerPluginTag, annotationProcessorPathsWrapper.get(), 
-                            			child ->
-                            			!(child.getName().equals(childName)
-                            			&& groupId.equals(child.getChildValue("groupId").orElse(null))
-                                        && artifactId.equals(child.getChildValue("artifactId").orElse(null))));
+                            mavenCompilerPluginTag = FilterTagChildrenVisitor.filterTagChildren(mavenCompilerPluginTag,
+                                    annotationProcessorPathsWrapper.get(),
+                                    child -> !(groupId.equals(child.getChildValue("groupId").orElse(null))
+                                            && artifactId.equals(child.getChildValue("artifactId").orElse(null))));
                         }
-                        if(processorClass != null) {
-                        	Optional<Xml.Tag> annotationProcessorsWrapper = configuration.get()
-                        			.getChild("annotationProcessors");
-                        	if (annotationProcessorsWrapper.isPresent()) {
-                        		List<Xml.Tag> annotationProcessors = annotationProcessorsWrapper.get().getChildren();
-                        		String childName = annotationProcessors.size() > 0 ? annotationProcessors.get(0).getName()
-                        				: "annotationProcessor";
-
-                        		mavenCompilerPluginTag = FilterTagChildrenVisitor.filterTagChildren(mavenCompilerPluginTag, annotationProcessorsWrapper.get(), 
-                        				child ->
-                        		!(child.getName().equals(childName)
-                        		&& processorClass.equals(child.getValue().orElse(null))));
-                        	}
+                        if (processorClass != null) {
+                            Optional<Xml.Tag> annotationProcessorsWrapper = configuration.get()
+                                    .getChild("annotationProcessors");
+                            if (annotationProcessorsWrapper.isPresent()) {
+                                mavenCompilerPluginTag = FilterTagChildrenVisitor.filterTagChildren(mavenCompilerPluginTag,
+                                        annotationProcessorsWrapper.get(),
+                                        child -> !processorClass.equals(child.getValue().orElse(null)));
+                            }
                         }
                     }
                 }
