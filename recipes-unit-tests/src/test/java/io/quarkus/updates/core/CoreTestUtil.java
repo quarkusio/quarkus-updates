@@ -15,6 +15,7 @@ import org.openrewrite.Recipe;
 import org.openrewrite.config.CompositeRecipe;
 import org.openrewrite.config.Environment;
 import org.openrewrite.config.YamlResourceLoader;
+import org.openrewrite.maven.UpgradeDependencyVersion;
 import org.openrewrite.maven.ChangePropertyValue;
 import org.openrewrite.test.RecipeSpec;
 
@@ -51,8 +52,8 @@ public final class CoreTestUtil {
     }
 
     private static Recipe updateQuarkus(String quarkusVersion) {
-        return new CompositeRecipe(List.of(new ChangePropertyValue("quarkus.version", quarkusVersion, null, null),
-                new ChangePropertyValue("quarkus.platform.version", quarkusVersion, null, null)));
+        return new CompositeRecipe(List.of(new UpgradeDependencyVersion("io.quarkus.platform", "quarkus-bom", quarkusVersion, null, null, null),
+                new UpgradeDependencyVersion("io.quarkus", "quarkus-bom", quarkusVersion, null, null, null)));
     }
 
     private static Recipe recipeFromResource(String yamlResource, String... activeRecipes) {

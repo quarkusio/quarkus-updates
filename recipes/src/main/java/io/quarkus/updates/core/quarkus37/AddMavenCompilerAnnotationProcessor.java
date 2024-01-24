@@ -9,7 +9,10 @@ import org.openrewrite.ExecutionContext;
 import org.openrewrite.Option;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
+import org.openrewrite.internal.lang.Nullable;
 import org.openrewrite.maven.MavenVisitor;
+import org.openrewrite.maven.tree.MavenResolutionResult;
+import org.openrewrite.maven.tree.ResolvedManagedDependency;
 import org.openrewrite.xml.tree.Xml;
 
 import lombok.EqualsAndHashCode;
@@ -24,6 +27,10 @@ public class AddMavenCompilerAnnotationProcessor extends Recipe {
 
     @Option(displayName = "Annotation processor artifactId", description = "The artifactId of the annotation processor.", example = "hibernate-jpamodelgen", required = true)
     String artifactId;
+
+    @Option(displayName = "Enforce managed version", description = "If the new annotation processor has a managed version, this flag can be used to explicitly set the version on the annotation processor with the version of the managed dependency. The default for this flag is `false`.", required = false)
+    @Nullable
+    Boolean enforceManagedVersion;
 
     @Override
     public String getDisplayName() {
@@ -47,6 +54,13 @@ public class AddMavenCompilerAnnotationProcessor extends Recipe {
 
                     String annotationProcessorPath = "<groupId>" + groupId + "</groupId>\n<artifactId>" + artifactId
                             + "</artifactId>";
+
+                    if (Boolean.TRUE.equals(enforceManagedVersion)) {
+                        String managedVersion = getManagedVersion(groupId, artifactId);
+                        if (managedVersion != null) {
+                            annotationProcessorPath += "<version>" + managedVersion + "</version>";
+                        }
+                    }
 
                     if (configuration.isPresent()) {
                         Optional<Xml.Tag> annotationProcessorPathsWrapper = configuration.get()
@@ -78,6 +92,17 @@ public class AddMavenCompilerAnnotationProcessor extends Recipe {
                     }
                 }
                 return mavenCompilerPluginTag;
+            }
+
+            private String getManagedVersion(String groupId, String artifactId) {
+                MavenResolutionResult result = getResolutionResult();
+                for (ResolvedManagedDependency managedDependency : result.getPom().getDependencyManagement()) {
+                    if (groupId.equals(managedDependency.getGroupId())
+                            && artifactId.equals(managedDependency.getArtifactId())) {
+                        return managedDependency.getVersion();
+                    }
+                }
+                return null;
             }
         };
     }

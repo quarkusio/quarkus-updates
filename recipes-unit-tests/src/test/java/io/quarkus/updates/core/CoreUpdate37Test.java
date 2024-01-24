@@ -4,7 +4,6 @@ import static org.openrewrite.maven.Assertions.pomXml;
 
 import java.nio.file.Path;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
@@ -15,7 +14,7 @@ public class CoreUpdate37Test implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
-        CoreTestUtil.recipe(spec, Path.of("quarkus-updates", "core", "3.7.alpha1.yaml"), "3.7.0")
+        CoreTestUtil.recipe(spec, Path.of("quarkus-updates", "core", "3.7.alpha1.yaml"), "3.7.0.CR1")
                 .parser(JavaParser.fromJavaVersion().logCompilationWarningsAndErrors(true))
                 .typeValidationOptions(TypeValidation.none());
     }
@@ -429,7 +428,7 @@ public class CoreUpdate37Test implements RewriteTest {
                             <dependency>
                                 <groupId>io.quarkus</groupId>
                                 <artifactId>quarkus-bom</artifactId>
-                                <version>3.6.4</version>
+                                <version>3.7.0.CR1</version>
                                 <type>pom</type>
                                 <scope>import</scope>
                             </dependency>
@@ -446,6 +445,7 @@ public class CoreUpdate37Test implements RewriteTest {
                                         <path>
                                             <groupId>org.hibernate.orm</groupId>
                                             <artifactId>hibernate-jpamodelgen</artifactId>
+                                            <version>6.4.1.Final</version>
                                         </path>
                                     </annotationProcessorPaths>
                                 </configuration>
@@ -701,7 +701,7 @@ public class CoreUpdate37Test implements RewriteTest {
                             <dependency>
                                 <groupId>io.quarkus</groupId>
                                 <artifactId>quarkus-bom</artifactId>
-                                <version>3.6.4</version>
+                                <version>3.7.0.CR1</version>
                                 <type>pom</type>
                                 <scope>import</scope>
                             </dependency>
@@ -718,6 +718,7 @@ public class CoreUpdate37Test implements RewriteTest {
                                         <path>
                                             <groupId>org.hibernate.orm</groupId>
                                             <artifactId>hibernate-jpamodelgen</artifactId>
+                                            <version>6.4.1.Final</version>
                                         </path>
                                     </annotationProcessorPaths>
                                 </configuration>
@@ -786,7 +787,7 @@ public class CoreUpdate37Test implements RewriteTest {
                             <dependency>
                                 <groupId>io.quarkus</groupId>
                                 <artifactId>quarkus-bom</artifactId>
-                                <version>3.6.4</version>
+                                <version>3.7.0.CR1</version>
                                 <type>pom</type>
                                 <scope>import</scope>
                             </dependency>
@@ -803,6 +804,7 @@ public class CoreUpdate37Test implements RewriteTest {
                                         <path>
                                             <groupId>org.hibernate.orm</groupId>
                                             <artifactId>hibernate-jpamodelgen</artifactId>
+                                            <version>6.4.1.Final</version>
                                         </path>
                                     </annotationProcessorPaths>
                                 </configuration>
@@ -814,7 +816,91 @@ public class CoreUpdate37Test implements RewriteTest {
     }
 
     @Test
-    @Disabled("Pending the release of 3.7.0")
+    void testSyncVersion() {
+        //language=xml
+        rewriteRun(pomXml("""
+                <project>
+                    <modelVersion>4.0.0</modelVersion>
+                    <groupId>io.quarkus.bot</groupId>
+                    <artifactId>release</artifactId>
+                    <version>999-SNAPSHOT</version>
+                    <properties>
+                        <quarkus.version>3.6.4</quarkus.version>
+                    </properties>
+                    <dependencyManagement>
+                        <dependencies>
+                            <dependency>
+                                <groupId>io.quarkus</groupId>
+                                <artifactId>quarkus-bom</artifactId>
+                                <version>${quarkus.version}</version>
+                                <type>pom</type>
+                                <scope>import</scope>
+                            </dependency>
+                        </dependencies>
+                    </dependencyManagement>
+                    <build>
+                        <plugins>
+                            <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-compiler-plugin</artifactId>
+                                <version>3.12.1</version>
+                                <configuration>
+                                    <annotationProcessorPaths>
+                                        <path>
+                                            <groupId>org.hibernate.orm</groupId>
+                                            <artifactId>hibernate-jpamodelgen</artifactId>
+                                            <version>6.2.13.Final</version>
+                                        </path>
+                                    </annotationProcessorPaths>
+                                </configuration>
+                            </plugin>
+                        </plugins>
+                    </build>
+                </project>
+                """,
+                """
+                <project>
+                    <modelVersion>4.0.0</modelVersion>
+                    <groupId>io.quarkus.bot</groupId>
+                    <artifactId>release</artifactId>
+                    <version>999-SNAPSHOT</version>
+                    <properties>
+                        <quarkus.version>3.7.0.CR1</quarkus.version>
+                    </properties>
+                    <dependencyManagement>
+                        <dependencies>
+                            <dependency>
+                                <groupId>io.quarkus</groupId>
+                                <artifactId>quarkus-bom</artifactId>
+                                <version>${quarkus.version}</version>
+                                <type>pom</type>
+                                <scope>import</scope>
+                            </dependency>
+                        </dependencies>
+                    </dependencyManagement>
+                    <build>
+                        <plugins>
+                            <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-compiler-plugin</artifactId>
+                                <version>3.12.1</version>
+                                <configuration>
+                                    <annotationProcessorPaths>
+                                        <path>
+                                            <groupId>org.hibernate.orm</groupId>
+                                            <artifactId>hibernate-jpamodelgen</artifactId>
+                                            <version>6.4.1.Final</version>
+                                        </path>
+                                    </annotationProcessorPaths>
+                                </configuration>
+                            </plugin>
+                        </plugins>
+                    </build>
+                </project>
+                """));
+    }
+
+    @Test
     void testResteasyClientRenaming() {
         //language=xml
         rewriteRun(pomXml("""
@@ -868,7 +954,7 @@ public class CoreUpdate37Test implements RewriteTest {
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
                     <properties>
-                        <quarkus.version>3.7.0</quarkus.version>
+                        <quarkus.version>3.7.0.CR1</quarkus.version>
                     </properties>
                     <dependencyManagement>
                         <dependencies>

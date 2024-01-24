@@ -1,0 +1,10 @@
+#####
+# Sync JPA model gen version with the one from the BOM
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus311.SyncHibernateJpaModelgenVersionWithBOM
+recipeList:
+  - io.quarkus.updates.core.quarkus37.SyncMavenCompilerAnnotationProcessorVersion:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-jpamodelgen
