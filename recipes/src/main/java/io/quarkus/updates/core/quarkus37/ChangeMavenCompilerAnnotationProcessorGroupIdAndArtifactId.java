@@ -19,7 +19,6 @@ import org.openrewrite.maven.table.MavenMetadataFailures;
 import org.openrewrite.maven.tree.MavenMetadata;
 import org.openrewrite.maven.tree.MavenResolutionResult;
 import org.openrewrite.maven.tree.ResolvedManagedDependency;
-import org.openrewrite.maven.tree.Scope;
 import org.openrewrite.semver.Semver;
 import org.openrewrite.semver.VersionComparator;
 import org.openrewrite.xml.AddToTagVisitor;
@@ -64,6 +63,10 @@ public class ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId extends 
     @Option(displayName = "Override managed version", description = "If the new annotation processor has a managed version, this flag can be used to explicitly set the version on the annotation processor. The default for this flag is `false`.", required = false)
     @Nullable
     Boolean overrideManagedVersion;
+
+    @Option(displayName = "Enforce managed version", description = "If the new annotation processor has a managed version, this flag can be used to explicitly set the version on the annotation processor with the version of the managed dependency. The default for this flag is `false`.", required = false)
+    @Nullable
+    Boolean enforceManagedVersion;
 
     @Override
     public String getDisplayName() {
@@ -130,39 +133,42 @@ public class ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId extends 
                                             .orElseThrow(NoSuchElementException::new);
                                 }
 
-                                if (newVersion != null) {
+                                String versionToApply = Boolean.TRUE.equals(enforceManagedVersion) ? getManagedVersion(groupId, artifactId) : null;
+                                if (versionToApply == null && newVersion != null) {
                                     try {
-                                        String resolvedNewVersion = resolveSemverVersion(ctx, groupId, artifactId);
-                                        Scope scope = Scope.Compile;
-                                        // starting with Maven Compiler plugin 3.12.0, the annotation processor versions will honor the dependency management
-                                        Optional<Xml.Tag> versionTag = annotationProcessorPath.getChild("version");
-                                        if (!versionTag.isPresent() &&
-                                                (Boolean.TRUE.equals(overrideManagedVersion)
-                                                        || !isDependencyManaged(groupId, artifactId))) {
-                                            //If the version is not present, add the version if we are explicitly overriding a managed version or if no managed version exists.
-                                            Xml.Tag newVersionTag = Xml.Tag
-                                                    .build("<version>" + resolvedNewVersion + "</version>");
-                                            //noinspection ConstantConditions
-                                            mavenCompilerPluginTag = (Xml.Tag) new AddToTagVisitor<ExecutionContext>(
-                                                    annotationProcessorPath, newVersionTag,
-                                                    new MavenTagInsertionComparator(annotationProcessorPath.getChildren()))
-                                                            .visitNonNull(mavenCompilerPluginTag, ctx,
-                                                                    getCursor().getParent());
-                                        } else if (versionTag.isPresent()) {
-                                            if (isDependencyManaged(groupId, artifactId)
-                                                    && !Boolean.TRUE.equals(overrideManagedVersion)) {
-                                                //If the previous dependency had a version but the new artifact is managed, removed the
-                                                //version tag.
-                                                mavenCompilerPluginTag = (Xml.Tag) new RemoveContentVisitor<>(versionTag.get(),
-                                                        false).visit(mavenCompilerPluginTag, ctx);
-                                            } else {
-                                                //Otherwise, change the version to the new value.
-                                                mavenCompilerPluginTag = changeChildTagValue(mavenCompilerPluginTag, annotationProcessorPath,
-                                                        "version", resolvedNewVersion, ctx);
-                                            }
-                                        }
+                                        versionToApply = resolveSemverVersion(ctx, groupId, artifactId);
                                     } catch (MavenDownloadingException e) {
                                         return e.warn(tag);
+                                    }
+                                }
+                                if (versionToApply != null) {
+                                    // starting with Maven Compiler plugin 3.12.0, the annotation processor versions will honor the dependency management
+                                    Optional<Xml.Tag> versionTag = annotationProcessorPath.getChild("version");
+                                    if (!versionTag.isPresent()) {
+                                        if ((Boolean.TRUE.equals(overrideManagedVersion)
+                                                || !isDependencyManaged(groupId, artifactId))
+                                                || Boolean.TRUE.equals(enforceManagedVersion)) {
+                                            //If the version is not present, add the version if we are explicitly overriding a managed version or if no managed version exists.
+                                            Xml.Tag newVersionTag = Xml.Tag
+                                                    .build("<version>" + versionToApply + "</version>");
+                                            //noinspection ConstantConditions
+                                            mavenCompilerPluginTag = AddToTagVisitor.addToTag(
+                                                    mavenCompilerPluginTag, annotationProcessorPath, newVersionTag,
+                                                    getCursor().getParent());
+                                        }
+                                    } else {
+                                        if (isDependencyManaged(groupId, artifactId)
+                                                && !Boolean.TRUE.equals(overrideManagedVersion)
+                                                && !Boolean.TRUE.equals(enforceManagedVersion)) {
+                                            //If the previous dependency had a version but the new artifact is managed, removed the
+                                            //version tag.
+                                            mavenCompilerPluginTag = (Xml.Tag) new RemoveContentVisitor<>(versionTag.get(),
+                                                    false).visit(mavenCompilerPluginTag, ctx);
+                                        } else {
+                                            //Otherwise, change the version to the new value.
+                                            mavenCompilerPluginTag = changeChildTagValue(mavenCompilerPluginTag, annotationProcessorPath,
+                                                    "version", versionToApply, ctx);
+                                        }
                                     }
                                 }
                             }
@@ -177,9 +183,9 @@ public class ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId extends 
             private Xml.Tag changeChildTagValue(Xml.Tag parentScope, Xml.Tag tag, String childTagName, String newValue, ExecutionContext ctx) {
                 Optional<Xml.Tag> childTag = tag.getChild(childTagName);
                 if (childTag.isPresent() && !newValue.equals(childTag.get().getValue().orElse(null))) {
-                    tag = (Xml.Tag) new ChangeTagValueVisitor<>(childTag.get(), newValue).visitNonNull(parentScope, ctx);
+                    return (Xml.Tag) new ChangeTagValueVisitor<>(childTag.get(), newValue).visitNonNull(parentScope, ctx);
                 }
-                return tag;
+                return parentScope;
             }
 
             private boolean isDependencyManaged(String groupId, String artifactId) {
@@ -188,12 +194,25 @@ public class ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId extends 
                 for (ResolvedManagedDependency managedDependency : result.getPom().getDependencyManagement()) {
                     if (groupId.equals(managedDependency.getGroupId())
                             && artifactId.equals(managedDependency.getArtifactId())) {
-                        return Scope.Compile.isInClasspathOf(managedDependency.getScope()) ||
-                                Scope.Runtime.isInClasspathOf(managedDependency.getScope()) ||
-                                Scope.Provided.isInClasspathOf(managedDependency.getScope());
+                        return true;
                     }
                 }
                 return false;
+            }
+
+            private String getManagedVersion(String groupId, String artifactId) {
+                if (!isDependencyManaged(groupId, artifactId)) {
+                    return null;
+                }
+
+                MavenResolutionResult result = getResolutionResult();
+                for (ResolvedManagedDependency managedDependency : result.getPom().getDependencyManagement()) {
+                    if (groupId.equals(managedDependency.getGroupId())
+                            && artifactId.equals(managedDependency.getArtifactId())) {
+                        return managedDependency.getVersion();
+                    }
+                }
+                return null;
             }
 
             @SuppressWarnings("ConstantConditions")

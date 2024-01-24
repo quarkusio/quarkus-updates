@@ -81,6 +81,7 @@ recipeList:
       oldArtifactId: hibernate-jpamodelgen
       newGroupId: org.hibernate.orm
       newVersion: 6.x
+      enforceManagedVersion: true
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus37.AddJpaModelgenAnnotationProcessor
@@ -88,6 +89,7 @@ recipeList:
   - io.quarkus.updates.core.quarkus37.AddMavenCompilerAnnotationProcessor:
       groupId: org.hibernate.orm
       artifactId: hibernate-jpamodelgen
+      enforceManagedVersion: true
 preconditions:
   - org.openrewrite.maven.search.FindDependency:
       groupId: org.hibernate.orm
@@ -99,6 +101,7 @@ recipeList:
   - io.quarkus.updates.core.quarkus37.AddMavenCompilerAnnotationProcessor:
       groupId: org.hibernate.orm
       artifactId: hibernate-jpamodelgen
+      enforceManagedVersion: true
 preconditions:
   - org.openrewrite.maven.search.FindDependency:
       groupId: org.hibernate
@@ -111,6 +114,16 @@ recipeList:
       groupId: org.hibernate
       artifactId: hibernate-jpamodelgen
   - org.openrewrite.maven.RemoveDependency:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-jpamodelgen
+#####
+# Sync JPA model gen version with the one from the BOM
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus37.SyncHibernateJpaModelgenVersionWithBOM
+recipeList:
+  - io.quarkus.updates.core.quarkus37.SyncMavenCompilerAnnotationProcessorVersion:
       groupId: org.hibernate.orm
       artifactId: hibernate-jpamodelgen
 
