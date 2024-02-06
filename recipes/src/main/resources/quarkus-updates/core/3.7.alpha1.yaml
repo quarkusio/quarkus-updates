@@ -1,15 +1,4 @@
 #####
-# Update Maven wrapper
-#####
----
-type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.core.quarkus37.UpdateMavenWrapper
-recipeList:
-  - org.openrewrite.maven.UpdateMavenWrapper:
-      distributionVersion: 3.9.x
-      addIfMissing: false
-
-#####
 # Adjust artifact for Hibernate Search outbox polling
 #####
 ---
