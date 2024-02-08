@@ -10,7 +10,7 @@
 
     <groupId>io.quarkus</groupId>
     <artifactId>quarkus-updates-parent</artifactId>
-    <version>1.0.15-SNAPSHOT</version>
+    <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Quarkus Updates - Parent</name>

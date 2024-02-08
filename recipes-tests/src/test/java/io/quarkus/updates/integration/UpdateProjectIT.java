@@ -73,7 +73,7 @@ public class UpdateProjectIT {
     }
 
     private void updateProject(Path tempDir, String updateStream) throws IOException, InterruptedException, TimeoutException {
-        String output = jbang(tempDir, QUARKUS_TEST_CLI, "update", "-S=" + updateStream);
+        String output = jbang(tempDir, QUARKUS_TEST_CLI, "update", "-S=" + updateStream, "--update-recipes-version=999-SNAPSHOT");
 
     }
 
