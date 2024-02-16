@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-updates-parent</artifactId>
-        <version>1.0.15-SNAPSHOT</version>
+        <version>999-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>quarkus-update-recipes-unit-tests</artifactId>
-    <name>Quarkus Updates - Recipes - Unit tests</name>
+    <artifactId>quarkus-update-recipes-tests</artifactId>
+    <name>Quarkus Updates - Recipes - Tests</name>
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
@@ -131,6 +132,13 @@
 
         <!--test dependencies -->
 
+        <dependency>
+            <groupId>org.zeroturnaround</groupId>
+            <artifactId>zt-exec</artifactId>
+            <version>1.12</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Camel quarkus testing -->
         <dependency>
             <groupId>org.apache.camel</groupId>
@@ -201,7 +209,20 @@
                     <systemPropertyVariables>
                         <java.io.tmpdir>${project.build.directory}</java.io.tmpdir>
                     </systemPropertyVariables>
+                    <skipTests>${skipUTs}</skipTests>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -256,6 +277,7 @@
                             <skip>true</skip>
                         </configuration>
                     </plugin>
+
                 </plugins>
             </build>
         </profile>
