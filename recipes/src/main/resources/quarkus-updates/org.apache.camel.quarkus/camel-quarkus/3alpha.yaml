@@ -25,6 +25,11 @@
 # Update the Camel - Quarkus extensions
 #####
 ---
+type: specs.openrewrite.org/v1beta/category
+name: Camel 3.x
+packageName: io.quarkus.updates.camel30
+description: Migrate from Camel 3.x to 4.x.
+---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.camel30.CamelQuarkusMigrationRecipe
 displayName: Migrate `camel3` application to `camel4.`
@@ -51,7 +56,7 @@ recipeList:
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.camel.migrate.removedExtensions
 displayName: Remove non existin camel-quarkus extensions
-description: Removal of maven dependencies for extension, which are no longer part of camel 3.x.
+description: Removal of maven dependencies for extension, which are no longer part of Camel 3.x.
 #todo would be better to put a comment about removed extension and possible alternatives, once the openrewrite recipe allows that
 recipeList:
   - org.openrewrite.maven.RemoveDependency:
@@ -133,7 +138,7 @@ recipeList:
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.camel.migrate.ChangePropertyValue
 displayName: Camel API changes in application.properties
-description: Apache Camel API migration from version 3.20 or higher to 4.0. Removal of deprecated APIs, which could be part of the application.properties.
+description: Apache Camel API migration from version 3.20 or higher to 4.0. Removal of deprecated APIs, which could be part of the `application.properties`.
 #todo would be better to put a comment about changed property and its alternative, once the openrewrite recipe allows that
 recipeList:
   - org.openrewrite.properties.ChangePropertyValue:
@@ -148,6 +153,7 @@ recipeList:
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.camel.migrate.ChangeManagedChoiceMBeanMethodName
 displayName: Change of method names brought by Camel JMX API changes
+description: MBeans now use a consistent method name of `extendedInformation`.
 recipeList:
   - org.openrewrite.java.ChangeMethodName:
       methodPattern: org.apache.camel.api.management.mbean.ManagedChoiceMBean choiceStatistics()
@@ -158,6 +164,7 @@ recipeList:
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.camel.migrate.ChangeManagedFailoverLoadBalancerMBeanMethodName
 displayName: Change of method names brought by Camel JMX API changes
+description: MBeans now use a consistent method name of `extendedInformation`.
 recipeList:
   - org.openrewrite.java.ChangeMethodName:
       methodPattern: org.apache.camel.api.management.mbean.ManagedFailoverLoadBalancerMBean exceptionStatistics()
