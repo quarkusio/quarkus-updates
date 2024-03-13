@@ -1,4 +1,4 @@
-# Contributing to Quarkus Updates recipes
+# Contributing to Quarkus Updates Recipes
 
 If the recipes we provide need adjustments for your use case and you think that your changes could benefit to others,
 your contributions are very welcome.
