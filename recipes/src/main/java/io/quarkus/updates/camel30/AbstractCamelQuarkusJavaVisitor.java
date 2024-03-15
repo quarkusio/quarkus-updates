@@ -28,11 +28,11 @@ public abstract class AbstractCamelQuarkusJavaVisitor extends JavaIsoVisitor<Exe
     //flag that camel package is imported to the file
     private boolean camel = false;
 
-    private LinkedList<JavaType> implementsList = new LinkedList<>();
+    private final LinkedList<JavaType> implementsList = new LinkedList<>();
 
     //There is no need to  initialize all patterns at the class start.
     //Map is a cache for created patterns
-    private static Map<String, MethodMatcher> methodMatchers = new HashMap();
+    private static final Map<String, MethodMatcher> methodMatchers = new HashMap<>();
 
     @Override
     public final J.Import visitImport(J.Import _import, ExecutionContext context) {

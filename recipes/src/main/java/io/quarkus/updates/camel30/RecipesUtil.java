@@ -14,6 +14,7 @@ import org.openrewrite.marker.Markers;
 import org.openrewrite.xml.tree.Xml;
 import org.openrewrite.yaml.tree.Yaml;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,13 +27,11 @@ import static org.openrewrite.Tree.randomId;
 
 public class RecipesUtil {
 
-    private static String CAMEL_PRESENT_KEY = RecipesUtil.class.getSimpleName();
-
     //---------------- annotations helpers
 
     public static J.Annotation createAnnotation(J.Annotation annotation, String name, Function<String, Boolean> argMatcher, String args) {
 
-        LinkedList<Expression> originalArguments = annotation.getArguments() == null ? new LinkedList<>() : new LinkedList(annotation.getArguments());
+        LinkedList<Expression> originalArguments = annotation.getArguments() == null ? new LinkedList<>() : new LinkedList<>(annotation.getArguments());
 
         String newArgName = args.replaceAll("=.*", "").trim();
 
@@ -51,11 +50,11 @@ public class RecipesUtil {
         //construct arguments for the new annotation
         List<JRightPadded<Expression>> newArgs = new LinkedList<>();
         for(Expression e: originalArguments) {
-            newArgs.add(new JRightPadded(e, Space.EMPTY, Markers.EMPTY));
+            newArgs.add(new JRightPadded<>(e, Space.EMPTY, Markers.EMPTY));
         }
 
-        J.Identifier newAnnotationIdentifier =  new J.Identifier(randomId(), annotation.getPrefix(), Markers.EMPTY, name,
-                JavaType.ShallowClass.build("java.lang.Object"), null);
+        J.Identifier newAnnotationIdentifier =  new J.Identifier(randomId(), annotation.getPrefix(), Markers.EMPTY,
+                Collections.emptyList(), name, JavaType.ShallowClass.build("java.lang.Object"), null);
         JContainer<Expression> arguments = JContainer.build(
                 Space.EMPTY,
                 newArgs,
