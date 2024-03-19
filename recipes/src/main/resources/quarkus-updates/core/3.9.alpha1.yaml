@@ -353,3 +353,15 @@ recipeList:
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.oidc-token-propagation\.(.*)
       newPropertyKey: quarkus.resteasy-client-oidc-token-propagation.$1
+
+#####
+# Adjust artifacts graal-sdk
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus383.GraalSDK
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: org.graalvm.sdk
+      oldArtifactId: graal-sdk
+      newArtifactId: nativeimage
