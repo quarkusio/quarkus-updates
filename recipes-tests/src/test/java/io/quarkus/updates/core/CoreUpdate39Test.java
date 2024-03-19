@@ -1,9 +1,11 @@
 package io.quarkus.updates.core;
 
 import static org.openrewrite.maven.Assertions.pomXml;
+import static org.openrewrite.properties.Assertions.properties;
 
 import java.nio.file.Path;
 
+import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.Test;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
@@ -296,5 +298,35 @@ public class CoreUpdate39Test implements RewriteTest {
                     </dependencies>
                 </project>
                 """));
+    }
+
+    @Test
+    void testBigReactiveRenameConfig() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.resteasy-reactive.path=/configured/path
+            quarkus.resteasy-reactive.multipart.input-part.default-charset=UTF-8
+            quarkus.rest-client-reactive.provider-autodiscovery=false
+            quarkus.oidc-client-reactive-filter.client-name=name
+            quarkus.oidc-token-propagation-reactive.enabled=false
+            quarkus.csrf-reactive.form-field-name=csrf-field
+            quarkus.oidc-client-filter.register-filter=true
+            quarkus.oidc-token-propagation.enabled-during-authentication=false
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.rest.path=/configured/path
+            quarkus.rest.multipart.input-part.default-charset=UTF-8
+            quarkus.rest-client.provider-autodiscovery=false
+            quarkus.rest-client-oidc-filter.client-name=name
+            quarkus.rest-client-oidc-token-propagation.enabled=false
+            quarkus.rest-csrf.form-field-name=csrf-field
+            quarkus.resteasy-client-oidc-filter.register-filter=true
+            quarkus.resteasy-client-oidc-token-propagation.enabled-during-authentication=false
+            """;
+
+        //language=xml
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
     }
 }

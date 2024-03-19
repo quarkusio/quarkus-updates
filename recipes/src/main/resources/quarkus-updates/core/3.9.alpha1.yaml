@@ -324,3 +324,32 @@ recipeList:
       oldGroupId: io.quarkus
       oldArtifactId: quarkus-spring-web-resteasy-reactive-deployment
       newArtifactId: quarkus-spring-web-rest-deployment
+
+#####
+# Rewrite configuration for Big Reactive Rename
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus39.UpdateConfigRoots
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.resteasy-reactive\.(.*)
+      newPropertyKey: quarkus.rest.$1
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.rest-client-reactive\.(.*)
+      newPropertyKey: quarkus.rest-client.$1
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.oidc-client-reactive-filter\.(.*)
+      newPropertyKey: quarkus.rest-client-oidc-filter.$1
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.oidc-token-propagation-reactive\.(.*)
+      newPropertyKey: quarkus.rest-client-oidc-token-propagation.$1
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.csrf-reactive\.(.*)
+      newPropertyKey: quarkus.rest-csrf.$1
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.oidc-client-filter\.(.*)
+      newPropertyKey: quarkus.resteasy-client-oidc-filter.$1
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.oidc-token-propagation\.(.*)
+      newPropertyKey: quarkus.resteasy-client-oidc-token-propagation.$1
