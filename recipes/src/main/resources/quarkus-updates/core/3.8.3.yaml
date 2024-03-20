@@ -1,0 +1,11 @@
+#####
+# Adjust artifacts graal-sdk
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus383.GraalSDK
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: org.graalvm.sdk
+      oldArtifactId: graal-sdk
+      newArtifactId: nativeimage

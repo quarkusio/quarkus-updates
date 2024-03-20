@@ -161,6 +161,7 @@
                         <version>3.0.1</version>
                         <configuration>
                             <tagNameFormat>@{project.version}</tagNameFormat>
+                            <developmentVersion>999-SNAPSHOT</developmentVersion>
                             <autoVersionSubmodules>true</autoVersionSubmodules>
                         </configuration>
                     </plugin>

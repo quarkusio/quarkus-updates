@@ -1,9 +1,11 @@
 package io.quarkus.updates.core;
 
 import static org.openrewrite.maven.Assertions.pomXml;
+import static org.openrewrite.properties.Assertions.properties;
 
 import java.nio.file.Path;
 
+import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.Test;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
@@ -14,7 +16,7 @@ public class CoreUpdate39Test implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
-        CoreTestUtil.recipe(spec, Path.of("quarkus-updates", "core", "3.9.yaml"), "3.9.0")
+        CoreTestUtil.recipe(spec, Path.of("quarkus-updates", "core", "3.9.alpha1.yaml"), "3.9.0.CR2")
                 .parser(JavaParser.fromJavaVersion().logCompilationWarningsAndErrors(true))
                 .typeValidationOptions(TypeValidation.none());
     }
@@ -81,5 +83,250 @@ public class CoreUpdate39Test implements RewriteTest {
                     </build>
                 </project>
                 """));
+    }
+
+    @Test
+    void testBigReactiveRename() {
+        //language=xml
+        rewriteRun(pomXml("""
+                <project>
+                    <modelVersion>4.0.0</modelVersion>
+                    <groupId>io.quarkus.bot</groupId>
+                    <artifactId>release</artifactId>
+                    <version>999-SNAPSHOT</version>
+                    <dependencyManagement>
+                        <dependencies>
+                            <dependency>
+                                <groupId>io.quarkus</groupId>
+                                <artifactId>quarkus-bom</artifactId>
+                                <version>3.8.2</version>
+                                <type>pom</type>
+                                <scope>import</scope>
+                            </dependency>
+                        </dependencies>
+                    </dependencyManagement>
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-reactive</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-reactive-jsonb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-reactive-jaxb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-reactive-links</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-reactive-qute</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-reactive</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-reactive-jackson</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-reactive-jsonb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-reactive-jaxb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-csrf-reactive</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-jaxrs-client-reactive</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-keycloak-admin-client</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-keycloak-admin-client-reactive</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-oidc-client-filter</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-oidc-client-reactive-filter</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-oidc-token-propagation</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-oidc-token-propagation-reactive</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-smallrye-reactive-messaging</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-smallrye-reactive-messaging-amqp</artifactId>
+                        </dependency>
+                    </dependencies>
+                </project>
+                """,
+                """
+                <project>
+                    <modelVersion>4.0.0</modelVersion>
+                    <groupId>io.quarkus.bot</groupId>
+                    <artifactId>release</artifactId>
+                    <version>999-SNAPSHOT</version>
+                    <dependencyManagement>
+                        <dependencies>
+                            <dependency>
+                                <groupId>io.quarkus</groupId>
+                                <artifactId>quarkus-bom</artifactId>
+                                <version>3.9.0.CR2</version>
+                                <type>pom</type>
+                                <scope>import</scope>
+                            </dependency>
+                        </dependencies>
+                    </dependencyManagement>
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-jackson</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-jsonb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-jaxb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-links</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-qute</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-jackson</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-jsonb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-jaxb</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-csrf</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-jaxrs</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-keycloak-admin-resteasy-client</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-keycloak-admin-rest-client</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-client-oidc-filter</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-oidc-filter</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-resteasy-client-oidc-token-propagation</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-rest-client-oidc-token-propagation</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-messaging</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-messaging-kafka</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-messaging-amqp</artifactId>
+                        </dependency>
+                    </dependencies>
+                </project>
+                """));
+    }
+
+    @Test
+    void testBigReactiveRenameConfig() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.resteasy-reactive.path=/configured/path
+            quarkus.resteasy-reactive.multipart.input-part.default-charset=UTF-8
+            quarkus.rest-client-reactive.provider-autodiscovery=false
+            quarkus.oidc-client-reactive-filter.client-name=name
+            quarkus.oidc-token-propagation-reactive.enabled=false
+            quarkus.csrf-reactive.form-field-name=csrf-field
+            quarkus.oidc-client-filter.register-filter=true
+            quarkus.oidc-token-propagation.enabled-during-authentication=false
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.rest.path=/configured/path
+            quarkus.rest.multipart.input-part.default-charset=UTF-8
+            quarkus.rest-client.provider-autodiscovery=false
+            quarkus.rest-client-oidc-filter.client-name=name
+            quarkus.rest-client-oidc-token-propagation.enabled=false
+            quarkus.rest-csrf.form-field-name=csrf-field
+            quarkus.resteasy-client-oidc-filter.register-filter=true
+            quarkus.resteasy-client-oidc-token-propagation.enabled-during-authentication=false
+            """;
+
+        //language=xml
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
     }
 }
