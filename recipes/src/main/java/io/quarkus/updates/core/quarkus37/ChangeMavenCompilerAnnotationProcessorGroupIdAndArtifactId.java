@@ -13,7 +13,6 @@ import org.openrewrite.TreeVisitor;
 import org.openrewrite.Validated;
 import org.openrewrite.internal.lang.Nullable;
 import org.openrewrite.maven.MavenDownloadingException;
-import org.openrewrite.maven.MavenTagInsertionComparator;
 import org.openrewrite.maven.MavenVisitor;
 import org.openrewrite.maven.table.MavenMetadataFailures;
 import org.openrewrite.maven.tree.MavenMetadata;

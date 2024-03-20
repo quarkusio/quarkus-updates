@@ -79,6 +79,7 @@ recipeList:
       groupId: org.hibernate.orm
       artifactId: hibernate-jpamodelgen
       enforceManagedVersion: true
+      mavenCompilerPluginVersion: 3.12.1
 preconditions:
   - org.openrewrite.maven.search.FindDependency:
       groupId: org.hibernate.orm
@@ -91,6 +92,7 @@ recipeList:
       groupId: org.hibernate.orm
       artifactId: hibernate-jpamodelgen
       enforceManagedVersion: true
+      mavenCompilerPluginVersion: 3.12.1
 preconditions:
   - org.openrewrite.maven.search.FindDependency:
       groupId: org.hibernate
