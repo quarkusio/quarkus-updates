@@ -12,7 +12,7 @@ import org.openrewrite.xml.tree.Xml;
 
 /**
  * <p>
- * <a:href link="https://camel.apache.org/manual/camel-4-migration-guide.html#_xml_dsl" >Camel Migration guide</a:href>
+ * <a href="https://camel.apache.org/manual/camel-4-migration-guide.html#_xml_dsl">Camel Migration guide</a>
  * </p>
  * The <description> to set a description on a route or node, has been changed from an element to an attribute.
  *

@@ -29,14 +29,13 @@ public class CamelQuarkusYamlRouteConfigurationSequenceRecipe extends Recipe {
 
     @Override
     public String getDisplayName() {
-        return "Camel Yaml changes regardinhg route-configuration children";
+        return "Camel Yaml changes regarding route-configuration children";
     }
 
     @Override
     public String getDescription() {
         return "Camel YAML changes. route-configuration children sequence is replaced with  mappingEntry (with special migration of \"on-exception\").";
     }
-
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {

@@ -46,7 +46,7 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.camel.migrate.ChangeTypes
-displayName: Migrate moved types between Came 2.x and Camel 3.x
+displayName: Migrate moved types between Camel 2.x and Camel 3.x
 description: Change type of classes related to change of API.
 recipeList:
   - org.openrewrite.java.ChangeType:
@@ -55,7 +55,7 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.camel.migrate.removedExtensions
-displayName: Remove non existin camel-quarkus extensions
+displayName: Remove non existing camel-quarkus extensions
 description: Removal of maven dependencies for extension, which are no longer part of Camel 3.x.
 #todo would be better to put a comment about removed extension and possible alternatives, once the openrewrite recipe allows that
 recipeList:

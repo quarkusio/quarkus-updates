@@ -18,6 +18,7 @@ import org.openrewrite.java.ImplementInterface;
 import org.openrewrite.java.JavaTemplate;
 import org.openrewrite.java.RemoveImplements;
 import org.openrewrite.java.search.UsesMethod;
+import org.openrewrite.java.search.UsesType;
 import org.openrewrite.java.tree.Comment;
 import org.openrewrite.java.tree.J;
 import org.openrewrite.java.tree.JavaType;
@@ -38,7 +39,7 @@ import java.util.regex.Pattern;
 
 /**
  * Recipe migrating changes between Camel 3.x to 4.x, for more details see the
- * <a href="URL#https://camel.apache.org/manual/camel-4-migration-guide.html#_api_changes" >documentation</a>.
+ * <a href="https://camel.apache.org/manual/camel-4-migration-guide.html#_api_changes">documentation</a>.
  */
 @EqualsAndHashCode(callSuper = true)
 @Value
@@ -69,8 +70,7 @@ public class CamelAPIsRecipe extends Recipe {
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
-
-        return new AbstractCamelQuarkusJavaVisitor() {
+        return Preconditions.check(new UsesType<>("org.apache.camel..*", false), new AbstractCamelQuarkusJavaVisitor() {
 
             //Cache for all methodInvocations CamelContext adapt(java.lang.Class).
             private Map<UUID, Tree> adaptCache = new HashMap<>();
@@ -117,7 +117,6 @@ public class CamelAPIsRecipe extends Recipe {
                         .anyMatch(f -> TypeUtils.isOfClassType(f.getType(), "org.apache.camel.spi.OnCamelContextStart"))) {
 
                     doAfterVisit(new ImplementInterface<ExecutionContext>(cd, "org.apache.camel.spi.OnCamelContextStarting"));
-                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
                     doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStart", null).getVisitor());
 
                 } //Removed org.apache.camel.spi.OnCamelContextStop. Use org.apache.camel.spi.OnCamelContextStopping instead.
@@ -125,7 +124,6 @@ public class CamelAPIsRecipe extends Recipe {
                         .anyMatch(f -> TypeUtils.isOfClassType(f.getType(), "org.apache.camel.spi.OnCamelContextStop"))) {
 
                     doAfterVisit(new ImplementInterface<ExecutionContext>(cd, "org.apache.camel.spi.OnCamelContextStopping"));
-                    // [Rewrite8 migration] TreeVisitor#doAfterVisit(Recipe) has been removed, it could be mistaken usage of `TreeVisitor#doAfterVisit(TreeVisitor<?, P> visitor)` here, please review code and see if it can be replaced.
                     doAfterVisit(new RemoveImplements("org.apache.camel.spi.OnCamelContextStop", null).getVisitor());
 
                 }
@@ -137,7 +135,7 @@ public class CamelAPIsRecipe extends Recipe {
                 J.FieldAccess fa =  super.doVisitFieldAccess(fieldAccess, context);
                 //The org.apache.camel.ExchangePattern has removed InOptionalOut.
                 if("InOptionalOut".equals(fieldAccess.getSimpleName()) && fa.getType() != null && fa.getType().isAssignableFrom(Pattern.compile("org.apache.camel.ExchangePattern"))) {
-                    return fa.withName(new J.Identifier(UUID.randomUUID(), fa.getPrefix(), Markers.EMPTY, "/* " + fa.getSimpleName() + " has been removed */", fa.getType(), null));
+                    return fa.withName(new J.Identifier(UUID.randomUUID(), fa.getPrefix(), Markers.EMPTY, Collections.emptyList(), "/* " + fa.getSimpleName() + " has been removed */", fa.getType(), null));
                 }
 
                 else if(("Discard".equals(fa.getSimpleName()) || "DiscardOldest".equals(fa.getSimpleName()))
@@ -158,7 +156,7 @@ public class CamelAPIsRecipe extends Recipe {
 
                 //Method 'configure' was removed from `org.apache.camel.main.MainListener`, consider using 'beforeConfigure' or 'afterConfigure'.
                 if("configure".equals(md.getSimpleName())
-                        && md.getReturnTypeExpression().getType().equals(JavaType.Primitive.Void)
+                        && JavaType.Primitive.Void.equals(md.getReturnTypeExpression().getType())
                         && getImplementsList().stream().anyMatch(jt -> "org.apache.camel.main.MainListener".equals(jt.toString()))
                         && !md.getParameters().isEmpty()
                         && md.getParameters().size() == 1
@@ -237,7 +235,7 @@ public class CamelAPIsRecipe extends Recipe {
                 } else
                 // context.getExtension(ExtendedCamelContext.class).getComponentNameResolver() -> PluginHelper.getComponentNameResolver(context)
                 if (getMethodMatcher(MATCHER_CONTEXT_GET_ENDPOINT_MAP).matches(mi, false)) {
-                    mi = mi.withName(new J.Identifier(UUID.randomUUID(), mi.getPrefix(), Markers.EMPTY,
+                    mi = mi.withName(new J.Identifier(UUID.randomUUID(), mi.getPrefix(), Markers.EMPTY, Collections.emptyList(),
                             "/* " + mi.getSimpleName() + " has been removed, consider getEndpointRegistry() instead */", mi.getType(), null));
                 }
                 // ProducerTemplate.asyncCallback() has been replaced by 'asyncSend(') or 'asyncRequest()'
@@ -249,7 +247,7 @@ public class CamelAPIsRecipe extends Recipe {
                 else if (getMethodMatcher(M_CONTEXT_ADAPT).matches(mi, false)) {
                     if (mi.getType().isAssignableFrom(Pattern.compile("org.apache.camel.model.ModelCamelContext"))) {
                         J.Identifier type = RecipesUtil.createIdentifier(mi.getPrefix(), "ModelCamelContext", "java.lang.Object");
-                        J.ControlParentheses cp  =  RecipesUtil.createParentheses(RecipesUtil.createTypeCast(type, mi.getSelect()));
+                        J.ControlParentheses<?> cp = RecipesUtil.createParentheses(RecipesUtil.createTypeCast(type, mi.getSelect()));
                         //put the type cast into cache in case it is replaced lately
                         mi = mi.withComments(Collections.singletonList(RecipesUtil.createMultinlineComment("Method 'adapt' was removed.")));
                         adaptCache.put(method.getId(), cp);
@@ -300,9 +298,10 @@ public class CamelAPIsRecipe extends Recipe {
                 else if (getMethodMatcher(MATCHER_GET_NAME_RESOLVER).matches(mi)) {
                     if (mi.getSelect() instanceof J.MethodInvocation && getMethodMatcher(MATCHER_CONTEXT_GET_EXT).matches(((J.MethodInvocation) mi.getSelect()).getMethodType())) {
                         J.MethodInvocation innerInvocation = (J.MethodInvocation) mi.getSelect();
-                        mi = JavaTemplate.builder("PluginHelper.getComponentNameResolver(#{any(org.apache.camel.CamelContext)})")/*[Rewrite8 migration] contextSensitive() could be unnecessary, please follow the migration guide*/.contextSensitive()
-                                .build().apply(/*[Rewrite8 migration] getCursor() could be updateCursor() if the J instance is updated, or it should be updated to point to the correct cursor, please follow the migration guide*/getCursor(),
-                                mi.getCoordinates().replace(), innerInvocation.getSelect());
+                        mi = JavaTemplate.builder("PluginHelper.getComponentNameResolver(#{any(org.apache.camel.CamelContext)})")
+                                //.contextSensitive()
+                                .build()
+                                .apply(getCursor(), mi.getCoordinates().replace(), innerInvocation.getSelect());
                         doAfterVisit(new AddImport<>("org.apache.camel.support.PluginHelper", null, false));
                     }
                 }
@@ -328,7 +327,7 @@ public class CamelAPIsRecipe extends Recipe {
 
                 if(adaptCast != null) {
                     J.MethodInvocation mi = (J.MethodInvocation)j;
-                    J.ControlParentheses cp = (J.ControlParentheses) adaptCache.get(adaptCast);
+                    J.ControlParentheses<?> cp = (J.ControlParentheses<?>) adaptCache.get(adaptCast);
 
                     J.MethodInvocation m = mi.withSelect(cp);
                     return m;
@@ -343,7 +342,7 @@ public class CamelAPIsRecipe extends Recipe {
                 return j;
             }
 
-        };
+        });
     }
 
 }

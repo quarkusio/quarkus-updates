@@ -1,5 +1,6 @@
 package io.quarkus.updates.camel30.yaml;
 
+import io.quarkus.updates.camel30.RecipesUtil;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.openrewrite.ExecutionContext;
@@ -85,7 +86,7 @@ public class CamelQuarkusYamlStepsInFromRecipe extends Recipe {
                 public Yaml.Mapping visitMapping(Yaml.Mapping mapping, ExecutionContext context) {
                     Yaml.Mapping m =  super.visitMapping(mapping, context);
 
-                    String prop = YamlRecipesUtil.getProperty(getCursor());
+                    String prop = RecipesUtil.getProperty(getCursor());
                     if(("route.from".equals(prop) || "from".equals(prop)) && from == null) {
                         from = m;
                         if(steps != null) {

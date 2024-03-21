@@ -85,7 +85,7 @@ public class CamelBeanRecipe extends Recipe {
 
         };
 
-    };
+    }
 
     private String extractMethodName(String methodCallString) {
         // Regular expression to match the method call pattern

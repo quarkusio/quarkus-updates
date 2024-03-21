@@ -38,6 +38,6 @@ public class CamelEIPRecipe extends Recipe {
 
         };
 
-    };
+    }
 
 }
