@@ -30,6 +30,9 @@ defaults:
   run:
     shell: bash
 
+env:
+  MAVEN_OPTS: -Xmx2g
+
 jobs:
   build:
     name: Build on ${{ matrix.os }}

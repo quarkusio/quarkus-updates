@@ -17,6 +17,8 @@ env:
   #########################
 
   ECOSYSTEM_CI_REPO_PATH: quarkus-updates
+  MAVEN_OPTS: -Xmx2g
+  ECOSYSTEM_CI: true
 
 jobs:
   build:

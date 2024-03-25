@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+mvn --settings $PWD/.github/quarkus-ecosystem-maven-settings.xml -B clean install \
+  -Dno-format -DskipITs
+mvn --settings $PWD/.github/quarkus-ecosystem-maven-settings.xml -B integration-test \
+  -Dno-format -DskipUTs
