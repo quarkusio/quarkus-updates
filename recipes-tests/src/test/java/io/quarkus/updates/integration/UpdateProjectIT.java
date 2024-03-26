@@ -1,6 +1,8 @@
 package io.quarkus.updates.integration;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.zeroturnaround.exec.ProcessExecutor;
@@ -14,10 +16,11 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
+import static io.quarkus.updates.integration.UpdateProjectEcosystemIT.ECOSYSTEM_CI;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisabledIfEnvironmentVariable(named = ECOSYSTEM_CI, matches = "true")
 public class UpdateProjectIT {
-
     private static final String MAVEN_CENTRAL_QUARKUS_REPO = "https://repo1.maven.org/maven2/io/quarkus/";
     public static final String QUARKUS_TEST_CLI = "quarkus-test-cli";
 
@@ -27,11 +30,11 @@ public class UpdateProjectIT {
     @BeforeAll
     static void beforeAll() throws IOException, InterruptedException, TimeoutException {
         TMP_DIR = Files.createTempDirectory("junit");
-        installCLI(TMP_DIR, false);
+        installCLI(TMP_DIR, "quarkus@quarkusio");
     }
 
-
     @ParameterizedTest
+    @DisabledIfEnvironmentVariable(named = ECOSYSTEM_CI, matches = "true")
     @CsvFileSource(resources = "/update-tests.csv", numLinesToSkip = 1)
     void testMaven(String currentStream, String updateStream) throws IOException, InterruptedException, TimeoutException {
         final Path tmpDir = TMP_DIR.resolve(currentStream + "-to-" + updateStream);
@@ -39,13 +42,14 @@ public class UpdateProjectIT {
     }
 
     @ParameterizedTest
+    @DisabledIfEnvironmentVariable(named = ECOSYSTEM_CI, matches = "true")
     @CsvFileSource(resources = "/update-tests.csv", numLinesToSkip = 1)
     void testGradle(String currentStream, String updateStream) throws IOException, InterruptedException, TimeoutException {
         final Path tmpDir = TMP_DIR.resolve(currentStream + "-to-" + updateStream);
         testUpdateGradle(tmpDir, currentStream, updateStream);
     }
 
-    private void testUpdateGradle(Path tempDir, String currentStream, String updateStream) throws IOException, InterruptedException, TimeoutException {
+    static void testUpdateGradle(Path tempDir, String currentStream, String updateStream) throws IOException, InterruptedException, TimeoutException {
         final Path dir = tempDir.resolve("gradle");
         Files.createDirectories(dir);
         final Path appDir = createProject(dir, currentStream, "--gradle");
@@ -54,10 +58,11 @@ public class UpdateProjectIT {
         updateProject(appDir, updateStream);
         assertThat(appDir.resolve("gradle.properties")).content().containsPattern(Pattern.compile("quarkusPluginVersion=" + updateStream + "[0-9a-zA-Z.]+"));
         assertThat(appDir.resolve("gradle.properties")).content().containsPattern(Pattern.compile("quarkusPlatformVersion=" + updateStream + "[0-9a-zA-Z.]+"));
-        buildProject(appDir);
+        String output = jbang(appDir, QUARKUS_TEST_CLI, "build", "--", "--no-daemon");
+        assertThat(output).contains("BUILD SUCCESS");
     }
 
-    private void testUpdateMaven(Path tempDir, String currentStream, String updateStream) throws IOException, InterruptedException, TimeoutException {
+    static void testUpdateMaven(Path tempDir, String currentStream, String updateStream) throws IOException, InterruptedException, TimeoutException {
         final Path dir = tempDir.resolve("maven");
         Files.createDirectories(dir);
         final Path appDir = createProject(dir, currentStream, "--maven");
@@ -67,12 +72,12 @@ public class UpdateProjectIT {
         buildProject(appDir);
     }
 
-    private void buildProject(Path tempDir) throws IOException, InterruptedException, TimeoutException {
+    static void buildProject(Path tempDir) throws IOException, InterruptedException, TimeoutException {
         String output = jbang(tempDir, QUARKUS_TEST_CLI, "build");
         assertThat(output).contains("BUILD SUCCESS");
     }
 
-    private void updateProject(Path tempDir, String updateStream) throws IOException, InterruptedException, TimeoutException {
+    static void updateProject(Path tempDir, String updateStream) throws IOException, InterruptedException, TimeoutException {
         String output = jbang(tempDir, QUARKUS_TEST_CLI, "update", "-S=" + updateStream, "--update-recipes-version=999-SNAPSHOT");
 
     }
@@ -88,15 +93,13 @@ public class UpdateProjectIT {
         return appDir;
     }
 
-    private static void installCLI(Path tempDir, boolean snapshot) throws IOException, InterruptedException, TimeoutException {
+    static void installCLI(Path tempDir, String repo) throws IOException, InterruptedException, TimeoutException {
         trustQuarkusRepo(tempDir);
-        String output = jbang(tempDir, "alias", "add", "-f", ".", "--name", QUARKUS_TEST_CLI, snapshot ? getJbangMavenRepoLocal() : "quarkus@quarkusio");
+        String output = jbang(tempDir, "alias", "add", "-f", ".", "--name", QUARKUS_TEST_CLI, repo);
         assertThat(output).containsPattern(Pattern.compile("\\[jbang\\] Alias '" + QUARKUS_TEST_CLI + "' added to '.*'"));
     }
 
-    private static String getJbangMavenRepoLocal() {
-        return System.getProperty("maven.repo.local", System.getProperty("user.home", "~") + "/.m2/repository") + "/io/quarkus/quarkus-cli/999-SNAPSHOT/quarkus-cli-999-SNAPSHOT-runner.jar";
-    }
+
 
     private static void propagateSystemPropertyIfSet(String name, List<String> command) {
         if (System.getProperties().containsKey(name)) {
