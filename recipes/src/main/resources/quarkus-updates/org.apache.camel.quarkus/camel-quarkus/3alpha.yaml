@@ -31,22 +31,22 @@ packageName: io.quarkus.updates.camel30
 description: Migrate from Camel 3.x to 4.x.
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.camel30.CamelQuarkusMigrationRecipe
+name: io.quarkus.updates.camel.camel40.CamelQuarkusMigrationRecipe
 displayName: Migrate `camel3` application to `camel4.`
 description: Migrate `camel3` quarkus application to `camel4` quarkus.
 recipeList:
-  - io.quarkus.updates.camel30.xml.XmlDslRecipe
-  - io.quarkus.updates.camel30.xml.CircuitBreakerXmlDslRecipe
-  - io.quarkus.updates.camel30.yaml.CamelQuarkusYamlRouteConfigurationSequenceRecipe
-  - io.quarkus.updates.camel30.yaml.CamelQuarkusYamlStepsInFromRecipe
-  - io.quarkus.updates.camel30.java.CamelAPIsRecipe
-  - io.quarkus.updates.camel30.java.CamelEIPRecipe
-  - io.quarkus.updates.camel30.java.CamelBeanRecipe
-  - io.quarkus.updates.camel30.java.CamelHttpRecipe
+  - io.quarkus.updates.camel.camel40.xml.XmlDslRecipe
+  - io.quarkus.updates.camel.camel40.xml.CircuitBreakerXmlDslRecipe
+  - io.quarkus.updates.camel.camel40.yaml.CamelQuarkusYamlRouteConfigurationSequenceRecipe
+  - io.quarkus.updates.camel.camel40.yaml.CamelQuarkusYamlStepsInFromRecipe
+  - io.quarkus.updates.camel.camel40.java.CamelAPIsRecipe
+  - io.quarkus.updates.camel.camel40.java.CamelEIPRecipe
+  - io.quarkus.updates.camel.camel40.java.CamelBeanRecipe
+  - io.quarkus.updates.camel.camel40.java.CamelHttpRecipe
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.camel.migrate.ChangeTypes
-displayName: Migrate moved types between Camel 2.x and Camel 3.x
+displayName: Migrate moved types between Came 3.x and Camel 4.x
 description: Change type of classes related to change of API.
 recipeList:
   - org.openrewrite.java.ChangeType:
@@ -138,7 +138,7 @@ recipeList:
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.camel.migrate.ChangePropertyValue
 displayName: Camel API changes in application.properties
-description: Apache Camel API migration from version 3.20 or higher to 4.0. Removal of deprecated APIs, which could be part of the `application.properties`.
+description: Apache Camel API migration from version 3.20 or higher to 4.0. Removal of deprecated APIs, which could be part of the application.properties.
 #todo would be better to put a comment about changed property and its alternative, once the openrewrite recipe allows that
 recipeList:
   - org.openrewrite.properties.ChangePropertyValue:
