@@ -1,4 +1,4 @@
-package io.quarkus.updates.camel.camel44;
+package io.quarkus.updates.camel;
 
 import io.quarkus.updates.camel.CamelQuarkusTestUtil;
 import org.junit.jupiter.api.Disabled;
@@ -11,12 +11,12 @@ import org.openrewrite.test.TypeValidation;
 
 import static org.openrewrite.java.Assertions.java;
 
-public class CamelCoreTest implements RewriteTest {
+public class CamelUpdate44Test implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
         CamelQuarkusTestUtil.recipe3_8(spec)
-                .parser(JavaParser.fromJavaVersion().logCompilationWarningsAndErrors(true).classpath("camel-api", "camel-util", "camel-base", "camel-core-model"))
+                .parser(JavaParser.fromJavaVersion().logCompilationWarningsAndErrors(true).classpath("camel-api", "camel-util", "camel-base", "camel-core-model", "camel-json-validator"))
                 .typeValidationOptions(TypeValidation.none());
     }
 
@@ -33,6 +33,23 @@ public class CamelCoreTest implements RewriteTest {
                     """));
     }
 
+    @Test
+    void testRenamedMethods() {
+        //language=java
+        rewriteRun(java(
+                """
+                            import org.apache.camel.component.jsonvalidator.DefaultJsonSchemaLoader;
+                            
+                            public class CustomJsonValidator extends DefaultJsonSchemaLoader {
+                            }
+                        """,
+                """
+                            import org.apache.camel.component.jsonvalidator.DefaultJsonUriSchemaLoader;
+                            
+                            public class CustomJsonValidator extends DefaultJsonUriSchemaLoader {
+                            }
+                        """));
+    }
 
     @Test
     void testStopWatchConstructorPrimitive() {

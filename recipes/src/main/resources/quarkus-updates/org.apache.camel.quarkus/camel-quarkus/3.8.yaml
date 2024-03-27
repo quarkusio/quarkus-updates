@@ -22,28 +22,27 @@
 # Update the Camel - Quarkus extensions
 #####
 ---
-
 type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.camel.camel41.CamelQuarkusMigrationRecipe
-displayName: Migrates `camel 4.0` application to `camel 4.1`
-description: Migrates `camel 4.0` quarkus application to `camel 4.1`.
+name: io.quarkus.updates.camel.camel44.CamelQuarkusMigrationRecipe
+displayName: Migrates `camel 4.0` application to `camel 4.4`
+description: Migrates `camel 4.0` quarkus application to `camel 4.4`.
 recipeList:
+  # to camel 4.1
   - io.quarkus.updates.camel.camel41.CamelCoreRecipe
   - io.quarkus.updates.camel.camel41.XmlDslRecipe
   - io.quarkus.updates.camel.camel41.YamlDslRecipe
-  - org.openrewrite.java.camel.camel41.TracingTag
----
-type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.camel.camel44.CamelQuarkusMigrationRecipe
-displayName: Migrates `camel 4.3` application to `camel 4.4`
-description: Migrates `camel 4.3` quarkus application to `camel 4.4`.
-recipeList:
+  - io.quarkus.updates.camel.camel41.TracingTag
+  # to camel 4.2
+  - io.quarkus.updates.camel.camel42.canelMainDebugger
+  - io.quarkus.updates.camel.camel42.CamelSagaRecipe  
+  # to camel 4.3
+  # to camel 4.4
   - io.quarkus.updates.camel.camel44.CamelCoreRecipe
-  - org.openrewrite.java.camel.camel44.RouteControllerProperties
-  - org.openrewrite.java.camel.camel44.DefaultJsonSchemaLoader
+  - io.quarkus.updates.camel.camel44.RouteControllerProperties
+  - io.quarkus.updates.camel.camel44.DefaultJsonSchemaLoader
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.camel.camel41.TracingTag
+name: io.quarkus.updates.camel.camel41.TracingTag
 displayName: Tag Enum has been deprecated
 description: The Tag Enum containing constants for tagging spans has been deprecated. Instead, use constants from the TagConstants.
 recipeList:
@@ -52,7 +51,17 @@ recipeList:
       newFullyQualifiedTypeName: org.apache.camel.tracing.TagConstants
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.camel.camel44.DefaultJsonSchemaLoader
+name: io.quarkus.updates.camel.camel42.canelMainDebugger
+displayName: The option camel.main.debugger has been renamed
+description: The option camel.main.debugger has been renamed to camel.debug.enabled.
+recipeList:
+  - org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: (.*)camel.main.debugger
+      newPropertyKey: $1camel.debug.enabled
+      regex: true
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.camel.camel44.DefaultJsonSchemaLoader
 displayName: Replace depricated DefaultJsonSchemaLoader with DefaultJsonUriSchemaLoader
 description: Replaces depricated class withits successor.
 recipeList:
@@ -62,7 +71,7 @@ recipeList:
 ---
 #https://camel.apache.org/manual/camel-4x-upgrade-guide-4_4.html#_camel_main
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.camel.camel44.RouteControllerProperties
+name: io.quarkus.updates.camel.camel44.RouteControllerProperties
 displayName: Replace 'camel.main.routeController' with `camel.routecontroller'
 recipeList:
   - org.openrewrite.properties.ChangePropertyKey:

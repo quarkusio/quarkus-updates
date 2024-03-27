@@ -73,6 +73,10 @@ public class RecipesUtil {
                .findFirst();
     }
 
+    public static boolean methodInvocationAreArgumentEmpty(J.MethodInvocation mi) {
+        return mi.getArguments().stream().filter(e -> !(e instanceof J.Empty)).findAny().isEmpty();
+    }
+
     //-------------- methods helping with comments ----
 
     public static Comment createMultinlineComment(String text) {
@@ -107,7 +111,7 @@ public class RecipesUtil {
     }
 
     public static J.Identifier createIdentifier(Space prefix, String name, String type) {
-       return new J.Identifier(randomId(), prefix, Markers.EMPTY, name,
+       return new J.Identifier(randomId(), prefix, Markers.EMPTY, Collections.emptyList(), name,
                 JavaType.ShallowClass.build(type), null);
     }
 

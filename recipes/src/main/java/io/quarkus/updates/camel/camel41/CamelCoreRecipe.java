@@ -60,6 +60,8 @@ public class CamelCoreRecipe extends Recipe {
             public J.Literal visitLiteral(J.Literal literal, ExecutionContext context) {
                 J.Literal l =  super.visitLiteral(literal, context);
 
+
+                //todo precondition that aws2 is present
                 if(JavaType.Primitive.String.equals(l.getType()) && AWS2_URL_WITH_QUEUE_URL.matcher((String)l.getValue()).matches()) {
                     String newUrl = ((String) l.getValue()).replaceFirst(AWS2_URL_WITH_QUEUE_REGEXP, "$1queueArn=arn:aws:sqs:$2");
                     l = RecipesUtil.createStringLiteral(newUrl);
