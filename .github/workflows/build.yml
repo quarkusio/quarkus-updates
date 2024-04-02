@@ -31,7 +31,7 @@ defaults:
     shell: bash
 
 env:
-  MAVEN_OPTS: -Xmx2g
+  MAVEN_OPTS: -Xmx4g
 
 jobs:
   build:
