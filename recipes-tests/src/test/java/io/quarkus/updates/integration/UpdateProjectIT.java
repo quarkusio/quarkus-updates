@@ -116,7 +116,7 @@ public class UpdateProjectIT {
     static void trustQuarkusRepo(Path tempDir) throws IOException, InterruptedException, TimeoutException {
         if (!quarkusRepoTrusted) {
             String trust = jbang(tempDir, "trust", "add", MAVEN_CENTRAL_QUARKUS_REPO);
-            assertThat(trust).matches(Pattern.compile("(?s).*Adding ." + MAVEN_CENTRAL_QUARKUS_REPO + ".* to .*/trusted-sources.json.*"));
+            assertThat(trust).matches(Pattern.compile("(?s).*\\[jbang\\] Trusting permanently: \\["+MAVEN_CENTRAL_QUARKUS_REPO+ "\\].*"));
             quarkusRepoTrusted = true;
         }
     }
