@@ -58,5 +58,4 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B clean install -Dno-format
-        env:
-          GRADLE_OPTS: '-Xmx1g'
+
