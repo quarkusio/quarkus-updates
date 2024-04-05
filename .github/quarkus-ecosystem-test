@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+export MAVEN_OPTS="-Xmx8g" GRADLE_OPTS="-Dorg.gradle.jvmargs='-Xmx8g'"
+
 mvn --settings $PWD/.github/quarkus-ecosystem-maven-settings.xml -B clean install \
   -Dno-format -DskipITs
 mvn --settings $PWD/.github/quarkus-ecosystem-maven-settings.xml -B integration-test \
