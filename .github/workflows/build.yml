@@ -31,8 +31,8 @@ defaults:
     shell: bash
 
 env:
-  MAVEN_OPTS: -Xmx16g
-  GRADLE_OPTS: -Xmx16g
+  MAVEN_OPTS: -Xmx8g
+  GRADLE_OPTS: -Xmx8g
 
 jobs:
   build:
