@@ -18,7 +18,7 @@ env:
 
   ECOSYSTEM_CI_REPO_PATH: quarkus-updates
   MAVEN_OPTS: -Xmx8g
-  GRADLE_OPTS: -Xmx8g
+  GRADLE_OPTS: -Dorg.gradle.jvmargs='-Xmx8g'
   ECOSYSTEM_CI: true
 
 jobs:

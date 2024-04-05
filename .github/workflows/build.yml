@@ -32,7 +32,7 @@ defaults:
 
 env:
   MAVEN_OPTS: -Xmx8g
-  GRADLE_OPTS: -Xmx8g
+  GRADLE_OPTS: -Dorg.gradle.jvmargs='-Xmx8g'
 
 jobs:
   build:
