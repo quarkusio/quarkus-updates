@@ -1,6 +1,6 @@
 package io.quarkus.updates.camel.camel40.yaml;
 
-import io.quarkus.updates.camel.customRecipes.AbstractCamelQuarkusYamlVisitor;
+import io.quarkus.updates.camel.AbstractCamelQuarkusYamlVisitor;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.openrewrite.ExecutionContext;
@@ -52,8 +52,8 @@ public class CamelQuarkusYamlRouteConfigurationSequenceRecipe extends Recipe {
             }
 
             @Override
-            public Yaml.Sequence visitSequence(Yaml.Sequence sequence, ExecutionContext context) {
-                Yaml.Sequence s = super.visitSequence(sequence, context);
+            public Yaml.Sequence doVisitSequence(Yaml.Sequence sequence, ExecutionContext context) {
+                Yaml.Sequence s = super.doVisitSequence(sequence, context);
 
                 //if there is a sequence in a route-configuration, it has to be replaced with mapping
                 if (new JsonPathMatcher("$.route-configuration").matches(getCursor().getParent())) {
@@ -63,8 +63,8 @@ public class CamelQuarkusYamlRouteConfigurationSequenceRecipe extends Recipe {
             }
 
             @Override
-            public Yaml.Mapping.Entry visitMappingEntry(Yaml.Mapping.Entry entry, ExecutionContext context) {
-                Yaml.Mapping.Entry e = super.visitMappingEntry(entry, context);
+            public Yaml.Mapping.Entry doVisitMappingEntry(Yaml.Mapping.Entry entry, ExecutionContext context) {
+                Yaml.Mapping.Entry e = super.doVisitMappingEntry(entry, context);
 
                 //if current mapping contains an entry with sequence belonging to route-configuration, remove the sequence
                 if (e.getValue() == sequenceToReplace) {
