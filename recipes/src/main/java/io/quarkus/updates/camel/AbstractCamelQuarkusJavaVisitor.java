@@ -103,7 +103,7 @@ public abstract class AbstractCamelQuarkusJavaVisitor extends JavaIsoVisitor<Exe
         try {
             return visitMethod.get();
         } catch (Exception e) {
-            LOGGER.warn(String.format("Internal error detected in %s, recipe is skipped.",context.getMessage("org.openrewrite.currentRecipe").getClass().getSimpleName()), e);
+            LOGGER.warn(String.format("Internal error detected in %s, recipe is skipped.", getClass().getName()), e);
             return origValue;
         }
     }

@@ -1,5 +1,6 @@
 package io.quarkus.updates.camel.camel40.yaml;
 
+import io.quarkus.updates.camel.AbstractCamelQuarkusYamlVisitor;
 import io.quarkus.updates.camel.RecipesUtil;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
@@ -61,15 +62,19 @@ public class CamelQuarkusYamlStepsInFromRecipe extends Recipe {
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
 
-            return new YamlIsoVisitor<>() {
-
+            return new AbstractCamelQuarkusYamlVisitor() {
                 //both variables has to be set to null, to mark the migration done
                 Yaml.Mapping from = null;
                 Yaml.Mapping.Entry steps = null;
 
                 @Override
-                public Yaml.Mapping.Entry visitMappingEntry(Yaml.Mapping.Entry entry, ExecutionContext context) {
-                    Yaml.Mapping.Entry e = super.visitMappingEntry(entry, context);
+                protected void clearLocalCache() {
+                    //do nothing
+                }
+
+                @Override
+                public Yaml.Mapping.Entry doVisitMappingEntry(Yaml.Mapping.Entry entry, ExecutionContext context) {
+                    Yaml.Mapping.Entry e = super.doVisitMappingEntry(entry, context);
 
                     if(steps == null && (MATCHER_WITH_ROUTE.matches(getCursor()) || MATCHER_WITHOUT_ROUTE.matches(getCursor()))) {
                         steps = e;
@@ -83,8 +88,8 @@ public class CamelQuarkusYamlStepsInFromRecipe extends Recipe {
                 }
 
                 @Override
-                public Yaml.Mapping visitMapping(Yaml.Mapping mapping, ExecutionContext context) {
-                    Yaml.Mapping m =  super.visitMapping(mapping, context);
+                public Yaml.Mapping doVisitMapping(Yaml.Mapping mapping, ExecutionContext context) {
+                    Yaml.Mapping m =  super.doVisitMapping(mapping, context);
 
                     String prop = RecipesUtil.getProperty(getCursor());
                     if(("route.from".equals(prop) || "from".equals(prop)) && from == null) {

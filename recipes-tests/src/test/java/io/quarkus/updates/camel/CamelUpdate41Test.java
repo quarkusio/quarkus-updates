@@ -105,6 +105,55 @@ public class CamelUpdate41Test implements RewriteTest {
      * <a href="https://camel.apache.org/manual/camel-4x-upgrade-guide-4_1.html#_xml_and_yaml_dsl">doc</a>
      */
     @Test
+    void testYamlDslNPE() {
+        //language=yaml
+        rewriteRun(Assertions.yaml("""
+                apiVersion: v1
+                kind: ServiceAccount
+                metadata:
+                  name: camel-leader-election
+                ---
+                apiVersion: rbac.authorization.k8s.io/v1
+                kind: Role
+                metadata:
+                  name: camel-leader-election
+                rules:
+                  - apiGroups:
+                      - ""
+                      - "coordination.k8s.io"
+                    resources:
+                      - configmaps
+                      - secrets
+                      - pods
+                      - leases
+                    verbs:
+                      - create
+                      - delete
+                      - deletecollection
+                      - get
+                      - list
+                      - patch
+                      - update
+                      - watch
+                ---
+                apiVersion: rbac.authorization.k8s.io/v1
+                kind: RoleBinding
+                metadata:
+                  name: camel-leader-election
+                subjects:
+                  - kind: ServiceAccount
+                    name: camel-leader-election
+                roleRef:
+                  kind: Role
+                  name: camel-leader-election
+                  apiGroup: rbac.authorization.k8s.io
+                """));
+    }
+
+    /**
+     * <a href="https://camel.apache.org/manual/camel-4x-upgrade-guide-4_1.html#_xml_and_yaml_dsl">doc</a>
+     */
+    @Test
     void testXmlDsl() {
         //language=xml
         rewriteRun(xml("""

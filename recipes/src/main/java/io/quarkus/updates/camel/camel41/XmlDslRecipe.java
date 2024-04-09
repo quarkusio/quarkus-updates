@@ -1,5 +1,6 @@
 package io.quarkus.updates.camel.camel41;
 
+import io.quarkus.updates.camel.AbstractCamelQuarkusXmlVisitor;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.Tree;
@@ -54,11 +55,11 @@ public class XmlDslRecipe extends Recipe {
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
-        return new XmlIsoVisitor<>() {
+        return new AbstractCamelQuarkusXmlVisitor() {
 
             @Override
-            public Xml.Tag visitTag(final Xml.Tag tag, final ExecutionContext ctx) {
-                Xml.Tag t = super.visitTag(tag, ctx);
+            public Xml.Tag doVisitTag(final Xml.Tag tag, final ExecutionContext ctx) {
+                Xml.Tag t = super.doVisitTag(tag, ctx);
 
                 if (XML_BEAN_MATCHER.matches(getCursor()) && t.getChild("script").isPresent()) {
                     //type ans beanType has to be present in the attributes

@@ -1,21 +1,15 @@
 package io.quarkus.updates.camel.camel41;
 
+import io.quarkus.updates.camel.AbstractCamelQuarkusYamlVisitor;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.openrewrite.Cursor;
 import org.openrewrite.ExecutionContext;
-import org.openrewrite.Option;
 import org.openrewrite.Recipe;
-import org.openrewrite.Tree;
 import org.openrewrite.TreeVisitor;
-import org.openrewrite.marker.Markers;
-import org.openrewrite.xml.tree.Xml;
 import org.openrewrite.yaml.JsonPathMatcher;
-import org.openrewrite.yaml.YamlIsoVisitor;
 import org.openrewrite.yaml.tree.Yaml;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,18 +59,23 @@ public class YamlDslRecipe extends Recipe {
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
 
-        return new YamlIsoVisitor<ExecutionContext>() {
+        return new AbstractCamelQuarkusYamlVisitor() {
 
             @Override
-            public Yaml.Mapping.Entry visitMappingEntry(Yaml.Mapping.Entry entry, ExecutionContext ctx) {
-                Yaml.Mapping.Entry e = super.visitMappingEntry(entry, ctx);
+            protected void clearLocalCache() {
+                //nothing to do
+            }
+
+            @Override
+            public Yaml.Mapping.Entry doVisitMappingEntry(Yaml.Mapping.Entry entry, ExecutionContext ctx) {
+                Yaml.Mapping.Entry e = super.doVisitMappingEntry(entry, ctx);
 
                 //getCursor().getParent() is mapping with 4 entries -> I can check the siblings
                 //parent(4) is beans
                 Cursor parent4 = getCursor().getParent(4);
                 //check that this mapping entry is currently under "beans" sequence
                 //parent(2) has to be mapping (represents the bean)
-                if (parent4 != null && MATCHER_WITHOUT_ROUTE.matches(parent4) && getCursor().getParent().getValue() instanceof Yaml.Mapping) {
+                if (parent4 != null && parent4.getParent() != null && MATCHER_WITHOUT_ROUTE.matches(parent4) && getCursor().getParent().getValue() instanceof Yaml.Mapping) {
                     //get entries
                     Yaml.Mapping m = getCursor().getParent().getValue();
                     List<Yaml.Mapping.Entry> entries = m.getEntries();
