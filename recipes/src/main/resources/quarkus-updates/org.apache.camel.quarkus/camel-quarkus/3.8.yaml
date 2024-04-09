@@ -110,6 +110,12 @@ recipeList:
   - org.openrewrite.properties.ChangePropertyKey:
       oldPropertyKey: camel.main.routeControllerSuperviseEnabled
       newPropertyKey: camel.routecontroller.enabled
+  - org.openrewrite.properties.ChangePropertyKey:
+      oldPropertyKey: camel.main.route-controller-supervise-enabled
+      newPropertyKey: camel.routecontroller.enabled
   - io.quarkus.updates.camel.customRecipes.ChangePropertyKeyWithCaseChange:
       oldPropertyKey: camel.main.routeController(.*)
+      newPrefix: camel.routecontroller.
+  - io.quarkus.updates.camel.customRecipes.ChangePropertyKeyWithCaseChange:
+      oldPropertyKey: camel.main.route-controller-(.*)
       newPrefix: camel.routecontroller.
