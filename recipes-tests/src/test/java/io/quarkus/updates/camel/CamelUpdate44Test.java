@@ -29,10 +29,30 @@ public class CamelUpdate44Test implements RewriteTest {
         rewriteRun(Assertions.properties("""
                    #test
                    camel.main.routeControllerBackOffDelay=1000
+                   camel.main.routeControllerSuperviseEnabled = true
                 """,
             """
                         #test
                         camel.routecontroller.backOffDelay=1000
+                        camel.routecontroller.enabled = true
+                    """));
+    }
+
+    /**
+     * <a href="https://camel.apache.org/manual/camel-4x-upgrade-guide-4_4.html#_camel_main">doc</a>
+     */
+    @Test
+    void testCamelMainRouteControllerDashedProperty() {
+        //language=java
+        rewriteRun(Assertions.properties("""
+                   #test
+                   camel.main.route-controller-back-off-max-attempts = 10
+                   camel.main.route-controller-supervise-enabled = true
+                """,
+            """
+                        #test
+                        camel.routecontroller.back-off-max-attempts = 10
+                        camel.routecontroller.enabled = true
                     """));
     }
 
