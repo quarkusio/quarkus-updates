@@ -33,8 +33,8 @@ public class CamelUpdate44Test implements RewriteTest {
                 """,
             """
                         #test
-                        camel.routecontroller.backOffDelay=1000
-                        camel.routecontroller.enabled = true
+                        camel.routeController.backOffDelay=1000
+                        camel.routeController.enabled = true
                     """));
     }
 
@@ -51,8 +51,8 @@ public class CamelUpdate44Test implements RewriteTest {
                 """,
             """
                         #test
-                        camel.routecontroller.back-off-max-attempts = 10
-                        camel.routecontroller.enabled = true
+                        camel.routeController.back-off-max-attempts = 10
+                        camel.routeController.enabled = true
                     """));
     }
 
