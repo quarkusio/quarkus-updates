@@ -1,0 +1,129 @@
+#####
+# Sync JPA model gen version with the one from the BOM
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.SyncHibernateJpaModelgenVersionWithBOM
+recipeList:
+  - io.quarkus.updates.core.quarkus37.SyncMavenCompilerAnnotationProcessorVersion:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-jpamodelgen
+#####
+# Adjust package properties in POM file
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.UpdateConfigPackagePom
+recipeList:
+  - io.quarkus.updates.core.quarkus310.AdjustPackageProperty
+#####
+# Adjust package properties in config files - jar
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.UpdateConfigPackageTypeJar
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.type
+      value: jar
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus.package.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus.package.type
+      oldValue: jar
+      newValue: dummy
+#####
+# Adjust package properties in config files - fast-jar
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.UpdateConfigPackageTypeFastJar
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.type
+      value: fast-jar
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus.package.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus.package.type
+      oldValue: fast-jar
+      newValue: dummy
+#####
+# Adjust package properties in config files - uber-jar
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.UpdateConfigPackageTypeUberJar
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.type
+      value: uber-jar
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus.package.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus.package.type
+      oldValue: uber-jar
+      newValue: dummy
+#####
+# Adjust package properties in config files - mutable-jar
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.UpdateConfigPackageTypeMutableJar
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.type
+      value: mutable-jar
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus.package.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus.package.type
+      oldValue: mutable-jar
+      newValue: dummy
+#####
+# Adjust package properties in config files - native
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.UpdateConfigPackageTypeNative
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.native.enabled
+      value: true
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.enabled
+      value: false
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus.package.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus.package.type
+      oldValue: native
+      newValue: dummy
+#####
+# Adjust package properties in config files - native sources
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.UpdateConfigPackageTypeNativeSources
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.native.enabled
+      value: true
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.enabled
+      value: false
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.native.sources-only
+      value: true
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus.package.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus.package.type
+      oldValue: native-sources
+      newValue: dummy
