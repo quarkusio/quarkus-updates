@@ -127,3 +127,61 @@ preconditions:
       propertyKey: quarkus.package.type
       oldValue: native-sources
       newValue: dummy
+#####
+# Adjust package properties in config files - simple properties
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.UpdateConfigPackageSimpleProperties
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.create-appcds
+      newPropertyKey: quarkus.package.jar.appcds.enabled
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.appcds-builder-image
+      newPropertyKey: quarkus.package.jar.appcds.builder-image
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.appcds-use-container
+      newPropertyKey: quarkus.package.jar.appcds.use-container
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.compress-jar
+      newPropertyKey: quarkus.package.jar.compress
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.filter-optional-dependencies
+      newPropertyKey: quarkus.package.jar.filter-optional-dependencies
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.add-runner-suffix
+      newPropertyKey: quarkus.package.jar.add-runner-suffix
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.user-configured-ignored-entries
+      newPropertyKey: quarkus.package.jar.user-configured-ignored-entries
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.user-providers-directory
+      newPropertyKey: quarkus.package.jar.user-providers-directory
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.included-optional-dependencies
+      newPropertyKey: quarkus.package.jar.included-optional-dependencies
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.include-dependency-list
+      newPropertyKey: quarkus.package.jar.include-dependency-list
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.decompiler.enabled
+      newPropertyKey: quarkus.package.jar.decompiler.enabled
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.vineflower.enabled
+      newPropertyKey: quarkus.package.jar.decompiler.enabled
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.decompiler.jar-directory
+      newPropertyKey: quarkus.package.jar.decompiler.jar-directory
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.vineflower.jar-directory
+      newPropertyKey: quarkus.package.jar.decompiler.jar-directory
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.manifest.attributes.(.*)
+      newPropertyKey: quarkus.package.jar.manifest.attributes.$1
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.manifest.sections.(.*)
+      newPropertyKey: quarkus.package.jar.manifest.sections.$1
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.package.manifest.add-implementation-entries
+      newPropertyKey: quarkus.package.jar.manifest.add-implementation-entries

@@ -2,6 +2,8 @@ package io.quarkus.updates.core.quarkus310;
 
 import static org.openrewrite.xml.AddToTagVisitor.addToTag;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.openrewrite.ExecutionContext;
@@ -33,6 +35,25 @@ public class AdjustPackageProperty extends Recipe {
     private static final String MUTABLE_JAR = "mutable-jar";
     private static final String NATIVE = "native";
     private static final String NATIVE_SOURCES = "native-sources";
+
+    private static final Map<String, String> CONFIG_MAPPING = new HashMap<>();
+
+    static {
+        CONFIG_MAPPING.put("quarkus.package.create-appcds", "quarkus.package.jar.appcds.enabled");
+        CONFIG_MAPPING.put("quarkus.package.appcds-builder-image", "quarkus.package.jar.appcds.builder-image");
+        CONFIG_MAPPING.put("quarkus.package.appcds-use-container", "quarkus.package.jar.appcds.use-container");
+        CONFIG_MAPPING.put("quarkus.package.compress-jar", "quarkus.package.jar.compress");
+        CONFIG_MAPPING.put("quarkus.package.filter-optional-dependencies", "quarkus.package.jar.filter-optional-dependencies");
+        CONFIG_MAPPING.put("quarkus.package.add-runner-suffix", "quarkus.package.jar.add-runner-suffix");
+        CONFIG_MAPPING.put("quarkus.package.user-configured-ignored-entries", "quarkus.package.jar.user-configured-ignored-entries");
+        CONFIG_MAPPING.put("quarkus.package.user-providers-directory", "quarkus.package.jar.user-providers-directory");
+        CONFIG_MAPPING.put("quarkus.package.included-optional-dependencies", "quarkus.package.jar.included-optional-dependencies");
+        CONFIG_MAPPING.put("quarkus.package.decompiler.enabled", "quarkus.package.jar.decompiler.enabled");
+        CONFIG_MAPPING.put("quarkus.package.vineflower.enabled", "quarkus.package.jar.decompiler.enabled");
+        CONFIG_MAPPING.put("quarkus.package.decompiler.jar-directory", "quarkus.package.jar.decompiler.jar-directory");
+        CONFIG_MAPPING.put("quarkus.package.vineflower.jar-directory", "quarkus.package.jar.decompiler.jar-directory");
+        CONFIG_MAPPING.put("quarkus.package.manifest.add-implementation-entries", "quarkus.package.jar.manifest.add-implementation-entries");
+    }
 
     @Override
     public String getDisplayName() {
@@ -81,6 +102,9 @@ public class AdjustPackageProperty extends Recipe {
                             }
                         }
                     }
+                }
+                if (CONFIG_MAPPING.containsKey(propertiesTag.getName())) {
+                    propertiesTag = propertiesTag.withName(CONFIG_MAPPING.get(propertiesTag.getName()));
                 }
 
                 return propertiesTag;

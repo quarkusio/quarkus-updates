@@ -146,6 +146,8 @@ public class CoreUpdate310Test implements RewriteTest {
                             <properties>
                                 <skipITs>false</skipITs>
                                 <quarkus.package.type>fast-jar</quarkus.package.type>
+                                <quarkus.package.create-appcds>true</quarkus.package.create-appcds>
+                                <quarkus.package.compress-jar>true</quarkus.package.compress-jar>
                             </properties>
                         </profile>
                         <profile>
@@ -320,6 +322,8 @@ public class CoreUpdate310Test implements RewriteTest {
                             </activation>
                             <properties>
                                 <skipITs>false</skipITs>
+                                <quarkus.package.jar.appcds.enabled>true</quarkus.package.jar.appcds.enabled>
+                                <quarkus.package.jar.compress>true</quarkus.package.jar.compress>
                                 <quarkus.package.jar.type>fast-jar</quarkus.package.jar.type>
                             </properties>
                         </profile>
@@ -384,11 +388,25 @@ public class CoreUpdate310Test implements RewriteTest {
         @Language("properties")
         String originalProperties = """
             quarkus.package.type=fast-jar
+            quarkus.package.manifest.attributes.key1=value1
+            quarkus.package.manifest.attributes.key2=value2
+            quarkus.package.manifest.sections."section1"."key1"=value11
+            quarkus.package.manifest.sections."section1"."key2"=value12
+            quarkus.package.manifest.sections."section2"."key1"=value21
+            quarkus.package.manifest.sections."section2"."key2"=value22
+            quarkus.package.manifest.add-implementation-entries=true
             """;
 
         @Language("properties")
         String afterProperties = """
             quarkus.package.jar.type=fast-jar
+            quarkus.package.jar.manifest.attributes.key1=value1
+            quarkus.package.jar.manifest.attributes.key2=value2
+            quarkus.package.jar.manifest.sections."section1"."key1"=value11
+            quarkus.package.jar.manifest.sections."section1"."key2"=value12
+            quarkus.package.jar.manifest.sections."section2"."key1"=value21
+            quarkus.package.jar.manifest.sections."section2"."key2"=value22
+            quarkus.package.jar.manifest.add-implementation-entries=true
             """;
 
         //language=xml
@@ -400,10 +418,12 @@ public class CoreUpdate310Test implements RewriteTest {
         @Language("properties")
         String originalProperties = """
             quarkus.package.type=uber-jar
+            quarkus.package.add-runner-suffix=false
             """;
 
         @Language("properties")
         String afterProperties = """
+            quarkus.package.jar.add-runner-suffix=false
             quarkus.package.jar.type=uber-jar
             """;
 
