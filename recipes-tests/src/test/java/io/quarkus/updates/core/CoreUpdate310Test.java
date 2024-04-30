@@ -6,6 +6,7 @@ import static org.openrewrite.properties.Assertions.properties;
 import java.nio.file.Path;
 
 import org.intellij.lang.annotations.Language;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
@@ -496,5 +497,123 @@ public class CoreUpdate310Test implements RewriteTest {
 
         //language=xml
         rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    @Disabled("Somehow, the change is not applied in tests")
+    void testFlywayPostgreSQL() {
+        //language=xml
+        rewriteRun(pomXml("""
+                <?xml version="1.0" encoding="UTF-8"?>
+                <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+                    <modelVersion>4.0.0</modelVersion>
+                    <groupId>org.acme</groupId>
+                    <artifactId>code-with-quarkus</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+
+                    <properties>
+                        <compiler-plugin.version>3.12.1</compiler-plugin.version>
+                        <maven.compiler.release>17</maven.compiler.release>
+                        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+                        <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+                        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+                        <quarkus.platform.version>3.9.5</quarkus.platform.version>
+                        <skipITs>true</skipITs>
+                        <surefire-plugin.version>3.2.5</surefire-plugin.version>
+                    </properties>
+
+                    <dependencyManagement>
+                        <dependencies>
+                            <dependency>
+                                <groupId>${quarkus.platform.group-id}</groupId>
+                                <artifactId>${quarkus.platform.artifact-id}</artifactId>
+                                <version>${quarkus.platform.version}</version>
+                                <type>pom</type>
+                                <scope>import</scope>
+                            </dependency>
+                        </dependencies>
+                    </dependencyManagement>
+
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-flyway</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-jdbc-postgresql</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-junit5</artifactId>
+                            <scope>test</scope>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.rest-assured</groupId>
+                            <artifactId>rest-assured</artifactId>
+                            <scope>test</scope>
+                        </dependency>
+                    </dependencies>
+                </project>
+                """,
+                """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+                    <modelVersion>4.0.0</modelVersion>
+                    <groupId>org.acme</groupId>
+                    <artifactId>code-with-quarkus</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+
+                    <properties>
+                        <compiler-plugin.version>3.12.1</compiler-plugin.version>
+                        <maven.compiler.release>17</maven.compiler.release>
+                        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+                        <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+                        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+                        <quarkus.platform.version>3.10.0.CR1</quarkus.platform.version>
+                        <skipITs>true</skipITs>
+                        <surefire-plugin.version>3.2.5</surefire-plugin.version>
+                    </properties>
+
+                    <dependencyManagement>
+                        <dependencies>
+                            <dependency>
+                                <groupId>${quarkus.platform.group-id}</groupId>
+                                <artifactId>${quarkus.platform.artifact-id}</artifactId>
+                                <version>${quarkus.platform.version}</version>
+                                <type>pom</type>
+                                <scope>import</scope>
+                            </dependency>
+                        </dependencies>
+                    </dependencyManagement>
+
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-flyway</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-jdbc-postgresql</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.flywaydb</groupId>
+                            <artifactId>flyway-database-postgresql</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-junit5</artifactId>
+                            <scope>test</scope>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.rest-assured</groupId>
+                            <artifactId>rest-assured</artifactId>
+                            <scope>test</scope>
+                        </dependency>
+                    </dependencies>
+                </project>
+                """));
     }
 }

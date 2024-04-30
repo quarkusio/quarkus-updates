@@ -185,3 +185,57 @@ recipeList:
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus.package.manifest.add-implementation-entries
       newPropertyKey: quarkus.package.jar.manifest.add-implementation-entries
+#####
+# Adjust Flyway PostgreSQL dependencies
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.FlywayPostgreSQL
+recipeList:
+  - org.openrewrite.maven.AddDependency:
+      groupId: org.flywaydb
+      artifactId: flyway-database-postgresql
+      version: latest.release
+preconditions:
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: io.quarkus
+      artifactId: quarkus-jdbc-postgresql
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: io.quarkus
+      artifactId: quarkus-flyway
+#####
+# Adjust Db2 PostgreSQL dependencies
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.FlywayDb2
+recipeList:
+  - org.openrewrite.maven.AddDependency:
+      groupId: org.flywaydb
+      artifactId: flyway-database-db2
+      version: latest.release
+preconditions:
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: io.quarkus
+      artifactId: quarkus-jdbc-db2
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: io.quarkus
+      artifactId: quarkus-flyway
+#####
+# Adjust Derby PostgreSQL dependencies
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus310.FlywayDerby
+recipeList:
+  - org.openrewrite.maven.AddDependency:
+      groupId: org.flywaydb
+      artifactId: flyway-database-derby
+      version: latest.release
+preconditions:
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: io.quarkus
+      artifactId: quarkus-jdbc-derby
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: io.quarkus
+      artifactId: quarkus-flyway
