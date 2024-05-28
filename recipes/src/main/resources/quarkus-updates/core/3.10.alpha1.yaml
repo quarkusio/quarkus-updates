@@ -204,7 +204,7 @@ preconditions:
       groupId: io.quarkus
       artifactId: quarkus-flyway
 #####
-# Adjust Db2 PostgreSQL dependencies
+# Adjust Flyway Db2 dependencies
 #####
 ---
 type: specs.openrewrite.org/v1beta/recipe
@@ -222,7 +222,7 @@ preconditions:
       groupId: io.quarkus
       artifactId: quarkus-flyway
 #####
-# Adjust Derby PostgreSQL dependencies
+# Adjust Flyway Derby dependencies
 #####
 ---
 type: specs.openrewrite.org/v1beta/recipe
