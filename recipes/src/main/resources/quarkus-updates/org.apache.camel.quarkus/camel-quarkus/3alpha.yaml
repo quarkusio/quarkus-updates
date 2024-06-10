@@ -43,6 +43,7 @@ recipeList:
   - io.quarkus.updates.camel.camel40.java.CamelEIPRecipe
   - io.quarkus.updates.camel.camel40.java.CamelBeanRecipe
   - io.quarkus.updates.camel.camel40.java.CamelHttpRecipe
+  - io.quarkus.updates.camel.camel40.UsePluginHelperForContextGetters
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.camel.migrate.ChangeTypes
@@ -171,3 +172,16 @@ recipeList:
       newMethodName: extendedInformation
       matchOverrides: null
       ignoreDefinition: null
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.camel.camel40.UsePluginHelperForContextGetters
+displayName: Replace context.getExtension(ExtendedCamelContext.class).get* with PluginHelper.get*(context)
+recipeList:
+  - io.quarkus.updates.camel.customRecipes.MoveGetterToPluginHelper:
+      oldMethodName: getComponentNameResolver
+  - io.quarkus.updates.camel.customRecipes.MoveGetterToPluginHelper:
+      oldMethodName: getModelJAXBContextFactory
+  - io.quarkus.updates.camel.customRecipes.MoveGetterToPluginHelper:
+      oldMethodName: getModelToXMLDumper
+  - io.quarkus.updates.camel.customRecipes.MoveGetterToPluginHelper:
+      oldMethodName: getRoutesLoader

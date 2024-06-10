@@ -544,6 +544,132 @@ public class CamelAPIsTest implements RewriteTest {
     }
 
     @Test
+    void testModelJAXBContextFactoryViaPluginHelper() {
+        //language=java
+        rewriteRun(java("""
+                            package org.apache.camel.quarkus.component.test.it;
+
+                            import org.apache.camel.CamelContext;
+                            import org.apache.camel.ExtendedCamelContext;
+                            import org.apache.camel.spi.ModelJAXBContextFactory;
+                            
+                            public class Test {
+                                
+                                ExtendedCamelContext ecc;
+                                CamelContext context;
+
+                                public void test() {
+                                    ModelJAXBContextFactory jcf = ecc.getModelJAXBContextFactory();
+                                    ModelJAXBContextFactory jcf2  = context.getExtension(ExtendedCamelContext.class).getModelJAXBContextFactory();
+                                }
+                            }
+                        """,
+                """
+                        package org.apache.camel.quarkus.component.test.it;
+    
+                        import org.apache.camel.CamelContext;
+                        import org.apache.camel.ExtendedCamelContext;
+                        import org.apache.camel.spi.ModelJAXBContextFactory;
+                        import org.apache.camel.support.PluginHelper;
+                        
+                        public class Test {
+                            
+                            ExtendedCamelContext ecc;
+                            CamelContext context;
+    
+                            public void test() {
+                                ModelJAXBContextFactory jcf = PluginHelper.getModelJAXBContextFactory(ecc);
+                                ModelJAXBContextFactory jcf2  = PluginHelper.getModelJAXBContextFactory(context);
+                            }
+                        }
+                        """));
+    }
+
+    @Test
+    void testModelToXMLDumperViaPluginHelper() {
+        //language=java
+        rewriteRun(java("""
+                            package org.apache.camel.quarkus.component.test.it;
+
+                            import org.apache.camel.CamelContext;
+                            import org.apache.camel.ExtendedCamelContext;
+                            import org.apache.camel.spi.ModelToXMLDumper;
+                            
+                            public class Test {
+                                
+                                ExtendedCamelContext ecc;
+                                CamelContext context;
+
+                                public void test() {
+                                    ModelToXMLDumper xd = ecc.getModelToXMLDumper();
+                                    ModelToXMLDumper xd2  = context.getExtension(ExtendedCamelContext.class).getModelToXMLDumper();
+                                }
+                            }
+                        """,
+                """
+                        package org.apache.camel.quarkus.component.test.it;
+    
+                        import org.apache.camel.CamelContext;
+                        import org.apache.camel.ExtendedCamelContext;
+                        import org.apache.camel.spi.ModelToXMLDumper;
+                        import org.apache.camel.support.PluginHelper;
+                        
+                        public class Test {
+                            
+                            ExtendedCamelContext ecc;
+                            CamelContext context;
+    
+                            public void test() {
+                                ModelToXMLDumper xd = PluginHelper.getModelToXMLDumper(ecc);
+                                ModelToXMLDumper xd2  = PluginHelper.getModelToXMLDumper(context);
+                            }
+                        }
+                        """));
+    }
+
+    @Test
+    void getRoutesLoaderViaPluginHelper() {
+        //language=java
+        rewriteRun(java("""
+                            package org.apache.camel.quarkus.component.test.it;
+
+                            import org.apache.camel.CamelContext;
+                            import org.apache.camel.ExtendedCamelContext;
+                            import org.apache.camel.spi.RoutesLoader;
+                            
+                            public class Test {
+                                
+                                ExtendedCamelContext ecc;
+                                CamelContext context;
+
+                                public void test() {
+                                    RoutesLoader rl = ecc.getRoutesLoader();
+                                    RoutesLoader rl  = context.getExtension(ExtendedCamelContext.class).getRoutesLoader();
+                                }
+                            }
+                        """,
+                """
+                        package org.apache.camel.quarkus.component.test.it;
+    
+                        import org.apache.camel.CamelContext;
+                        import org.apache.camel.ExtendedCamelContext;
+                        import org.apache.camel.spi.RoutesLoader;
+                        import org.apache.camel.support.PluginHelper;
+                        
+                        public class Test {
+                            
+                            ExtendedCamelContext ecc;
+                            CamelContext context;
+    
+                            public void test() {
+                                RoutesLoader rl = PluginHelper.getRoutesLoader(ecc);
+                                RoutesLoader rl  = PluginHelper.getRoutesLoader(context);
+                            }
+                        }
+                        """));
+    }
+
+    @Test
     void testRuntimeCatalog() {
         //language=java
         rewriteRun(java(
