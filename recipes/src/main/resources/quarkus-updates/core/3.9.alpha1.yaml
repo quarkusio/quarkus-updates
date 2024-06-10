@@ -15,7 +15,7 @@ recipeList:
 #####
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.core.quarkus38.SyncHibernateJpaModelgenVersionWithBOM
+name: io.quarkus.updates.core.quarkus39.SyncHibernateJpaModelgenVersionWithBOM
 recipeList:
   - io.quarkus.updates.core.quarkus37.SyncMavenCompilerAnnotationProcessorVersion:
       groupId: org.hibernate.orm
@@ -359,7 +359,7 @@ recipeList:
 #####
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.core.quarkus383.GraalSDK
+name: io.quarkus.updates.core.quarkus39.GraalSDK
 recipeList:
   - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.graalvm.sdk
