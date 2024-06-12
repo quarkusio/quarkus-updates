@@ -42,5 +42,5 @@ Contributions are welcome, see [CONTRIBUTING.md](./CONTRIBUTING.md) for more inf
 ## Release
 
 ```
-./mvnw -Prelease release:prepare release:perform
+./mvnw -Prelease release:prepare release:perform -DskipTests -DskipITs -Darguments="-DskipTests -DskipITs"
 ```
