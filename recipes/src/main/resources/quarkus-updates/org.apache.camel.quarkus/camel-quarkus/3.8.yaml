@@ -95,8 +95,8 @@ recipeList:
 #https://camel.apache.org/manual/camel-4x-upgrade-guide-4_4.html#_camel_json_validator
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.camel.camel44.DefaultJsonSchemaLoader
-displayName: Replace depricated DefaultJsonSchemaLoader with DefaultJsonUriSchemaLoader
-description: Replaces depricated class withits successor.
+displayName: Replace deprecated DefaultJsonSchemaLoader with DefaultJsonUriSchemaLoader
+description: Replaces deprecated class with its successor.
 recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: org.apache.camel.component.jsonvalidator.DefaultJsonSchemaLoader
