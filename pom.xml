@@ -67,7 +67,7 @@
         <!--   https://plugins.gradle.org/plugin/org.openrewrite.rewrite -->
         <rewrite-gradle-plugin.version>6.16.0</rewrite-gradle-plugin.version>
         <!-- align with https://central.sonatype.com/artifact/org.openrewrite/rewrite-core -->
-        <micrometer-core.version>1.9.17</micrometer-core.version>
+        <micrometer-core.version>1.13.1</micrometer-core.version>
         <!-- tests-->
         <junit.version>5.11.0-M1</junit.version>
         <!-- Http version used by the tests -->
