@@ -35,6 +35,24 @@ Recipes applied for a project in version 2.7.0.Final updating to 3.1.0.Final (`c
 - 3alpha.yaml
 - 3.1.yaml
 
+### How to provide extension recipes
+
+Recipes, which are applied for the specific extension only, have to fulfill several restrictions.
+
+#### Extension recipes from src 
+
+The tooling decides whether the yaml recipe is applied to the migrated project. 
+Non-core recipes are applied only if the location inside `recipes/src/main/resources` **matches** a dependency from the migrated.
+For example, if the extension depends on the artifact `my.groupId:my.artifactId-anything:1.0`, only recipes from the location `recipes/src/main/resources/my.groupId/my.artifactId` are applied (the artifactId matches via startsWith, therefore in this example, the folder can be named `my` or `my.art`, ...).
+The location should be unique so no other extension would trigger the recipe as well.
+
+#### Extension recipes from external dependency
+
+When the recipes come as a dependency, be aware of the following requirements
+
+- Yaml recipe has to be created in the same way (the correct location) described in the previous chapter.
+- Test coverage has to be added to this project (even if the recipes are tested in their own project).
+
 ## Contributing
 
 Contributions are welcome, see [CONTRIBUTING.md](./CONTRIBUTING.md) for more information.
