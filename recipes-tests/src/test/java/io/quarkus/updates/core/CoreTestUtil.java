@@ -1,11 +1,9 @@
 package io.quarkus.updates.core;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
@@ -16,7 +14,6 @@ import org.openrewrite.config.CompositeRecipe;
 import org.openrewrite.config.Environment;
 import org.openrewrite.config.YamlResourceLoader;
 import org.openrewrite.maven.UpgradeDependencyVersion;
-import org.openrewrite.maven.ChangePropertyValue;
 import org.openrewrite.test.RecipeSpec;
 
 public final class CoreTestUtil {

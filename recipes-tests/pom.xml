@@ -17,6 +17,8 @@
         <maven.compiler.release>17</maven.compiler.release>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <!-- Quarkus version used by the tests -->
+        <quarkus.version>3.13.0.CR1</quarkus.version>
         <!-- Camel quarkus version used by the tests -->
         <camel-quarkus.version>2.13.3</camel-quarkus.version>
         <!-- Http version used by the tests -->
@@ -26,12 +28,25 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${quarkus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.camel.quarkus</groupId>
                 <artifactId>camel-quarkus-bom</artifactId>
                 <version>${camel-quarkus.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- OpenRewrite depends on a Jackson version that still uses the old JAXB API -->
+             <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>2.3.3</version>
+             </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -129,6 +144,14 @@
             <groupId>org.zeroturnaround</groupId>
             <artifactId>zt-exec</artifactId>
             <version>1.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Quarkus test dependencies -->
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-test-common</artifactId>
             <scope>test</scope>
         </dependency>
 

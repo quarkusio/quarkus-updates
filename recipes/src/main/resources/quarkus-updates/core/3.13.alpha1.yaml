@@ -1,0 +1,30 @@
+#####
+# Sync JPA model gen version with the one from the BOM
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus313.SyncHibernateJpaModelgenVersionWithBOM
+recipeList:
+  - io.quarkus.updates.core.quarkus37.SyncMavenCompilerAnnotationProcessorVersion:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-jpamodelgen
+#####
+# Replace @QuarkusTestResource with @WithTestResource while keeping the original behavior
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus313.WithTestResource
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.test.common.QuarkusTestResource
+      newFullyQualifiedTypeName: io.quarkus.test.common.WithTestResource
+---
+# The default for WithTestResource is different so if using the default value, let's enforce it
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus313.WithTestResourceRestrictToAnnotatedClassValue
+recipeList:
+  - org.openrewrite.java.AddOrUpdateAnnotationAttribute:
+      annotationType: io.quarkus.test.common.WithTestResource
+      attributeName: restrictToAnnotatedClass
+      attributeValue: false
+      addOnly: true
