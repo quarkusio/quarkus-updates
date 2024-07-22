@@ -85,5 +85,26 @@ public class CoreUpdate313Test implements RewriteTest {
                 class GitHubAppTest {
                 }
             """));
+
+        //language=java
+        rewriteRun(java(
+            """
+                package io.quarkiverse.githubapp.test;
+
+                import io.quarkus.test.common.QuarkusTestResource;
+
+                @QuarkusTestResource(parallel = true)
+                class GitHubAppTest {
+                }
+            """,
+            """
+                package io.quarkiverse.githubapp.test;
+
+                import io.quarkus.test.common.WithTestResource;
+
+                @WithTestResource(restrictToAnnotatedClass = false, parallel = true)
+                class GitHubAppTest {
+                }
+            """));
     }
 }
