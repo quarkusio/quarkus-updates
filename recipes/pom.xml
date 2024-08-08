@@ -133,6 +133,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-upgrade-recipes</artifactId>
+            <version>${camel-upgrade-recipes.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
