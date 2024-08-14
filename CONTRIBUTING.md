@@ -8,4 +8,4 @@ your contributions are very welcome.
 If you want to test your changes on your application, you can:
 
 - Install your changes to your local repository with `./mvnw clean install`
-- Run `quarkus update` with your updated recipes: `quarkus update --update-recipes-version=1.0.X-SNAPSHOT` (adjust the version accordingly)
+- Run `quarkus update` with your updated recipes: `quarkus update --quarkus-update-recipes=1.0.X-SNAPSHOT` (adjust the version accordingly)
