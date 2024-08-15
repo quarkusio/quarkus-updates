@@ -121,6 +121,7 @@ public class CoreUpdate37Test implements RewriteTest {
 
                 <properties>
                     <compiler-plugin.version>3.12.1</compiler-plugin.version>
+                    <maven.compiler.release>17</maven.compiler.release>
                     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
                     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
                     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
@@ -212,6 +213,7 @@ public class CoreUpdate37Test implements RewriteTest {
 
                 <properties>
                     <compiler-plugin.version>3.12.1</compiler-plugin.version>
+                    <maven.compiler.release>17</maven.compiler.release>
                     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
                     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
                     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
@@ -266,6 +268,26 @@ public class CoreUpdate37Test implements RewriteTest {
                         </plugins>
                     </build>
                 </project>
+                """,
+                """
+                <project>
+                    <modelVersion>4.0.0</modelVersion>
+                    <groupId>io.quarkus.bot</groupId>
+                    <artifactId>release</artifactId>
+                    <version>999-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
+                    </properties>
+                    <build>
+                        <plugins>
+                            <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-compiler-plugin</artifactId>
+                                <version>3.12.1</version>
+                            </plugin>
+                        </plugins>
+                    </build>
+                </project>
                 """));
     }
 
@@ -302,6 +324,9 @@ public class CoreUpdate37Test implements RewriteTest {
                     <groupId>io.quarkus.bot</groupId>
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
+                    </properties>
                     <build>
                         <plugins>
                             <plugin>
@@ -357,6 +382,9 @@ public class CoreUpdate37Test implements RewriteTest {
                     <groupId>io.quarkus.bot</groupId>
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
+                    </properties>
                     <build>
                         <plugins>
                             <plugin>
@@ -423,6 +451,9 @@ public class CoreUpdate37Test implements RewriteTest {
                     <groupId>io.quarkus.bot</groupId>
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
+                    </properties>
                     <dependencyManagement>
                         <dependencies>
                             <dependency>
@@ -492,6 +523,9 @@ public class CoreUpdate37Test implements RewriteTest {
                     <groupId>io.quarkus.bot</groupId>
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
+                    </properties>
                     <build>
                         <plugins>
                             <plugin>
@@ -556,6 +590,9 @@ public class CoreUpdate37Test implements RewriteTest {
                     <groupId>io.quarkus.bot</groupId>
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
+                    </properties>
                     <build>
                         <plugins>
                             <plugin>
@@ -623,6 +660,9 @@ public class CoreUpdate37Test implements RewriteTest {
                     <groupId>io.quarkus.bot</groupId>
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
+                    </properties>
                     <build>
                         <plugins>
                             <plugin>
@@ -696,6 +736,9 @@ public class CoreUpdate37Test implements RewriteTest {
                     <groupId>io.quarkus.bot</groupId>
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
+                    </properties>
                     <dependencyManagement>
                         <dependencies>
                             <dependency>
@@ -782,6 +825,9 @@ public class CoreUpdate37Test implements RewriteTest {
                     <groupId>io.quarkus.bot</groupId>
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
+                    </properties>
                     <dependencyManagement>
                         <dependencies>
                             <dependency>
@@ -851,6 +897,9 @@ public class CoreUpdate37Test implements RewriteTest {
                     <groupId>io.quarkus.bot</groupId>
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
+                    </properties>
                     <dependencyManagement>
                         <dependencies>
                             <dependency>
@@ -927,6 +976,9 @@ public class CoreUpdate37Test implements RewriteTest {
                     <groupId>io.quarkus.bot</groupId>
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
+                    </properties>
                     <dependencyManagement>
                         <dependencies>
                             <dependency>
@@ -1013,6 +1065,7 @@ public class CoreUpdate37Test implements RewriteTest {
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
                     <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
                         <quarkus.version>3.7.0.CR1</quarkus.version>
                     </properties>
                     <dependencyManagement>
@@ -1102,6 +1155,7 @@ public class CoreUpdate37Test implements RewriteTest {
                     <artifactId>release</artifactId>
                     <version>999-SNAPSHOT</version>
                     <properties>
+                        <maven.compiler.release>17</maven.compiler.release>
                         <quarkus.version>3.7.0.CR1</quarkus.version>
                     </properties>
                     <dependencyManagement>
