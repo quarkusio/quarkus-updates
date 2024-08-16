@@ -35,24 +35,8 @@ name: io.quarkus.updates.camel.camel40.CamelQuarkusMigrationRecipe
 displayName: Migrate `camel3` application to `camel4.`
 description: Migrate `camel3` quarkus application to `camel4` quarkus.
 recipeList:
-  - io.quarkus.updates.camel.camel40.xml.XmlDslRecipe
-  - io.quarkus.updates.camel.camel40.xml.CircuitBreakerXmlDslRecipe
-  - io.quarkus.updates.camel.camel40.yaml.CamelQuarkusYamlRouteConfigurationSequenceRecipe
-  - io.quarkus.updates.camel.camel40.yaml.CamelQuarkusYamlStepsInFromRecipe
-  - io.quarkus.updates.camel.camel40.java.CamelAPIsRecipe
-  - io.quarkus.updates.camel.camel40.java.CamelEIPRecipe
-  - io.quarkus.updates.camel.camel40.java.CamelBeanRecipe
-  - io.quarkus.updates.camel.camel40.java.CamelHttpRecipe
-  - io.quarkus.updates.camel.camel40.UsePluginHelperForContextGetters
----
-type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.camel.migrate.ChangeTypes
-displayName: Migrate moved types between Came 3.x and Camel 4.x
-description: Change type of classes related to change of API.
-recipeList:
-  - org.openrewrite.java.ChangeType:
-      oldFullyQualifiedTypeName: org.apache.camel.support.IntrospectionSupport
-      newFullyQualifiedTypeName: org.apache.camel.impl.engine.IntrospectionSupport
+  #  use the recipe from camel standalone migration
+  - org.apache.camel.updates.camel40.CamelMigrationRecipe
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.camel.migrate.removedExtensions
@@ -135,53 +119,3 @@ recipeList:
   - org.openrewrite.maven.RemoveDependency:
       groupId: org.apache.camel.quarkus
       artifactId: camel-quarkus-xstream
----
-type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.camel.migrate.ChangePropertyValue
-displayName: Camel API changes in application.properties
-description: Apache Camel API migration from version 3.20 or higher to 4.0. Removal of deprecated APIs, which could be part of the application.properties.
-#todo would be better to put a comment about changed property and its alternative, once the openrewrite recipe allows that
-recipeList:
-  - org.openrewrite.properties.ChangePropertyValue:
-      propertyKey: camel.threadpool.rejectedPolicy
-      newValue: "Abort #DiscardOldest has been removed, consider Abort"
-      oldValue: DiscardOldest
-  - org.openrewrite.properties.ChangePropertyValue:
-        propertyKey: camel.threadpool.rejectedPolicy
-        newValue: "Abort #Discard has been removed, consider Abort"
-        oldValue: Discard
----
-type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.camel.migrate.ChangeManagedChoiceMBeanMethodName
-displayName: Change of method names brought by Camel JMX API changes
-description: MBeans now use a consistent method name of `extendedInformation`.
-recipeList:
-  - org.openrewrite.java.ChangeMethodName:
-      methodPattern: org.apache.camel.api.management.mbean.ManagedChoiceMBean choiceStatistics()
-      newMethodName: extendedInformation
-      matchOverrides: null
-      ignoreDefinition: null
----
-type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.camel.migrate.ChangeManagedFailoverLoadBalancerMBeanMethodName
-displayName: Change of method names brought by Camel JMX API changes
-description: MBeans now use a consistent method name of `extendedInformation`.
-recipeList:
-  - org.openrewrite.java.ChangeMethodName:
-      methodPattern: org.apache.camel.api.management.mbean.ManagedFailoverLoadBalancerMBean exceptionStatistics()
-      newMethodName: extendedInformation
-      matchOverrides: null
-      ignoreDefinition: null
----
-type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.camel.camel40.UsePluginHelperForContextGetters
-displayName: Replace context.getExtension(ExtendedCamelContext.class).get* with PluginHelper.get*(context)
-recipeList:
-  - io.quarkus.updates.camel.customRecipes.MoveGetterToPluginHelper:
-      oldMethodName: getComponentNameResolver
-  - io.quarkus.updates.camel.customRecipes.MoveGetterToPluginHelper:
-      oldMethodName: getModelJAXBContextFactory
-  - io.quarkus.updates.camel.customRecipes.MoveGetterToPluginHelper:
-      oldMethodName: getModelToXMLDumper
-  - io.quarkus.updates.camel.customRecipes.MoveGetterToPluginHelper:
-      oldMethodName: getRoutesLoader
