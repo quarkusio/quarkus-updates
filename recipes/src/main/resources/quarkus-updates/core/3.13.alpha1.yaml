@@ -9,26 +9,6 @@ recipeList:
       groupId: org.hibernate.orm
       artifactId: hibernate-jpamodelgen
 #####
-# Replace @QuarkusTestResource with @WithTestResource while keeping the original behavior
-#####
----
-type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.core.quarkus313.WithTestResource
-recipeList:
-  - org.openrewrite.java.ChangeType:
-      oldFullyQualifiedTypeName: io.quarkus.test.common.QuarkusTestResource
-      newFullyQualifiedTypeName: io.quarkus.test.common.WithTestResource
----
-# The default for WithTestResource is different so if using the default value, let's enforce it
-type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.core.quarkus313.WithTestResourceRestrictToAnnotatedClassValue
-recipeList:
-  - org.openrewrite.java.AddOrUpdateAnnotationAttribute:
-      annotationType: io.quarkus.test.common.WithTestResource
-      attributeName: restrictToAnnotatedClass
-      attributeValue: false
-      addOnly: true
-#####
 # Adjust package properties in config files - native sources
 #####
 ---
