@@ -28,3 +28,16 @@ recipeList:
       attributeName: restrictToAnnotatedClass
       attributeValue: false
       addOnly: true
+#####
+# Adjust package properties in config files - native sources
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus313.UpdateTestOIDCAuthServerUrl
+recipeList:
+  - org.openrewrite.properties.ChangePropertyValue:
+      propertyKey: '%test.quarkus.oidc.auth-server-url'
+      # this is a horrible hack to work around https://github.com/openrewrite/rewrite/discussions/4428
+      oldValue: '(\$)\{keycloak.url}\/realms\/quarkus\/'
+      newValue: '$1{keycloak.url:replaced-by-test-resource}/realms/quarkus/'
+      regex: true
