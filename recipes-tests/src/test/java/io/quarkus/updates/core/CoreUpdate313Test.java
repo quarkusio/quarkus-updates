@@ -1,9 +1,11 @@
 package io.quarkus.updates.core;
 
 import static org.openrewrite.java.Assertions.java;
+import static org.openrewrite.properties.Assertions.properties;
 
 import java.nio.file.Path;
 
+import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.Test;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
@@ -22,89 +24,31 @@ public class CoreUpdate313Test implements RewriteTest {
     }
 
     @Test
-    void testWithTestResource() {
-        //language=java
-        rewriteRun(java(
-                """
-                    package io.quarkiverse.githubapp.test;
+    void testUpdateTestOIDCAuthServerUrl() {
+        @Language("properties")
+        String originalProperties = """
+            %test.quarkus.oidc.auth-server-url=${keycloak.url}/realms/quarkus/
+            """;
 
-                    import io.quarkus.test.common.QuarkusTestResource;
+        @Language("properties")
+        String afterProperties = """
+            %test.quarkus.oidc.auth-server-url=${keycloak.url:replaced-by-test-resource}/realms/quarkus/
+            """;
 
-                    @QuarkusTestResource
-                    public class GitHubAppTest {
-                    }
-                """,
-                """
-                    package io.quarkiverse.githubapp.test;
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
 
-                    import io.quarkus.test.common.WithTestResource;
+        @Language("properties")
+        String unchangedWrongProfileOriginalProperties = """
+            quarkus.oidc.auth-server-url=${keycloak.url}/realms/quarkus/
+            """;
 
-                    @WithTestResource(restrictToAnnotatedClass = false)
-                    public class GitHubAppTest {
-                    }
-                """));
+        rewriteRun(properties(unchangedWrongProfileOriginalProperties, spec -> spec.path("src/main/resources/application.properties")));
 
-        //language=java
-        rewriteRun(java(
-            """
-                package io.quarkiverse.githubapp.test;
+        @Language("properties")
+        String unchangedWrongValueOriginalProperties = """
+            %test.quarkus.oidc.auth-server-url=another-value
+            """;
 
-                import io.quarkus.test.common.QuarkusTestResource;
-
-                @QuarkusTestResource(restrictToAnnotatedClass = false)
-                public class GitHubAppTest {
-                }
-            """,
-            """
-                package io.quarkiverse.githubapp.test;
-
-                import io.quarkus.test.common.WithTestResource;
-
-                @WithTestResource(restrictToAnnotatedClass = false)
-                public class GitHubAppTest {
-                }
-            """));
-
-        //language=java
-        rewriteRun(java(
-            """
-                package io.quarkiverse.githubapp.test;
-
-                import io.quarkus.test.common.QuarkusTestResource;
-
-                @QuarkusTestResource(restrictToAnnotatedClass = true)
-                class GitHubAppTest {
-                }
-            """,
-            """
-                package io.quarkiverse.githubapp.test;
-
-                import io.quarkus.test.common.WithTestResource;
-
-                @WithTestResource(restrictToAnnotatedClass = true)
-                class GitHubAppTest {
-                }
-            """));
-
-        //language=java
-        rewriteRun(java(
-            """
-                package io.quarkiverse.githubapp.test;
-
-                import io.quarkus.test.common.QuarkusTestResource;
-
-                @QuarkusTestResource(parallel = true)
-                class GitHubAppTest {
-                }
-            """,
-            """
-                package io.quarkiverse.githubapp.test;
-
-                import io.quarkus.test.common.WithTestResource;
-
-                @WithTestResource(restrictToAnnotatedClass = false, parallel = true)
-                class GitHubAppTest {
-                }
-            """));
+        rewriteRun(properties(unchangedWrongValueOriginalProperties, spec -> spec.path("src/main/resources/application.properties")));
     }
 }

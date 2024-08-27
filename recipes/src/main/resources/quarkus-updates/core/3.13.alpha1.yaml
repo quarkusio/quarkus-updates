@@ -9,22 +9,15 @@ recipeList:
       groupId: org.hibernate.orm
       artifactId: hibernate-jpamodelgen
 #####
-# Replace @QuarkusTestResource with @WithTestResource while keeping the original behavior
+# Adjust package properties in config files - native sources
 #####
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.core.quarkus313.WithTestResource
+name: io.quarkus.updates.core.quarkus313.UpdateTestOIDCAuthServerUrl
 recipeList:
-  - org.openrewrite.java.ChangeType:
-      oldFullyQualifiedTypeName: io.quarkus.test.common.QuarkusTestResource
-      newFullyQualifiedTypeName: io.quarkus.test.common.WithTestResource
----
-# The default for WithTestResource is different so if using the default value, let's enforce it
-type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.core.quarkus313.WithTestResourceRestrictToAnnotatedClassValue
-recipeList:
-  - org.openrewrite.java.AddOrUpdateAnnotationAttribute:
-      annotationType: io.quarkus.test.common.WithTestResource
-      attributeName: restrictToAnnotatedClass
-      attributeValue: false
-      addOnly: true
+  - org.openrewrite.properties.ChangePropertyValue:
+      propertyKey: '%test.quarkus.oidc.auth-server-url'
+      # this is a horrible hack to work around https://github.com/openrewrite/rewrite/discussions/4428
+      oldValue: '(\$)\{keycloak.url}\/realms\/quarkus\/'
+      newValue: '$1{keycloak.url:replaced-by-test-resource}/realms/quarkus/'
+      regex: true
