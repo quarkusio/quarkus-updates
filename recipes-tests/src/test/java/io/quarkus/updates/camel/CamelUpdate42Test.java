@@ -5,7 +5,7 @@ import org.openrewrite.test.TypeValidation;
 
 import static org.openrewrite.java.Assertions.java;
 
-public class CamelUpdate42Test extends org.apache.camel.updates.camel44.CamelUpdate42Test {
+public class CamelUpdate42Test extends org.apache.camel.upgrade.camel44.CamelUpdate42Test {
 
     @Override
     public void defaults(RecipeSpec spec) {

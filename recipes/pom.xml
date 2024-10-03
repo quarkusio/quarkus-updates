@@ -136,7 +136,7 @@
 
 
         <dependency>
-            <groupId>org.apache.camel</groupId>
+            <groupId>org.apache.camel.upgrade</groupId>
             <artifactId>camel-upgrade-recipes</artifactId>
             <version>${camel-upgrade-recipes.version}</version>
         </dependency>
