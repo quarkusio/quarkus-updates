@@ -32,6 +32,8 @@
         <test.camel-quarkus-3-0.http-client-version>4.5.14</test.camel-quarkus-3-0.http-client-version>
         <test.camel-quarkus-3-0.http-core-version>4.4.16</test.camel-quarkus-3-0.http-core-version>
         <test.camel-quarkus-3-8.camel-version>4.0.3</test.camel-quarkus-3-8.camel-version>
+        <test.camel-quarkus-3-15.camel-version>4.8.0</test.camel-quarkus-3-15.camel-version>
+        <test.camel-quarkus-3-15.jakarta-servlet-api-version>6.0.0</test.camel-quarkus-3-15.jakarta-servlet-api-version>
 
     </properties>
 
@@ -167,7 +169,7 @@
 
         <!-- Recipes for testing camel-quarkus -->
         <dependency>
-            <groupId>org.apache.camel</groupId>
+            <groupId>org.apache.camel.upgrade</groupId>
             <artifactId>camel-upgrade-recipes</artifactId>
             <version>${camel-upgrade-recipes.version}</version>
             <scope>test</scope>
@@ -309,7 +311,7 @@
                                     <version>${test.camel-quarkus-3-0.camel-version}</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
-                                <!--3.18 non-camel dependencies-->
+                                <!--3.8 non-camel dependencies-->
                                 <artifactItem>
                                     <groupId>org.apache.httpcomponents</groupId>
                                     <artifactId>httpclient</artifactId>
@@ -322,13 +324,7 @@
                                     <version>${test.camel-quarkus-3-0.http-core-version}</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
-                                <!-- camel 4.0 dependencies-->
-                                <artifactItem>
-                                    <groupId>org.apache.camel</groupId>
-                                    <artifactId>camel-api</artifactId>
-                                    <version>${test.camel-quarkus-3-8.camel-version}</version>
-                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
-                                </artifactItem>
+                                <!-- camel quarkus 3.8 test dependencies-->
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-base</artifactId>
@@ -344,12 +340,6 @@
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-endpointdsl</artifactId>
-                                    <version>${test.camel-quarkus-3-8.camel-version}</version>
-                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.camel</groupId>
-                                    <artifactId>camel-core-model</artifactId>
                                     <version>${test.camel-quarkus-3-8.camel-version}</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
@@ -373,20 +363,51 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>
-                                    <artifactId>camel-support</artifactId>
-                                    <version>${test.camel-quarkus-3-8.camel-version}</version>
-                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-tracing</artifactId>
                                     <version>${test.camel-quarkus-3-8.camel-version}</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>
-                                    <artifactId>camel-util</artifactId>
+                                    <artifactId>camel-spring-redis</artifactId>
                                     <version>${test.camel-quarkus-3-8.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-opensearch</artifactId>
+                                    <version>${test.camel-quarkus-3-8.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-elasticsearch</artifactId>
+                                    <version>${test.camel-quarkus-3-8.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <!-- camel quarkus 3.15 test dependencies-->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-elasticsearch</artifactId>
+                                    <version>${test.camel-quarkus-3-15.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-http-common</artifactId>
+                                    <version>${test.camel-quarkus-3-15.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-undertow</artifactId>
+                                    <version>${test.camel-quarkus-3-15.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>jakarta.servlet</groupId>
+                                    <artifactId>jakarta.servlet-api</artifactId>
+                                    <version>${test.camel-quarkus-3-15.jakarta-servlet-api-version}</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
                             </artifactItems>

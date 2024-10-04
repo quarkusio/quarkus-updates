@@ -4,7 +4,7 @@ import io.quarkus.updates.camel.CamelQuarkusTestUtil;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.TypeValidation;
 
-public class CamelHttpTest extends org.apache.camel.updates.camel40.CamelHttpTest {
+public class CamelHttpTest extends org.apache.camel.upgrade.camel40.CamelHttpTest {
 
     @Override
     public void defaults(RecipeSpec spec) {

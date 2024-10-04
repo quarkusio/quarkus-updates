@@ -23,9 +23,12 @@
 #####
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: io.quarkus.updates.camel.camel44.CamelQuarkusMigrationRecipe
-displayName: Migrates `camel 4.0` application to `camel 4.4`
-description: Migrates `camel 4.0` quarkus application to `camel 4.4`.
+name: io.quarkus.updates.camel.camel47.CamelQuarkusMigrationRecipe
+displayName: Migrates `camel 4.4` application to `camel 4.8`
+description: Migrates `camel 4.4` quarkus application to `camel 4.8`.
 recipeList:
-#  use the recipe from camel standalone migration
-  - org.apache.camel.upgrade.camel44.CamelMigrationRecipe
+#  use the recipe from camel upgrade recipes project
+  - org.apache.camel.upgrade.camel45.CamelMigrationRecipe
+  - org.apache.camel.upgrade.camel46.CamelMigrationRecipe
+  - org.apache.camel.upgrade.camel47.CamelMigrationRecipe
+# there is no recipe for camel 4.8 - intentionaly
