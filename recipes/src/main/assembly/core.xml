@@ -16,5 +16,13 @@
       </includes>
       <outputDirectory>META-INF/rewrite</outputDirectory>
     </fileSet>
+    <fileSet>
+      <directory>src/main/resources/quarkus-updates/quarkiverse</directory>
+      <includes>
+        <include>**/*.yaml</include>
+        <include>**/*.yml</include>
+      </includes>
+      <outputDirectory>META-INF/rewrite</outputDirectory>
+    </fileSet>
   </fileSets>
 </assembly>
