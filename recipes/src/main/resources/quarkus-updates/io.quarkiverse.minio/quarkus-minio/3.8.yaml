@@ -1,0 +1,18 @@
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quakus.updates.minio.minio38.UpdateAll
+recipeList:
+  - io.quarkus.updates.minio.minio38.UpdateProperties
+  - io.quarkus.updates.quarkiverse.minio.minio38.AdjustURLPropertyValue
+
+
+#####
+# Adjust properties in application.properties
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.minio.minio38.UpdateProperties
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus.minio.(.*\.)?url
+      newPropertyKey: quarkus.minio.$1host
+      changeAllProfiles: true
