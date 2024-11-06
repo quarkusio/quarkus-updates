@@ -162,7 +162,7 @@ public class ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId extends 
                                             //If the previous dependency had a version but the new artifact is managed, removed the
                                             //version tag.
                                             mavenCompilerPluginTag = (Xml.Tag) new RemoveContentVisitor<>(versionTag.get(),
-                                                    false).visit(mavenCompilerPluginTag, ctx);
+                                                    false, false).visit(mavenCompilerPluginTag, ctx);
                                         } else {
                                             //Otherwise, change the version to the new value.
                                             mavenCompilerPluginTag = changeChildTagValue(mavenCompilerPluginTag, annotationProcessorPath,

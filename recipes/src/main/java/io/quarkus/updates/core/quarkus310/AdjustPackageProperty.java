@@ -83,18 +83,18 @@ public class AdjustPackageProperty extends Recipe {
                                 case FAST_JAR:
                                 case MUTABLE_JAR:
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<" + QUARKUS_PACKAGE_JAR_TYPE + ">" + packageTypeValue.get() + "</" + QUARKUS_PACKAGE_JAR_TYPE + ">"), getCursor().getParentOrThrow());
-                                    doAfterVisit(new RemoveContentVisitor<>(packageType.get(), false));
+                                    doAfterVisit(new RemoveContentVisitor<>(packageType.get(), false, false));
                                     break;
                                 case NATIVE:
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<"+ QUARKUS_NATIVE_ENABLED +">true</" + QUARKUS_NATIVE_ENABLED + ">"), getCursor().getParentOrThrow());
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<"+ QUARKUS_PACKAGE_JAR_ENABLED +">false</" + QUARKUS_PACKAGE_JAR_ENABLED + ">"), getCursor().getParentOrThrow());
-                                    doAfterVisit(new RemoveContentVisitor<>(packageType.get(), false));
+                                    doAfterVisit(new RemoveContentVisitor<>(packageType.get(), false, false));
                                     break;
                                 case NATIVE_SOURCES:
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<"+ QUARKUS_NATIVE_ENABLED +">true</" + QUARKUS_NATIVE_ENABLED + ">"), getCursor().getParentOrThrow());
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<"+ QUARKUS_NATIVE_SOURCES_ONLY +">true</" + QUARKUS_NATIVE_SOURCES_ONLY + ">"), getCursor().getParentOrThrow());
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<"+ QUARKUS_PACKAGE_JAR_ENABLED +">false</" + QUARKUS_PACKAGE_JAR_ENABLED + ">"), getCursor().getParentOrThrow());
-                                    doAfterVisit(new RemoveContentVisitor<>(packageType.get(), false));
+                                    doAfterVisit(new RemoveContentVisitor<>(packageType.get(), false, false));
                                     break;
                                 default:
                                     // do nothing for legacy jars
