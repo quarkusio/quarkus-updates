@@ -1,0 +1,9 @@
+#####
+# Remove the `quarkus.flyway.clean-on-validation-error` property
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus318.RemoveFlywayCleanOnValidationError
+recipeList:
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus\.flyway\.(.+\.)?clean-on-validation-error
