@@ -1106,7 +1106,7 @@ recipeList:
       oldGroupId: io.quarkus
       oldArtifactId: quarkus-bootstrap-maven-plugin
       newGroupId: io.quarkus
-      newArtifact: quarkus-extension-maven-plugin
+      newArtifactId: quarkus-extension-maven-plugin
 
 #####
 # Additional recipes for Kotlin
