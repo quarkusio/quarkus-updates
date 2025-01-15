@@ -146,7 +146,7 @@ public class CamelPomRecipeTest implements RewriteTest {
                            </dependencies>
 
                         </project>
-                                                        """,
+                        """,
                 """
                         <project>
                            <modelVersion>4.0.0</modelVersion>
@@ -176,14 +176,10 @@ public class CamelPomRecipeTest implements RewriteTest {
                                    <groupId>org.apache.camel.quarkus</groupId>
                                    <artifactId>camel-quarkus-bean</artifactId>
                                </dependency>
-                               <!--<dependency>  org.openrewrite.maven.MavenDownloadingException: org.iota:java-md-doclet:2.2 failed. Unable to download POM. Tried repositories:
-                                   <groupId>org.apache.camel.quarkus</groupId>
-                                   <artifactId>camel-quarkus-iota</artifactId>
-                               </dependency>-->
                            </dependencies>
 
                         </project>
-                                                        """));
+                        """));
     }
 
     @Test

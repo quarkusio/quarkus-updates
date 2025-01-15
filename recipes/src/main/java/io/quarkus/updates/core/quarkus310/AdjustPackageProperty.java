@@ -73,9 +73,10 @@ public class AdjustPackageProperty extends Recipe {
                 Xml.Tag propertiesTag = (Xml.Tag) super.visitTag(tag, ctx);
 
                 if (PROPERTIES.equals(propertiesTag.getName())) {
-                    Optional<Xml.Tag> packageType = propertiesTag.getChild(QUARKUS_PACKAGE_TYPE);
-                    if (packageType.isPresent()) {
-                        Optional<String> packageTypeValue = packageType.get().getValue();
+                    Optional<Xml.Tag> packageTypeOptional = propertiesTag.getChild(QUARKUS_PACKAGE_TYPE);
+                    if (packageTypeOptional.isPresent()) {
+                        Xml.Tag packageType = packageTypeOptional.get();
+                        Optional<String> packageTypeValue = packageType.getValue();
                         if (packageTypeValue.isPresent()) {
                             switch (packageTypeValue.get()) {
                                 case JAR:
@@ -83,18 +84,18 @@ public class AdjustPackageProperty extends Recipe {
                                 case FAST_JAR:
                                 case MUTABLE_JAR:
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<" + QUARKUS_PACKAGE_JAR_TYPE + ">" + packageTypeValue.get() + "</" + QUARKUS_PACKAGE_JAR_TYPE + ">"), getCursor().getParentOrThrow());
-                                    doAfterVisit(new RemoveContentVisitor<>(packageType.get(), false));
+                                    doAfterVisit(new RemoveContentVisitor<>(packageType, false, false));
                                     break;
                                 case NATIVE:
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<"+ QUARKUS_NATIVE_ENABLED +">true</" + QUARKUS_NATIVE_ENABLED + ">"), getCursor().getParentOrThrow());
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<"+ QUARKUS_PACKAGE_JAR_ENABLED +">false</" + QUARKUS_PACKAGE_JAR_ENABLED + ">"), getCursor().getParentOrThrow());
-                                    doAfterVisit(new RemoveContentVisitor<>(packageType.get(), false));
+                                    doAfterVisit(new RemoveContentVisitor<>(packageType, false, false));
                                     break;
                                 case NATIVE_SOURCES:
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<"+ QUARKUS_NATIVE_ENABLED +">true</" + QUARKUS_NATIVE_ENABLED + ">"), getCursor().getParentOrThrow());
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<"+ QUARKUS_NATIVE_SOURCES_ONLY +">true</" + QUARKUS_NATIVE_SOURCES_ONLY + ">"), getCursor().getParentOrThrow());
                                     propertiesTag = addToTag(propertiesTag, Xml.Tag.build("<"+ QUARKUS_PACKAGE_JAR_ENABLED +">false</" + QUARKUS_PACKAGE_JAR_ENABLED + ">"), getCursor().getParentOrThrow());
-                                    doAfterVisit(new RemoveContentVisitor<>(packageType.get(), false));
+                                    doAfterVisit(new RemoveContentVisitor<>(packageType, false, false));
                                     break;
                                 default:
                                     // do nothing for legacy jars
