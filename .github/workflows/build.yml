@@ -57,5 +57,5 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven
-        run: mvn -B clean install -Dno-format
+        run: mvn -B clean install -Dno-format -Dstyle.color=always
 
