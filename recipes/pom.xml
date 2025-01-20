@@ -70,13 +70,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <!-- TODO Remove dependency -->
-            <groupId>org.openrewrite.recipe</groupId>
-            <artifactId>rewrite-migrate-java</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.openrewrite.recipe</groupId>
             <artifactId>rewrite-quarkus</artifactId>
+        </dependency>
+
+        <!-- rewrite-gradle dependency only necessary for Gradle Recipe development -->
+        <dependency>
+            <groupId>org.openrewrite</groupId>
+            <artifactId>rewrite-gradle</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- rewrite-maven dependency only necessary for Maven Recipe development -->

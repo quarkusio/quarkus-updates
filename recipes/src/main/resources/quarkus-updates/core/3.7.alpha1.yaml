@@ -137,7 +137,7 @@ description: >
 tags:
   - java17
 recipeList:
-  - org.openrewrite.github.SetupJavaUpgradeJavaVersion: # TODO Fork recipe or remove
+  - io.quarkus.updates.core.quarkus37.SetupJavaUpgradeJavaVersion:
       minimumJavaMajorVersion: 17
   - org.openrewrite.java.RemoveMethodInvocations:
       methodPattern: java.lang.Runtime traceInstructions(boolean)
@@ -150,13 +150,13 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus37.JavaVersion17
-displayName: Change Maven Java version property values to 17
+displayName: Change Maven and Gradle Java version property values to 17
 description: Change maven.compiler.source and maven.compiler.target values to 17.
 tags:
   - java17
   - compiler
 recipeList:
-  - org.openrewrite.java.migrate.UpgradeJavaVersion: # TODO Fork recipe or remove
+  - io.quarkus.updates.core.quarkus37.UpgradeJavaVersion:
       version: 17
   - org.openrewrite.maven.UseMavenCompilerPluginReleaseConfiguration:
       releaseVersion: 17
