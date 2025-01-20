@@ -137,7 +137,7 @@ description: >
 tags:
   - java17
 recipeList:
-  - org.openrewrite.github.SetupJavaUpgradeJavaVersion:
+  - org.openrewrite.github.SetupJavaUpgradeJavaVersion: # TODO Fork recipe or remove
       minimumJavaMajorVersion: 17
   - org.openrewrite.java.RemoveMethodInvocations:
       methodPattern: java.lang.Runtime traceInstructions(boolean)
@@ -156,9 +156,9 @@ tags:
   - java17
   - compiler
 recipeList:
-  - org.openrewrite.java.migrate.UpgradeJavaVersion:
+  - org.openrewrite.java.migrate.UpgradeJavaVersion: # TODO Fork recipe or remove
       version: 17
-  - org.openrewrite.java.migrate.maven.UseMavenCompilerPluginReleaseConfiguration:
+  - org.openrewrite.maven.UseMavenCompilerPluginReleaseConfiguration:
       releaseVersion: 17
 ---
 type: specs.openrewrite.org/v1beta/recipe
@@ -179,7 +179,7 @@ description: The `com.sun.net.ssl.internal.ssl.Provider` provider name was remov
 tags:
   - java17
 recipeList:
-  - org.openrewrite.java.migrate.ReplaceStringLiteralValue:
+  - org.openrewrite.java.ReplaceStringLiteralValue:
       oldLiteralValue: com.sun.net.ssl.internal.ssl.Provider
       newLiteralValue: SunJSSE
 ---
@@ -193,7 +193,7 @@ recipeList:
   - org.openrewrite.java.ChangeMethodName:
       methodPattern: java.util.logging.LogRecord getThreadID()
       newMethodName: getLongThreadID
-  - org.openrewrite.java.migrate.ChangeMethodInvocationReturnType:
+  - org.openrewrite.java.ChangeMethodInvocationReturnType:
       methodPattern: java.util.logging.LogRecord getLongThreadID()
       newReturnType: long
   - org.openrewrite.java.ChangeMethodName:

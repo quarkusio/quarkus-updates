@@ -61,11 +61,11 @@
         <!-- Make sure all these versions are aligned and use a compatible OpenRewrite version -->
         <!-- The rewrite-recipe-bom release notes should contain the Maven and Gradle plugin versions to target -->
         <!-- https://central.sonatype.com/artifact/org.openrewrite.recipe/rewrite-recipe-bom/versions -->
-        <rewrite-recipe-bom.version>2.23.1</rewrite-recipe-bom.version>
+        <rewrite-recipe-bom.version>3.0.2</rewrite-recipe-bom.version>
         <!--   https://central.sonatype.com/artifact/org.openrewrite.maven/rewrite-maven-plugin/versions -->
-        <rewrite-maven-plugin.version>5.47.0</rewrite-maven-plugin.version>
+        <rewrite-maven-plugin.version>6.0.4</rewrite-maven-plugin.version>
         <!--   https://plugins.gradle.org/plugin/org.openrewrite.rewrite -->
-        <rewrite-gradle-plugin.version>6.29.0</rewrite-gradle-plugin.version>
+        <rewrite-gradle-plugin.version>7.0.3</rewrite-gradle-plugin.version>
         <!-- https://github.com/apache/camel-upgrade-recipes -->
         <camel-upgrade-recipes.version>4.8.0</camel-upgrade-recipes.version>
         <!-- align with https://central.sonatype.com/artifact/org.openrewrite/rewrite-core -->
@@ -75,7 +75,7 @@
         <!-- Http version used by the tests -->
         <http.version>4.5.14</http.version>
 
-        <lombok.version>1.18.34</lombok.version>
+        <lombok.version>1.18.36</lombok.version>
         <slf4j.version>1.7.36</slf4j.version>
 
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
