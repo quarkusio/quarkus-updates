@@ -72,6 +72,12 @@
         <dependency>
             <groupId>org.openrewrite.recipe</groupId>
             <artifactId>rewrite-quarkus</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.openrewrite.recipe</groupId>
+                    <artifactId>rewrite-migrate-java</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- rewrite-gradle dependency only necessary for Gradle Recipe development -->
@@ -147,6 +153,12 @@
             <groupId>org.apache.camel.upgrade</groupId>
             <artifactId>camel-upgrade-recipes</artifactId>
             <version>${camel-upgrade-recipes.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.openrewrite.recipe</groupId>
+                    <artifactId>rewrite-migrate-java</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
