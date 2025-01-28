@@ -14,7 +14,7 @@ public class CoreUpdate30Test implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
-        CoreTestUtil.recipe(spec, Path.of("quarkus-updates", "core", "3.0.yaml"))
+        CoreTestUtil.recipe(spec, Path.of("quarkus-updates", "core", "3.0.alpha1.yaml"))
                 .parser(JavaParser.fromJavaVersion().logCompilationWarningsAndErrors(true))
                 .typeValidationOptions(TypeValidation.none());
     }
