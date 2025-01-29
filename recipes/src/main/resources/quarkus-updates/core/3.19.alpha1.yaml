@@ -1,0 +1,10 @@
+#####
+# Move OIDC Token Propagation annotation '@AccessToken' to a new package
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus319.MoveAccessTokenAnnotationToNewPackage
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.oidc.token.propagation.AccessToken
+      newFullyQualifiedTypeName: io.quarkus.oidc.token.propagation.common.AccessToken
