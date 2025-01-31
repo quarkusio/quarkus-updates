@@ -59,3 +59,25 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --no-transfer-progress clean install -Dno-format -Dstyle.color=always
 
+      # Publish build reports
+      - name: Prepare build reports archive
+        if: always()
+        run: |
+          7z a -tzip build-reports.zip -r \
+              '**/target/*-reports/TEST-*.xml' \
+              'target/build-report.json' \
+              LICENSE
+      - name: Upload build reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: "build-reports-${{ github.run_attempt }}-Build on ${{ matrix.os }}"
+          path: |
+            build-reports.zip
+          retention-days: 7
+      - name: Produce report and add it as job summary
+        uses: quarkusio/action-build-reporter@main
+        if: always()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          build-reports-artifacts-path: .
