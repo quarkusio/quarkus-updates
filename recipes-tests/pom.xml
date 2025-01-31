@@ -34,6 +34,7 @@
         <test.camel-quarkus-3-8.camel-version>4.0.3</test.camel-quarkus-3-8.camel-version>
         <test.camel-quarkus-3-15.camel-version>4.8.0</test.camel-quarkus-3-15.camel-version>
         <test.camel-quarkus-3-15.jakarta-servlet-api-version>6.0.0</test.camel-quarkus-3-15.jakarta-servlet-api-version>
+        <test.camel-quarkus-3-17.camel-version>4.9.0</test.camel-quarkus-3-17.camel-version>
 
     </properties>
 
@@ -408,6 +409,74 @@
                                     <groupId>jakarta.servlet</groupId>
                                     <artifactId>jakarta.servlet-api</artifactId>
                                     <version>${test.camel-quarkus-3-15.jakarta-servlet-api-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <!-- camel quarkus 3.17 (camel 4.9.0) test dependencies-->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-api</artifactId>
+                                    <version>${test.camel-quarkus-3-15.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-debezium-db2</artifactId>
+                                    <version>${test.camel-quarkus-3-15.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-debezium-mongodb</artifactId>
+                                    <version>${test.camel-quarkus-3-15.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-debezium-oracle</artifactId>
+                                    <version>${test.camel-quarkus-3-15.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-debezium-mysql</artifactId>
+                                    <version>${test.camel-quarkus-3-15.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-debezium-postgres</artifactId>
+                                    <version>${test.camel-quarkus-3-15.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-debezium-sqlserver</artifactId>
+                                    <version>${test.camel-quarkus-3-15.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+
+                                <artifactItem>
+                                    <groupId>jakarta.xml.bind</groupId>
+                                    <artifactId>jakarta.xml.bind-api</artifactId>
+                                    <version>4.0.2</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>jakarta.inject</groupId>
+                                    <artifactId>jakarta.inject-api</artifactId>
+                                    <version>2.0.0</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>javax.xml.bind</groupId>
+                                    <artifactId>jaxb-api</artifactId>
+                                    <version>2.3.1</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>jakarta.ws.rs</groupId>
+                                    <artifactId>jakarta.ws.rs-api</artifactId>
+                                    <version>3.1.0</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
                             </artifactItems>

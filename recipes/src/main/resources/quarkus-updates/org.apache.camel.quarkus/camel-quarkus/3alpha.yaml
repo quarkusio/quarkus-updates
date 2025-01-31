@@ -37,8 +37,6 @@ description: Migrate `camel3` quarkus application to `camel4` quarkus.
 recipeList:
   #  use the recipe from camel standalone migration
   - org.apache.camel.upgrade.camel40.CamelMigrationRecipe
-  #  workaround for https://issues.apache.org/jira/browse/CAMEL-21131
-  - org.openrewrite.java.camel.migrate.ChangePropertyValue
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.camel.migrate.removedExtensions
