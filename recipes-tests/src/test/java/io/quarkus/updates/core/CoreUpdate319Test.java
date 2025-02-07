@@ -10,6 +10,7 @@ import org.openrewrite.test.TypeValidation;
 import java.nio.file.Path;
 
 import static org.openrewrite.java.Assertions.java;
+import static org.openrewrite.properties.Assertions.properties;
 
 public class CoreUpdate319Test implements RewriteTest {
 
@@ -18,13 +19,13 @@ public class CoreUpdate319Test implements RewriteTest {
         @Language("java")
         String accessTokenAnnotation = """
                 package io.quarkus.oidc.token.propagation;
-                                        
+
                 import java.lang.annotation.Documented;
                 import java.lang.annotation.ElementType;
                 import java.lang.annotation.Retention;
                 import java.lang.annotation.RetentionPolicy;
                 import java.lang.annotation.Target;
-                
+
                 @Target({ ElementType.TYPE })
                 @Retention(RetentionPolicy.RUNTIME)
                 @Documented
@@ -45,9 +46,9 @@ public class CoreUpdate319Test implements RewriteTest {
         rewriteRun(java(
                 """
                 package io.quarkus.it.keycloak;
-                
+
                 import io.quarkus.oidc.token.propagation.AccessToken;
-                
+
                 @AccessToken
                 public interface AccessTokenPropagationService {
                     String getUserName();
@@ -55,9 +56,9 @@ public class CoreUpdate319Test implements RewriteTest {
                 """,
                 """
                 package io.quarkus.it.keycloak;
-                
+
                 import io.quarkus.oidc.token.propagation.common.AccessToken;
-                
+
                 @AccessToken
                 public interface AccessTokenPropagationService {
                     String getUserName();
@@ -67,9 +68,9 @@ public class CoreUpdate319Test implements RewriteTest {
         rewriteRun(java(
                 """
                 package io.quarkus.it.keycloak;
-                
+
                 import io.quarkus.oidc.token.propagation.AccessToken;
-                
+
                 @AccessToken(exchangeTokenClient = "Default")
                 public interface AccessTokenPropagationService {
                     String getUserName();
@@ -77,13 +78,39 @@ public class CoreUpdate319Test implements RewriteTest {
                 """,
                 """
                 package io.quarkus.it.keycloak;
-                
+
                 import io.quarkus.oidc.token.propagation.common.AccessToken;
-                
+
                 @AccessToken(exchangeTokenClient = "Default")
                 public interface AccessTokenPropagationService {
                     String getUserName();
                 }
                 """));
+    }
+
+    @Test
+    void testConfigurationPropertiesChange() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.http.cors=false
+            quarkus.log.console.json=false
+            quarkus.log.syslog.json=true
+            quarkus.log.file.json=false
+            quarkus.log.socket.json=true
+            quarkus.log.foobar.json=true
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.http.cors.enabled=false
+            quarkus.log.console.json.enabled=false
+            quarkus.log.syslog.json.enabled=true
+            quarkus.log.file.json.enabled=false
+            quarkus.log.socket.json.enabled=true
+            quarkus.log.foobar.json=true
+            """;
+
+        //language=xml
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
     }
 }

@@ -1,6 +1,5 @@
 package io.quarkus.updates.core;
 
-import static org.openrewrite.java.Assertions.java;
 import static org.openrewrite.properties.Assertions.properties;
 
 import java.nio.file.Path;

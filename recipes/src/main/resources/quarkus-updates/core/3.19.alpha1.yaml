@@ -8,3 +8,13 @@ recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: io.quarkus.oidc.token.propagation.AccessToken
       newFullyQualifiedTypeName: io.quarkus.oidc.token.propagation.common.AccessToken
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus319.ConfigurationPropertiesChange
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.http\.cors
+      newPropertyKey: quarkus.http.cors.enabled
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.log\.(console|file|syslog|socket)\.json
+      newPropertyKey: quarkus.log.$1.json.enabled
