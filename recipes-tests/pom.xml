@@ -476,7 +476,7 @@
                                 <artifactItem>
                                     <groupId>jakarta.ws.rs</groupId>
                                     <artifactId>jakarta.ws.rs-api</artifactId>
-                                    <version>3.1.0</version>
+                                    <version>4.0.0</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
