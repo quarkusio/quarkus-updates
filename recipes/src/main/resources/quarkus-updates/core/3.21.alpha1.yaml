@@ -1,0 +1,10 @@
+#####
+# TLS Registry split packages fix
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus321.TlsRegistrySplitPackagesFix
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.tls.TlsRegistryBuildItem
+      newFullyQualifiedTypeName: io.quarkus.tls.deployment.spi.TlsRegistryBuildItem
