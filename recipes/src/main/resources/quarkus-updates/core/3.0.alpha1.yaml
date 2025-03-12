@@ -780,7 +780,7 @@ recipeList:
   - org.openrewrite.xml.ChangeTagAttribute:
       attributeName: version
       elementName: persistence
-      newValue: 3.0
+      newValue: '3.0'
   - org.openrewrite.xml.ChangeTagAttribute:
       attributeName: xmlns
       elementName: persistence
