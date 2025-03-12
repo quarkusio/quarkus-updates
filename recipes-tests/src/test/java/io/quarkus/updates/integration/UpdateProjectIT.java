@@ -78,8 +78,8 @@ public class UpdateProjectIT {
     }
 
     static void updateProject(Path tempDir, String updateStream) throws IOException, InterruptedException, TimeoutException {
-        String output = jbang(tempDir, QUARKUS_TEST_CLI, "update", "-S=" + updateStream, "--quarkus-update-recipes=999-SNAPSHOT");
-
+        String output = jbang(tempDir, QUARKUS_TEST_CLI, "update", "--yes", "-S=" + updateStream, "--quarkus-update-recipes=999-SNAPSHOT");
+        assertThat(output).contains("BUILD SUCCESS");
     }
 
     private static Path createProject(Path tempDir, String stream, String... args) throws IOException, InterruptedException, TimeoutException {
