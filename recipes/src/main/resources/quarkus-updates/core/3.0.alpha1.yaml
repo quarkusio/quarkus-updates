@@ -780,7 +780,7 @@ recipeList:
   - org.openrewrite.xml.ChangeTagAttribute:
       attributeName: version
       elementName: persistence
-      newValue: 3.0
+      newValue: '3.0'
   - org.openrewrite.xml.ChangeTagAttribute:
       attributeName: xmlns
       elementName: persistence
@@ -1114,7 +1114,6 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus30.Kotlin
-recipeList:
 recipeList:
   - io.quarkus.updates.core.quarkus30.AdjustKotlinAllOpenDirectives
 

@@ -68,3 +68,6 @@ release.properties
 **/node_modules/**
 **/build/**
 **/dist/**
+
+# Quarkus
+.quarkus
