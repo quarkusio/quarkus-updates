@@ -69,7 +69,7 @@
         <!-- https://github.com/apache/camel-upgrade-recipes -->
         <camel-upgrade-recipes.version>4.10.0</camel-upgrade-recipes.version>
         <!-- align with https://central.sonatype.com/artifact/org.openrewrite/rewrite-core -->
-        <micrometer-core.version>1.9.17</micrometer-core.version>
+        <micrometer-core.version>1.14.5</micrometer-core.version>
         <!-- tests-->
         <junit.version>5.11.4</junit.version>
         <!-- Http version used by the tests -->
