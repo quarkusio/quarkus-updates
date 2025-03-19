@@ -34,11 +34,14 @@ public class CamelUpdate45Test extends org.apache.camel.upgrade.CamelUpdate45Tes
                             }
                         """,
                 """
+                            import org.apache.camel.component.es.aggregation.ElasticsearchBulkRequestAggregationStrategy;
+                            import org.apache.camel.component.opensearch.aggregation.OpensearchBulkRequestAggregationStrategy;
+                            
                             public class SearchTest {
                                  public void test() {
                             
-                                     org.apache.camel.component.es.aggregation.ElasticsearchBulkRequestAggregationStrategy elasticAggregationStrategy = null;
-                                     org.apache.camel.component.opensearch.aggregation.OpensearchBulkRequestAggregationStrategy openAggregationStrategy = null;
+                                     ElasticsearchBulkRequestAggregationStrategy elasticAggregationStrategy = null;
+                                     OpensearchBulkRequestAggregationStrategy openAggregationStrategy = null;
                                  }
                             }
                         """));
