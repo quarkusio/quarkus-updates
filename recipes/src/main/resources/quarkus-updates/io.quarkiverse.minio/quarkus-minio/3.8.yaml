@@ -1,5 +1,5 @@
 type: specs.openrewrite.org/v1beta/recipe
-name: io.quakus.updates.minio.minio38.UpdateAll
+name: io.quarkus.updates.minio.minio38.UpdateAll
 recipeList:
   - io.quarkus.updates.minio.minio38.UpdateProperties
   - io.quarkus.updates.quarkiverse.minio.minio38.AdjustURLPropertyValue
