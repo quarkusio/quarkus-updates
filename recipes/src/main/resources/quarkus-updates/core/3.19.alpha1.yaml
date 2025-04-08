@@ -18,3 +18,18 @@ recipeList:
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.log\.(console|file|syslog|socket)\.json
       newPropertyKey: quarkus.log.$1.json.enabled
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus319.HibernateORMValidationMode
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.validation\.enabled
+      newPropertyKey: quarkus.hibernate-orm.validation.mode
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus\.hibernate-orm\.validation\.mode
+      oldValue: true
+      newValue: auto
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus\.hibernate-orm\.validation\.mode
+      oldValue: false
+      newValue: none
