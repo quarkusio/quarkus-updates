@@ -113,4 +113,36 @@ public class CoreUpdate319Test implements RewriteTest {
         //language=xml
         rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
     }
+
+    @Test
+    void testHibernateORMValidationModeFalse() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.hibernate-orm.validation.enabled=false
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.hibernate-orm.validation.mode=none
+            """;
+
+        //language=xml
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testHibernateORMValidationModeTrue() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.hibernate-orm.validation.enabled=true
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.hibernate-orm.validation.mode=auto
+            """;
+
+        //language=xml
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
 }
