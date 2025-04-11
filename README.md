@@ -59,6 +59,8 @@ Contributions are welcome, see [CONTRIBUTING.md](./CONTRIBUTING.md) for more inf
 
 ## Release
 
-```
-./mvnw -Prelease release:prepare release:perform -DskipTests -DskipITs -Darguments="-DskipTests -DskipITs"
-```
+To release a new version, follow these steps:
+
+https://github.com/smallrye/smallrye/wiki/Release-Process#releasing
+
+The staging repository is automatically closed. The sync with Maven Central should take ~30 minutes.
