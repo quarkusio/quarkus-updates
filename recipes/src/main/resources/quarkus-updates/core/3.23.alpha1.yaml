@@ -1,0 +1,22 @@
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus323.HibernateORMSchemaManagementProperties
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.database\.generation
+      newPropertyKey: quarkus.hibernate-orm.schema-management.strategy
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.database\.generation\.create-schemas
+      newPropertyKey: quarkus.hibernate-orm.schema-management.create-schemas
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.database\.generation\.halt-on-error
+      newPropertyKey: quarkus.hibernate-orm.schema-management.halt-on-error
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.database\.generation
+      newPropertyKey: quarkus.hibernate-orm.$1.schema-management.strategy
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.database\.generation\.create-schemas
+      newPropertyKey: quarkus.hibernate-orm.$1.schema-management.create-schemas
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.database\.generation\.halt-on-error
+      newPropertyKey: quarkus.hibernate-orm.$1.schema-management.halt-on-error
