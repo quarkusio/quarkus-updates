@@ -1,0 +1,60 @@
+#####
+# Adjust jpamodelgen annotation processor
+# 1. Align on best practices (no "provided" dependency, annotationProcessorPath)
+# 2. `hibernate-jpamodelgen` => `hibernate-processor`
+# 3. `org.hibernate` => `org.hibernate-orm` (just in case)
+# 4. No version necessary (it's managed)
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.ReplaceOldJpaModelgenAnnotationProcessor
+recipeList:
+  - io.quarkus.updates.core.quarkus37.ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-jpamodelgen
+      newGroupId: org.hibernate.orm
+      newArtifactId: hibernate-processor
+      removeVersionIfManaged: true
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.ReplaceNewJpaModelgenAnnotationProcessor
+recipeList:
+  - io.quarkus.updates.core.quarkus37.ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId:
+      oldGroupId: org.hibernate.orm
+      oldArtifactId: hibernate-jpamodelgen
+      newArtifactId: hibernate-processor
+      removeVersionIfManaged: true
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.AddHibernateAnnotationProcessorIfNewJpaModelgenDependency
+recipeList:
+  - io.quarkus.updates.core.quarkus37.AddMavenCompilerAnnotationProcessor:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-processor
+      mavenCompilerPluginVersion: 3.12.1
+preconditions:
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-jpamodelgen
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.AddHibernateAnnotationProcessorIfOldJpaModelgenDependency
+recipeList:
+  - io.quarkus.updates.core.quarkus37.AddMavenCompilerAnnotationProcessor:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-processor
+      mavenCompilerPluginVersion: 3.12.1
+preconditions:
+  - org.openrewrite.maven.search.FindDependency:
+      groupId: org.hibernate
+      artifactId: hibernate-jpamodelgen
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.RemoveJpaModelgenDependencies
+recipeList:
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.hibernate
+      artifactId: hibernate-jpamodelgen
+  - org.openrewrite.maven.RemoveDependency:
+      groupId: org.hibernate.orm
+      artifactId: hibernate-jpamodelgen
