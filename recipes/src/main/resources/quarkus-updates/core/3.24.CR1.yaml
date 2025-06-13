@@ -58,3 +58,81 @@ recipeList:
   - org.openrewrite.maven.RemoveDependency:
       groupId: org.hibernate.orm
       artifactId: hibernate-jpamodelgen
+
+#####
+# Replace removed/deprecated Hibernate ORM Session methods with available methods, when strictly equivalent.
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.MigrateFromHibernateOrmSessionMethodsRemovedIn7
+recipeList:
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session load(Class, Object)
+      newMethodName: getReference
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session load(String, Object)
+      newMethodName: getReference
+  # These variants of "get" are deprecated, but they are the only direct equivalent we can automatically switch to when a lock is needed.
+  # A better replacement would be find(..., FindOptions), but that would require deeper analysis of argument values.
+  # TODO: insert a TODO comment? Or just leave the deprecated calls and have people rely on compiler warnings?
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session load(Class, Object, org.hibernate.LockMode)
+      newMethodName: get
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session load(String, Object, org.hibernate.LockMode)
+      newMethodName: get
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session load(Class, Object, org.hibernate.LockOptions)
+      newMethodName: get
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session load(String, Object, org.hibernate.LockOptions)
+      newMethodName: get
+  # These are deprecated but not removed. Still, they're equivalent, so applications should switch to them.
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session get(Class, Object)
+      newMethodName: find
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session get(String, Object)
+      newMethodName: find
+  # No way to handle these deprecated methods automatically.
+  # TODO: insert a TODO comment? Or just leave the deprecated calls and have people rely on compiler warnings?
+  # org.hibernate.Session get(Class, Object, org.hibernate.LockMode)
+  # org.hibernate.Session get(String, Object, org.hibernate.LockMode)
+  # org.hibernate.Session get(Class, Object, org.hibernate.LockOptions)
+  # org.hibernate.Session get(String, Object, org.hibernate.LockOptions)
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session delete(Object)
+      newMethodName: remove
+  # This would require removing the first argument, and I don't know how to do that.
+  # It's very unlikely to be used anyway.
+  # org.hibernate.Session delete(String, Object) => remove(Object)
+  # org.hibernate.Session refresh(String, Object) => refresh(Object)
+  # org.hibernate.Session refresh(String, Object, org.hibernate.LockOptions) => refresh(Object, org.hibernate.LockOptions)
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session save(Object)
+      newMethodName: persist
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session save(String, Object)
+      newMethodName: persist
+  # This is quite bold, as `update` can behave differently from merge, but there is no alternative.
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: org.hibernate.Session update(Object)
+      newMethodName: merge
+  # This would map to either persist or merge depending on more context knowledge than we can possibly have at build time.
+  # We could consider inserting "if (session.isDetached(entity)) { return session.merge(entity); } else { session.persist(entity); return entity; }",
+  # but that goes against the spirit of removing this method: having to do this is a code smell to begin with.
+  # org.hibernate.Session saveOrUpdate(Object)
+  # org.hibernate.Session saveOrUpdate(String, Object)
+
+#####
+# Replace various removed/deprecated elements in Hibernate ORM with available ones, when strictly equivalent.
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.MigrateFromHibernateOrmVariousRemovedIn7
+recipeList:
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.CascadeType.DELETE
+      fullyQualifiedConstantName: org.hibernate.annotations.CascadeType.REMOVE
+  # This would require mapping one constant to two, and I don't know how to do that.
+  # org.hibernate.annotations.CascadeType.SAVE_UPDATE => org.hibernate.annotations.CascadeType.PERSIST + org.hibernate.annotations.CascadeType.MERGE

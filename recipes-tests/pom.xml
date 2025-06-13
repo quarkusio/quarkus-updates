@@ -173,6 +173,11 @@
             <artifactId>quarkus-test-common</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-orm</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <!-- Recipes for testing camel-quarkus -->
         <dependency>

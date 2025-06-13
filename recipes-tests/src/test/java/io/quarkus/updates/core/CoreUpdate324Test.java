@@ -1,5 +1,6 @@
 package io.quarkus.updates.core;
 
+import static org.openrewrite.java.Assertions.java;
 import static org.openrewrite.maven.Assertions.pomXml;
 
 import java.nio.file.Path;
@@ -18,6 +19,7 @@ public class CoreUpdate324Test implements RewriteTest {
         CoreTestUtil.recipe(spec, Path.of("quarkus-updates", "core", "3.24.CR1.yaml"), "3.24.0.CR1")
                 .parser(JavaParser.fromJavaVersion()
                         .classpath("quarkus-test-common")
+                        .classpath("quarkus-hibernate-orm")
                         .logCompilationWarningsAndErrors(true))
                 .typeValidationOptions(TypeValidation.all());
     }
@@ -862,6 +864,114 @@ public class CoreUpdate324Test implements RewriteTest {
                             </build>
                         </project>
                         """));
+    }
+
+    @Test
+    void testSessionMethods() {
+        //language=java
+        rewriteRun(java(
+                """
+						    package com.acme;
+						
+							import jakarta.persistence.Entity;
+							import jakarta.persistence.Id;
+							import org.hibernate.annotations.Cascade;
+							import org.hibernate.annotations.CascadeType;
+							import org.hibernate.annotations.ManyToOne;
+						    import org.hibernate.Session;
+							import org.hibernate.LockMode;
+							import org.hibernate.LockOptions;
+						
+						    public class MyRepo {
+						
+								@Entity
+								public static class MyEntity {
+									@Id
+									public Long id;
+						
+									public String text;
+						
+									@ManyToOne
+									@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE })
+									public MyEntity other;
+								}
+						
+								public void doThings(Session session) {
+									MyEntity entity1 = session.load(MyEntity.class, 1L);
+									MyEntity entity2 = session.load(MyEntity.class.getName(), 2L);
+									MyEntity entity3 = session.load(MyEntity.class, 3L, LockMode.PESSIMISTIC_WRITE);
+									MyEntity entity4 = session.load(MyEntity.class.getName(), 4L, LockMode.PESSIMISTIC_WRITE);
+									MyEntity entity5 = session.load(MyEntity.class, 5L, LockOptions.PESSIMISTIC_WRITE);
+									MyEntity entity6 = session.load(MyEntity.class.getName(), 6L, LockOptions.PESSIMISTIC_WRITE);
+									MyEntity entity7 = session.get(MyEntity.class, 7L);
+									MyEntity entity8 = session.get(MyEntity.class.getName(), 8L);
+									MyEntity entity9 = session.get(MyEntity.class, 9L, LockMode.PESSIMISTIC_WRITE);
+									MyEntity entity10 = session.get(MyEntity.class.getName(), 10L, LockMode.PESSIMISTIC_WRITE);
+									MyEntity entity11 = session.get(MyEntity.class, 11L, LockOptions.PESSIMISTIC_WRITE);
+									MyEntity entity12 = session.get(MyEntity.class.getName(), 12L, LockOptions.PESSIMISTIC_WRITE);
+									session.delete(entity1);
+									session.delete(MyEntity.class.getName(), entity2);
+									MyEntity entity101 = session.refresh(MyEntity.class.getName(), entity1);
+									MyEntity entity102 = session.refresh(MyEntity.class.getName(), entity2, LockOptions.PESSIMISTIC_WRITE);
+									session.save(new MyEntity());
+									session.save(MyEntity.class.getName(), new MyEntity());
+									session.update(entity1);
+									session.saveOrUpdate(entity1);
+									session.saveOrUpdate(MyEntity.class.getName(), entity1);
+								}
+						    }
+						""",
+                """
+						    package com.acme;
+						
+							import jakarta.persistence.Entity;
+							import jakarta.persistence.Id;
+							import org.hibernate.annotations.Cascade;
+							import org.hibernate.annotations.CascadeType;
+							import org.hibernate.annotations.ManyToOne;
+						    import org.hibernate.Session;
+							import org.hibernate.LockMode;
+							import org.hibernate.LockOptions;
+						
+						    public class MyRepo {
+						
+								@Entity
+								public static class MyEntity {
+									@Id
+									public Long id;
+						
+									public String text;
+						
+									@ManyToOne
+									@Cascade({CascadeType.SAVE_UPDATE, CascadeType.REMOVE })
+									public MyEntity other;
+								}
+						
+								public void doThings(Session session) {
+									MyEntity entity1 = session.getReference(MyEntity.class, 1L);
+									MyEntity entity2 = session.getReference(MyEntity.class.getName(), 2L);
+									MyEntity entity3 = session.get(MyEntity.class, 3L, LockMode.PESSIMISTIC_WRITE);
+									MyEntity entity4 = session.get(MyEntity.class.getName(), 4L, LockMode.PESSIMISTIC_WRITE);
+									MyEntity entity5 = session.get(MyEntity.class, 5L, LockOptions.PESSIMISTIC_WRITE);
+									MyEntity entity6 = session.get(MyEntity.class.getName(), 6L, LockOptions.PESSIMISTIC_WRITE);
+									MyEntity entity7 = session.find(MyEntity.class, 7L);
+									MyEntity entity8 = session.find(MyEntity.class.getName(), 8L);
+									MyEntity entity9 = session.get(MyEntity.class, 9L, LockMode.PESSIMISTIC_WRITE);
+									MyEntity entity10 = session.get(MyEntity.class.getName(), 10L, LockMode.PESSIMISTIC_WRITE);
+									MyEntity entity11 = session.get(MyEntity.class, 11L, LockOptions.PESSIMISTIC_WRITE);
+									MyEntity entity12 = session.get(MyEntity.class.getName(), 12L, LockOptions.PESSIMISTIC_WRITE);
+									session.remove(entity1);
+									session.delete(MyEntity.class.getName(), entity2);
+									MyEntity entity101 = session.refresh(MyEntity.class.getName(), entity1);
+									MyEntity entity102 = session.refresh(MyEntity.class.getName(), entity2, LockOptions.PESSIMISTIC_WRITE);
+									session.persist(new MyEntity());
+									session.persist(MyEntity.class.getName(), new MyEntity());
+									session.merge(entity1);
+									session.saveOrUpdate(entity1);
+									session.saveOrUpdate(MyEntity.class.getName(), entity1);
+								}
+						    }
+						"""));
     }
 
 }
