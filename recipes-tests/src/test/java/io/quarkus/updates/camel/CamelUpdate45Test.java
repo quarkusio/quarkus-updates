@@ -20,7 +20,7 @@ public class CamelUpdate45Test extends org.apache.camel.upgrade.CamelUpdate45Tes
 
     @Test
     @Override
-    public void testSearch() {
+    public void testElasticSearch() {
         //test has to be changed, because the result of camel 4.5 migration is a;so migrated in camel 4.6,
         // therefore camel-quarkus migration from 3.8 to 3.15 has to expect both changes
         rewriteRun(java(
@@ -29,18 +29,40 @@ public class CamelUpdate45Test extends org.apache.camel.upgrade.CamelUpdate45Tes
                                  public void test() {
                              
                                      org.apache.camel.component.es.aggregation.BulkRequestAggregationStrategy elasticAggregationStrategy = null;
-                                     org.apache.camel.component.opensearch.aggregation.BulkRequestAggregationStrategy openAggregationStrategy = null;
                                  }
                             }
                         """,
                 """
                             import org.apache.camel.component.es.aggregation.ElasticsearchBulkRequestAggregationStrategy;
-                            import org.apache.camel.component.opensearch.aggregation.OpensearchBulkRequestAggregationStrategy;
                             
                             public class SearchTest {
                                  public void test() {
                             
                                      ElasticsearchBulkRequestAggregationStrategy elasticAggregationStrategy = null;
+                                 }
+                            }
+                        """));
+    }
+    @Test
+    @Override
+    public void testOpenSearch() {
+        //test has to be changed, because the result of camel 4.5 migration is a;so migrated in camel 4.6,
+        // therefore camel-quarkus migration from 3.8 to 3.15 has to expect both changes
+        rewriteRun(java(
+                """
+                            public class SearchTest {
+                                 public void test() {
+                             
+                                     org.apache.camel.component.opensearch.aggregation.BulkRequestAggregationStrategy openAggregationStrategy = null;
+                                 }
+                            }
+                        """,
+                """
+                            import org.apache.camel.component.opensearch.aggregation.OpensearchBulkRequestAggregationStrategy;
+                            
+                            public class SearchTest {
+                                 public void test() {
+                            
                                      OpensearchBulkRequestAggregationStrategy openAggregationStrategy = null;
                                  }
                             }
