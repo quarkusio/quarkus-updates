@@ -36,7 +36,8 @@
         <test.camel-quarkus-3-15.jakarta-servlet-api-version>6.0.0</test.camel-quarkus-3-15.jakarta-servlet-api-version>
         <test.camel-quarkus-3-17.camel-version>4.9.0</test.camel-quarkus-3-17.camel-version>
         <test.camel-quarkus-3-18.camel-version>4.10.0</test.camel-quarkus-3-18.camel-version>
-
+        <test.camel-quarkus-3-22.camel-version>4.11.0</test.camel-quarkus-3-22.camel-version>
+        <test.camel-quarkus-3-23.camel-version>4.12.0</test.camel-quarkus-3-23.camel-version>
     </properties>
 
     <dependencyManagement>
@@ -477,6 +478,12 @@
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-azure-files</artifactId>
                                     <version>${test.camel-quarkus-3-17.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-platform-http</artifactId>
+                                    <version>${test.camel-quarkus-3-18.camel-version}</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
 
