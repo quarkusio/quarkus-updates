@@ -22,6 +22,7 @@ on:
       - '*.adoc'
       - '*.txt'
       - '.all-contributorsrc'
+      - '.github/project.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
