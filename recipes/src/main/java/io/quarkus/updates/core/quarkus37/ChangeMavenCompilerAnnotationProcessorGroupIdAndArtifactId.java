@@ -67,6 +67,10 @@ public class ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId extends 
     @Nullable
     Boolean enforceManagedVersion;
 
+    @Option(displayName = "Remove version if managed", description = "If the new annotation processor has a managed version, this flag can be used to remove the version on the annotation processor. The default for this flag is `false`.", required = false)
+    @Nullable
+    Boolean removeVersionIfManaged;
+
     @Override
     public String getDisplayName() {
         return "Change Maven Compiler plugin annotation processor groupId, artifactId and/or the version";
@@ -132,7 +136,7 @@ public class ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId extends 
                                             .orElseThrow(NoSuchElementException::new);
                                 }
 
-                                String versionToApply = Boolean.TRUE.equals(enforceManagedVersion) ? getManagedVersion(groupId, artifactId) : null;
+                                String versionToApply = Boolean.TRUE.equals(enforceManagedVersion) || Boolean.TRUE.equals(removeVersionIfManaged) ? getManagedVersion(groupId, artifactId) : null;
                                 if (versionToApply == null && newVersion != null) {
                                     try {
                                         versionToApply = resolveSemverVersion(ctx, groupId, artifactId);
