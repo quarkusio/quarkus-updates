@@ -2,9 +2,11 @@ package io.quarkus.updates.core;
 
 import static org.openrewrite.java.Assertions.java;
 import static org.openrewrite.maven.Assertions.pomXml;
+import static org.openrewrite.properties.Assertions.properties;
 
 import java.nio.file.Path;
 
+import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.Test;
 
 import org.openrewrite.java.JavaParser;
@@ -982,4 +984,19 @@ public class CoreUpdate324Test implements RewriteTest {
                 """));
     }
 
+    @Test
+    void testQuarkusLogConsoleAsyncRewrite() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.log.console.async=true
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.log.console.async.enable=true
+            """;
+
+        //language=xml
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
 }
