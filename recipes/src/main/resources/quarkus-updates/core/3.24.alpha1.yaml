@@ -136,3 +136,10 @@ recipeList:
       fullyQualifiedConstantName: org.hibernate.annotations.CascadeType.REMOVE
   # This would require mapping one constant to two, and I don't know how to do that.
   # org.hibernate.annotations.CascadeType.SAVE_UPDATE => org.hibernate.annotations.CascadeType.PERSIST + org.hibernate.annotations.CascadeType.MERGE
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.LogConsoleAsyncEnable
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.log\.console\.async
+      newPropertyKey: quarkus.log.console.async.enable
