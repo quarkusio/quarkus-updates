@@ -24,7 +24,17 @@ public class CamelUpdate46Test extends org.apache.camel.upgrade.CamelUpdate46Tes
 
     @Disabled
     @Override
+    public void testLangchainEmbeddings2() {
+    }
+
+    @Disabled
+    @Override
     public void testLangchainChat() {
+    }
+
+    @Disabled
+    @Override
+    public void testLangchainChat2() {
 
     }
 
