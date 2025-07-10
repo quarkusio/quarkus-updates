@@ -19,29 +19,29 @@ public class CamelUpdate46Test extends org.apache.camel.upgrade.CamelUpdate46Tes
     // module which introduced the code before migration does not exist in Camel 4.4 (which is used by camel-quarkus 3.8)
     @Disabled
     @Override
-    public void testLangchainEmbeddings() {
+    public void langchainEmbeddings() {
     }
 
     @Disabled
     @Override
-    public void testLangchainEmbeddings2() {
+    public void langchainEmbeddings2() {
     }
 
     @Disabled
     @Override
-    public void testLangchainChat() {
+    public void langchainChat() {
     }
 
     @Disabled
     @Override
-    public void testLangchainChat2() {
+    public void langchainChat2() {
 
     }
 
     //followig test is covered by CamelUpdate45Test.testSearch
     @Disabled
     @Override
-    public void testSearch() {
-        super.testSearch();
+    public void search() {
+        super.search();
     }
 }
