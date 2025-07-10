@@ -20,7 +20,7 @@ public class CamelUpdate45Test extends org.apache.camel.upgrade.CamelUpdate45Tes
 
     @Test
     @Override
-    public void testElasticSearch() {
+    public void elasticSearch() {
         //test has to be changed, because the result of camel 4.5 migration is a;so migrated in camel 4.6,
         // therefore camel-quarkus migration from 3.8 to 3.15 has to expect both changes
         rewriteRun(java(
@@ -45,7 +45,7 @@ public class CamelUpdate45Test extends org.apache.camel.upgrade.CamelUpdate45Tes
     }
     @Test
     @Override
-    public void testOpenSearch() {
+    public void openSearch() {
         //test has to be changed, because the result of camel 4.5 migration is a;so migrated in camel 4.6,
         // therefore camel-quarkus migration from 3.8 to 3.15 has to expect both changes
         rewriteRun(java(
