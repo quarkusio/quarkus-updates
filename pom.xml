@@ -61,7 +61,7 @@
         <!-- Make sure all these versions are aligned and use a compatible OpenRewrite version -->
         <!-- The rewrite-recipe-bom release notes should contain the Maven and Gradle plugin versions to target -->
         <!-- https://central.sonatype.com/artifact/org.openrewrite.recipe/rewrite-recipe-bom/versions -->
-        <rewrite-recipe-bom.version>3.12.1</rewrite-recipe-bom.version>
+        <rewrite-recipe-bom.version>3.13.0</rewrite-recipe-bom.version>
         <!--   https://central.sonatype.com/artifact/org.openrewrite.maven/rewrite-maven-plugin/versions -->
         <rewrite-maven-plugin.version>6.15.0</rewrite-maven-plugin.version>
         <!--   https://plugins.gradle.org/plugin/org.openrewrite.rewrite -->
