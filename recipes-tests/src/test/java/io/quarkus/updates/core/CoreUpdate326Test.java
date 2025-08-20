@@ -46,6 +46,7 @@ public class CoreUpdate326Test implements RewriteTest {
             quarkus.smallrye-graphql.ui.enable=true
             quarkus.smallrye-openapi.enable=true
             quarkus.swagger-ui.enable=true
+            quarkus.keycloak.policy-enforcer.enable=true
             """;
 
         @Language("properties")
@@ -71,6 +72,7 @@ public class CoreUpdate326Test implements RewriteTest {
             quarkus.smallrye-graphql.ui.enabled=true
             quarkus.smallrye-openapi.enabled=true
             quarkus.swagger-ui.enabled=true
+            quarkus.keycloak.policy-enforcer.enabled=true
             """;
 
         rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
