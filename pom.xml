@@ -65,7 +65,7 @@
         <!--   https://central.sonatype.com/artifact/org.openrewrite.maven/rewrite-maven-plugin/versions -->
         <rewrite-maven-plugin.version>6.19.0</rewrite-maven-plugin.version>
         <!--   https://plugins.gradle.org/plugin/org.openrewrite.rewrite -->
-        <rewrite-gradle-plugin.version>7.16.0</rewrite-gradle-plugin.version>
+        <rewrite-gradle-plugin.version>7.17.0</rewrite-gradle-plugin.version>
         <!-- https://github.com/apache/camel-upgrade-recipes -->
         <camel-upgrade-recipes.version>4.14.0.1</camel-upgrade-recipes.version>
         <!-- align with https://central.sonatype.com/artifact/org.openrewrite/rewrite-core -->
