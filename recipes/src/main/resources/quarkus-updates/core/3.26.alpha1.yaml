@@ -30,25 +30,25 @@ recipeList:
       oldPropertyKey: quarkus\.log\.handler\.console\.(.*)\.enable
       newPropertyKey: quarkus\.log\.handler\.console\.$1\.enabled
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
-      oldPropertyKey: quarkus\.log\.handler\.console\.(.*)\.enable
+      oldPropertyKey: quarkus\.log\.handler\.console\.(.*)\.async\.enable
       newPropertyKey: quarkus\.log\.handler\.console\.$1\.async\.enabled
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.log\.handler\.file\.(.*)\.enable
       newPropertyKey: quarkus\.log\.handler\.file\.$1\.enabled
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
-      oldPropertyKey: quarkus\.log\.handler\.file\.(.*)\.enable
+      oldPropertyKey: quarkus\.log\.handler\.file\.(.*)\.async\.enable
       newPropertyKey: quarkus\.log\.handler\.file\.$1\.async\.enabled
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.log\.handler\.syslog\.(.*)\.enable
       newPropertyKey: quarkus\.log\.handler\.syslog\.$1\.enabled
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
-      oldPropertyKey: quarkus\.log\.handler\.syslog\.(.*)\.enable
+      oldPropertyKey: quarkus\.log\.handler\.syslog\.(.*)\.async\.enable
       newPropertyKey: quarkus\.log\.handler\.syslog\.$1\.async\.enabled
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.log\.handler\.socket\.(.*)\.enable
       newPropertyKey: quarkus\.log\.handler\.socket\.$1\.enabled
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
-      oldPropertyKey: quarkus\.log\.handler\.socket\.(.*)\.enable
+      oldPropertyKey: quarkus\.log\.handler\.socket\.(.*)\.async\.enable
       newPropertyKey: quarkus\.log\.handler\.socket\.$1\.async\.enabled
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.snapstart\.enable
