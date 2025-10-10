@@ -90,6 +90,20 @@
         <module>recipes</module>
     </modules>
 
+    <repositories>
+        <repository>
+            <id>apache.staging.camel</id>
+            <url>https://repository.apache.org/content/repositories/orgapachecamel-1894/</url>
+            <name>Apache Camel Upgrade Recipes 4.15.0</name>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    
     <dependencyManagement>
         <dependencies>
             <dependency>
