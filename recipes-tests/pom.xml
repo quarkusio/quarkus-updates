@@ -38,6 +38,7 @@
         <test.camel-quarkus-3-18.camel-version>4.10.0</test.camel-quarkus-3-18.camel-version>
         <test.camel-quarkus-3-22.camel-version>4.11.0</test.camel-quarkus-3-22.camel-version>
         <test.camel-quarkus-3-23.camel-version>4.12.0</test.camel-quarkus-3-23.camel-version>
+        <test.camel-quarkus-3-29.camel-version>4.14.0</test.camel-quarkus-3-29.camel-version>
     </properties>
 
     <dependencyManagement>
@@ -503,6 +504,49 @@
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-core-model</artifactId>
                                     <version>${test.camel-quarkus-3-23.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <!-- camel quarkus 3.29 (camel 4.15.0) test dependencies-->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-langchain4j-chat</artifactId>
+                                    <version>${test.camel-quarkus-3-29.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-langchain4j-embeddings</artifactId>
+                                    <version>${test.camel-quarkus-3-29.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-milvus</artifactId>
+                                    <version>${test.camel-quarkus-3-29.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-neo4j</artifactId>
+                                    <version>${test.camel-quarkus-3-29.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-pinecone</artifactId>
+                                    <version>${test.camel-quarkus-3-29.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-qdrant</artifactId>
+                                    <version>${test.camel-quarkus-3-29.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-weaviate</artifactId>
+                                    <version>${test.camel-quarkus-3-29.camel-version}</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
 
