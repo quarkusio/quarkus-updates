@@ -921,8 +921,8 @@ public class CoreUpdate324Test implements RewriteTest {
                 		// end not handled
                 		session.save(new MyEntity());
                 		session.save(MyEntity.class.getName(), new MyEntity());
-                		session.update(entity1);
                 		// not handled
+                		session.update(entity1);
                 		session.saveOrUpdate(entity1);
                 		session.saveOrUpdate(MyEntity.class.getName(), entity1);
                 		// end not handled
@@ -974,8 +974,8 @@ public class CoreUpdate324Test implements RewriteTest {
                 		// end not handled
                 		session.persist(new MyEntity());
                 		session.persist(MyEntity.class.getName(), new MyEntity());
-                		session.merge(entity1);
                 		// not handled
+                		session.update(entity1);
                 		session.saveOrUpdate(entity1);
                 		session.saveOrUpdate(MyEntity.class.getName(), entity1);
                 		// end not handled
