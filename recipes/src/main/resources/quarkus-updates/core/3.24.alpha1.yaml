@@ -114,10 +114,11 @@ recipeList:
   - org.openrewrite.java.ChangeMethodName:
       methodPattern: org.hibernate.Session save(String, Object)
       newMethodName: persist
-  # This is quite bold, as `update` can behave differently from merge, but there is no alternative.
-  - org.openrewrite.java.ChangeMethodName:
-      methodPattern: org.hibernate.Session update(Object)
-      newMethodName: merge
+  # This is a bad idea, as `update` can behave differently from merge (e.g. returns a different entity instance).
+  # People will have to migrate manually.
+  #- org.openrewrite.java.ChangeMethodName:
+  #    methodPattern: org.hibernate.Session update(Object)
+  #    newMethodName: merge
   # This would map to either persist or merge depending on more context knowledge than we can possibly have at build time.
   # We could consider inserting "if (session.isDetached(entity)) { return session.merge(entity); } else { session.persist(entity); return entity; }",
   # but that goes against the spirit of removing this method: having to do this is a code smell to begin with.
