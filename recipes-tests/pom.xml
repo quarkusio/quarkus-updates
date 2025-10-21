@@ -262,7 +262,7 @@
                 <!-- specific camel dependencies required by the tests -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.9.0</version>
                 <executions>
                     <execution>
                         <phase>process-test-resources</phase>
