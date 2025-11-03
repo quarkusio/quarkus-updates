@@ -71,7 +71,7 @@
         <!-- align with https://central.sonatype.com/artifact/org.openrewrite/rewrite-core -->
         <micrometer-core.version>1.9.17</micrometer-core.version>
         <!-- tests-->
-        <junit.version>5.13.4</junit.version>
+        <junit.version>6.0.1</junit.version>
         <!-- Http version used by the tests -->
         <http.version>4.5.14</http.version>
 
