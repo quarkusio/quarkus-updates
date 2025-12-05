@@ -229,4 +229,91 @@ public class CoreUpdate331Test implements RewriteTest {
             </project>
             """));
     }
+
+    @Test
+    void testJUnit5ToJupiterRelocations() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit5</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit5-mockito</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit5-component</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit5-config</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit5-internal</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit5-mockito-config</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                </dependencies>
+            </project>
+            """,
+            """
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit-jupiter</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit-jupiter-mockito</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit-jupiter-component</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit-jupiter-config</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit-jupiter-internal</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit-jupiter-mockito-config</artifactId>
+                        <version>3.31.0.CR1</version>
+                    </dependency>
+                </dependencies>
+            </project>
+            """));
+    }
 }

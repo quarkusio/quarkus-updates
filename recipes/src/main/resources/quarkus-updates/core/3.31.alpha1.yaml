@@ -6,3 +6,35 @@ type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus331.CoreUpdate331
 recipeList:
   - io.quarkus.updates.core.quarkus331.AddExtensionsTrueToQuarkusMavenPlugin
+#####
+# Rename JUnit 5 artifacts to JUnit Jupiter following upgrade to JUnit 6
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus331.Relocations
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5
+      newArtifactId: quarkus-junit-jupiter
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-component
+      newArtifactId: quarkus-junit-jupiter-component
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-config
+      newArtifactId: quarkus-junit-jupiter-config
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-internal
+      newArtifactId: quarkus-junit-jupiter-internal
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-mockito
+      newArtifactId: quarkus-junit-jupiter-mockito
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-mockito-config
+      newArtifactId: quarkus-junit-jupiter-mockito-config
+
