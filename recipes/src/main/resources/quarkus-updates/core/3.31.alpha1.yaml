@@ -16,3 +16,43 @@ recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: io.quarkus.oidc.client.filter.OidcClientRequestFilter
       newFullyQualifiedTypeName: io.quarkus.oidc.client.resteasy.filter.OidcClientRequestFilter
+#####
+# Rename JUnit 5 artifacts and packages to JUnit following upgrade to JUnit 6
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus331.Relocations
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5
+      newArtifactId: quarkus-junit
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-component
+      newArtifactId: quarkus-junit-component
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-config
+      newArtifactId: quarkus-junit-config
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-internal
+      newArtifactId: quarkus-junit-internal
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-mockito
+      newArtifactId: quarkus-junit-mockito
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-mockito-config
+      newArtifactId: quarkus-junit-mockito-config
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus.junit5
+      oldArtifactId: junit5-virtual-threads
+      newGroupId: io.quarkus.junit
+      newArtifactId: junit-virtual-threads
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: io.quarkus.test.junit5.virtual
+      newPackageName: io.quarkus.test.junit.virtual
+      recursive: true
