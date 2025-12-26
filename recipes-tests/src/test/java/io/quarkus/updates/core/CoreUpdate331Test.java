@@ -326,4 +326,62 @@ public class CoreUpdate331Test implements RewriteTest {
             </project>
             """));
     }
+
+    @Test
+    void testTestcontainersPostgresqlArtifactRewrite() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>org.acme</groupId>
+                <artifactId>test-testcontainers</artifactId>
+                <version>999-SNAPSHOT</version>
+                <dependencyManagement>
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-bom</artifactId>
+                            <version>3.30.6</version>
+                            <type>pom</type>
+                            <scope>import</scope>
+                        </dependency>
+                    </dependencies>
+                </dependencyManagement>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.testcontainers</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>1.20.0</version>
+                    </dependency>
+                </dependencies>
+            </project>
+            """,
+            """
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>org.acme</groupId>
+                <artifactId>test-testcontainers</artifactId>
+                <version>999-SNAPSHOT</version>
+                <dependencyManagement>
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-bom</artifactId>
+                            <version>3.31.0.CR1</version>
+                            <type>pom</type>
+                            <scope>import</scope>
+                        </dependency>
+                    </dependencies>
+                </dependencyManagement>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.testcontainers</groupId>
+                        <artifactId>testcontainers-postgresql</artifactId>
+                    </dependency>
+                </dependencies>
+            </project>
+            """));
+    }
 }
