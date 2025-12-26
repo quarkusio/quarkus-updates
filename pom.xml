@@ -84,6 +84,10 @@
         <maven-resources-plugin.version>3.4.0</maven-resources-plugin.version>
         <maven-assembly-plugin.version>3.8.0</maven-assembly-plugin.version>
         <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
+
+        <!-- maven-release-plugin -->
+        <releaseProfiles>release</releaseProfiles>
+        <signTag>false</signTag><!-- we don't sign tags as we don't want GPG secrets available in repository -->
     </properties>
 
     <modules>
