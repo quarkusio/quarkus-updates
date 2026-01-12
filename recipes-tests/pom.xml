@@ -549,6 +549,40 @@
                                     <version>${test.camel-quarkus-3-29.camel-version}</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
+                                <!-- camel quarkus 3.30 (camel 4.16.0) test dependencies -->
+                                <!-- one migration is happening from Camel 3.18, which is Quarkus 3.10 -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-milo</artifactId>
+                                    <version>${test.camel-quarkus-3-0.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <!-- Milo Server -->
+                                <artifactItem>
+                                    <groupId>org.eclipse.milo</groupId>
+                                    <artifactId>stack-core</artifactId>
+                                    <version>0.6.8</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.milo</groupId>
+                                    <artifactId>stack-server</artifactId>
+                                    <version>0.6.8</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.milo</groupId>
+                                    <artifactId>stack-client</artifactId>
+                                    <version>0.6.8</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.milo</groupId>
+                                    <artifactId>sdk-client</artifactId>
+                                    <version>0.6.8</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+
 
                                 <artifactItem>
                                     <groupId>jakarta.xml.bind</groupId>

@@ -58,6 +58,14 @@ public class CamelQuarkusTestUtil {
         return recipeForVersion("3.29", spec, activeRecipes);
     }
 
+    public static RecipeSpec recipe3_30(RecipeSpec spec, String... activeRecipes) {
+        return recipeForVersion("3.30", spec, activeRecipes);
+    }
+
+    public static RecipeSpec recipe3_31(RecipeSpec spec, String... activeRecipes) {
+        return recipeForVersion("3.31", spec, activeRecipes);
+    }
+
     private static RecipeSpec recipeForVersion(String version, RecipeSpec spec, String... activeRecipes) {
         if(activeRecipes.length == 0) {
             return recipe(spec, version);
@@ -79,6 +87,8 @@ public class CamelQuarkusTestUtil {
             case "3.25" -> new String[] {"io.quarkus.updates.camel.camel413.CamelQuarkusMigrationRecipe"};
             case "3.26" -> new String[] {"io.quarkus.updates.camel.camel414.CamelQuarkusMigrationRecipe"};
             case "3.29" -> new String[] {"io.quarkus.updates.camel.camel415.CamelQuarkusMigrationRecipe"};
+            case "3.30" -> new String[] {"io.quarkus.updates.camel.camel416.CamelQuarkusMigrationRecipe"};
+            case "3.31" -> new String[] {"io.quarkus.updates.camel.camel417.CamelQuarkusMigrationRecipe"};
             default -> throw new IllegalArgumentException("Version '" + version + "' is not allowed!");
         };
         return recipe(spec, version, defaultRecipes);
