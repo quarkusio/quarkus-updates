@@ -6,3 +6,13 @@ type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus331.CoreUpdate331
 recipeList:
   - io.quarkus.updates.core.quarkus331.AddExtensionsTrueToQuarkusMavenPlugin
+#####
+# Use OidcClientRequestFilter from a different package
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus331.OidcClientFilterSplitPackagesFix
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.oidc.client.filter.OidcClientRequestFilter
+      newFullyQualifiedTypeName: io.quarkus.oidc.client.resteasy.filter.OidcClientRequestFilter
