@@ -27,5 +27,13 @@ name: io.quarkus.updates.camel.camel417.CamelQuarkusMigrationRecipe
 displayName: Migrates `camel 4.16` application to `camel 4.17`
 description: Migrates `camel 4.16` Quarkus application to `camel 4.17`.
 recipeList:
-  #  use the recipe from camel upgrade recipes project
+  # use the recipe from camel upgrade recipes project
   - org.apache.camel.upgrade.camel417.CamelMigrationRecipe
+  # https://github.com/apache/camel-quarkus/blob/main/docs/modules/ROOT/pages/migration-guide/3.31.0.adoc
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: org.apache.camel.test.junit5
+      newPackageName: org.apache.camel.test.junit6
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: org.apache.camel.quarkus
+      oldArtifactId: camel-quarkus-junit5
+      newArtifactId: camel-quarkus-junit
