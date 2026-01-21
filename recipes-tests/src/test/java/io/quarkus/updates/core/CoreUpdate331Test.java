@@ -384,4 +384,360 @@ public class CoreUpdate331Test implements RewriteTest {
             </project>
             """));
     }
+
+    @Test
+    void testDoNothingWhenQuarkusMavenPluginNotPresent() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.4</version>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-failsafe-plugin</artifactId>
+                            <version>3.5.4</version>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """));
+    }
+
+    @Test
+    void testAddArgLineToSurefireWhenNoConfiguration() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.4</version>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """,
+            """
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                            <extensions>true</extensions>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.4</version>
+                            <configuration>
+                                <argLine>@{argLine}</argLine>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """));
+    }
+
+    @Test
+    void testAddArgLineToFailsafeWhenNoConfiguration() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-failsafe-plugin</artifactId>
+                            <version>3.5.4</version>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """,
+            """
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                            <extensions>true</extensions>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-failsafe-plugin</artifactId>
+                            <version>3.5.4</version>
+                            <configuration>
+                                <argLine>@{argLine}</argLine>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """));
+    }
+
+    @Test
+    void testAddArgLineToSurefireWhenConfigurationExistsButNoArgLine() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.4</version>
+                            <configuration>
+                                <skip>false</skip>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """,
+            """
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                            <extensions>true</extensions>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.4</version>
+                            <configuration>
+                                <skip>false</skip>
+                                <argLine>@{argLine}</argLine>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """));
+    }
+
+    @Test
+    void testPrependArgLineToSurefireWhenArgLineExistsWithoutPlaceholder() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.4</version>
+                            <configuration>
+                                <argLine>-Xmx512m</argLine>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """,
+            """
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                            <extensions>true</extensions>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.4</version>
+                            <configuration>
+                                <argLine>@{argLine} -Xmx512m</argLine>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """));
+    }
+
+    @Test
+    void testDoNotModifyArgLineWhenPlaceholderAlreadyPresent() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.4</version>
+                            <configuration>
+                                <argLine>@{argLine} -Xmx512m</argLine>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """,
+            """
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                            <extensions>true</extensions>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.4</version>
+                            <configuration>
+                                <argLine>@{argLine} -Xmx512m</argLine>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """));
+    }
+
+    @Test
+    void testHandleBothSurefireAndFailsafeTogether() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.4</version>
+                            <configuration>
+                                <argLine>-Xmx512m</argLine>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-failsafe-plugin</artifactId>
+                            <version>3.5.4</version>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """,
+            """
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus</groupId>
+                <artifactId>test-project</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>quarkus-maven-plugin</artifactId>
+                            <version>3.30.0</version>
+                            <extensions>true</extensions>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.4</version>
+                            <configuration>
+                                <argLine>@{argLine} -Xmx512m</argLine>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <artifactId>maven-failsafe-plugin</artifactId>
+                            <version>3.5.4</version>
+                            <configuration>
+                                <argLine>@{argLine}</argLine>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+            </project>
+            """));
+    }
 }

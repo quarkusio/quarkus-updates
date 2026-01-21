@@ -6,6 +6,7 @@ type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus331.CoreUpdate331
 recipeList:
   - io.quarkus.updates.core.quarkus331.AddExtensionsTrueToQuarkusMavenPlugin
+  - io.quarkus.updates.core.quarkus331.AddArglineToSurefireFailsafePlugins
 #####
 # Use OidcClientRequestFilter from a different package
 #####
