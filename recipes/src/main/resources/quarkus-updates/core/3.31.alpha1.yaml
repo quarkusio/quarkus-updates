@@ -427,3 +427,15 @@ recipeList:
       newGroupId: org.testcontainers
       newArtifactId: testcontainers-yugabytedb
       newVersion: 2.x
+
+#####
+# Fix typo in OpenTelemetry tracing package name (intrumentation -> instrumentation)
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus331.OpenTelemetryTracingPackageTypoFix
+recipeList:
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: io.quarkus.opentelemetry.runtime.tracing.intrumentation
+      newPackageName: io.quarkus.opentelemetry.runtime.tracing.instrumentation
+      recursive: true
