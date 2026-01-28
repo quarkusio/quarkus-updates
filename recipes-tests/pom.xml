@@ -579,7 +579,7 @@
                                 <artifactItem>
                                     <groupId>org.eclipse.milo</groupId>
                                     <artifactId>sdk-client</artifactId>
-                                    <version>0.6.8</version>
+                                    <version>0.6.16</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
 
