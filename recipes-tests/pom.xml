@@ -39,6 +39,9 @@
         <test.camel-quarkus-3-22.camel-version>4.11.0</test.camel-quarkus-3-22.camel-version>
         <test.camel-quarkus-3-23.camel-version>4.12.0</test.camel-quarkus-3-23.camel-version>
         <test.camel-quarkus-3-29.camel-version>4.14.0</test.camel-quarkus-3-29.camel-version>
+        <test.camel-quarkus-3-31.camel-version>4.17.0</test.camel-quarkus-3-31.camel-version>
+
+        <test.camel-tahu-version>1.0.18</test.camel-tahu-version>
     </properties>
 
     <dependencyManagement>
@@ -582,6 +585,24 @@
                                     <version>0.6.8</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-qdrant</artifactId>
+                                    <version>${test.camel-quarkus-3-31.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-tahu</artifactId>
+                                    <version>${test.camel-quarkus-3-31.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <dependency>
+                                    <groupId>org.eclipse.tahu</groupId>
+                                    <artifactId>tahu-host</artifactId>
+                                    <version>${test.camel-tahu-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </dependency>
 
 
                                 <artifactItem>
