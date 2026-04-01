@@ -1,0 +1,10 @@
+#####
+# Rename quarkus.datasource.jdbc.enable-metrics to quarkus.datasource.jdbc.metrics.enabled
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus330.RenameEnableMetrics
+recipeList:
+    - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+          oldPropertyKey: quarkus\.datasource\.jdbc\.enable-metrics
+          newPropertyKey: quarkus.datasource.jdbc.metrics.enabled
