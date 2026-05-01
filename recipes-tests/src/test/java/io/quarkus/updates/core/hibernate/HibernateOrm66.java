@@ -178,6 +178,71 @@ public class HibernateOrm66 {
 				DELETE_ORPHAN
 			}
 			"""
+		, """
+			package org.hibernate.annotations;
+			public class QueryHints {
+				public static final String READ_ONLY = "org.hibernate.readOnly";
+				public static final String COMMENT = "org.hibernate.comment";
+			}
+			""", """
+			package org.hibernate.jpa;
+			public class AvailableHints {
+				public static final String HINT_READ_ONLY = "org.hibernate.readOnly";
+				public static final String HINT_COMMENT = "org.hibernate.comment";
+			}
+			""", """
+			package org.hibernate;
+			public interface Interceptor {
+			}
+			""", """
+			package org.hibernate;
+			public abstract class EmptyInterceptor implements Interceptor, java.io.Serializable {
+			}
+			""", """
+			package org.hibernate.validator.constraints;
+			@java.lang.annotation.Target({java.lang.annotation.ElementType.METHOD, java.lang.annotation.ElementType.FIELD})
+			@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+			public @interface NotBlank {
+			}
+			""", """
+			package jakarta.validation.constraints;
+			@java.lang.annotation.Target({java.lang.annotation.ElementType.METHOD, java.lang.annotation.ElementType.FIELD})
+			@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+			public @interface NotBlank {
+			}
+			""", """
+			package org.hibernate.annotations;
+			@java.lang.annotation.Target({java.lang.annotation.ElementType.METHOD, java.lang.annotation.ElementType.FIELD})
+			@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+			public @interface IndexColumn {
+				String name() default "";
+			}
+			""", """
+			package jakarta.persistence;
+			@java.lang.annotation.Target({java.lang.annotation.ElementType.METHOD, java.lang.annotation.ElementType.FIELD})
+			@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+			public @interface OrderColumn {
+				String name() default "";
+			}
+			""", """
+			package org.hibernate.dialect;
+			public abstract class Dialect {
+			}
+			""", """
+			package org.hibernate.dialect.unique;
+			import org.hibernate.dialect.Dialect;
+			public class DefaultUniqueDelegate {
+				public DefaultUniqueDelegate(Dialect dialect) {
+				}
+			}
+			""", """
+			package org.hibernate.dialect.unique;
+			import org.hibernate.dialect.Dialect;
+			public class AlterTableUniqueDelegate {
+				public AlterTableUniqueDelegate(Dialect dialect) {
+				}
+			}
+			"""
 		};
 		return apis;
 	}

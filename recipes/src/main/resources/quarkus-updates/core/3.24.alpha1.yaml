@@ -144,3 +144,59 @@ recipeList:
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.log\.console\.async
       newPropertyKey: quarkus.log.console.async.enable
+
+#####
+# Replace removed QueryHints constants with AvailableHints equivalents.
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.MigrateFromHibernateOrmQueryHints
+recipeList:
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.READ_ONLY
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_READ_ONLY
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.COMMENT
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_COMMENT
+
+#####
+# Replace removed EmptyInterceptor with Interceptor interface.
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.MigrateFromHibernateOrmEmptyInterceptor
+recipeList:
+  - io.quarkus.updates.core.quarkus324.MigrateFromEmptyInterceptor
+
+#####
+# Replace deprecated Hibernate Validator NotBlank with Jakarta Validation equivalent.
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.MigrateFromHibernateValidatorNotBlank
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.hibernate.validator.constraints.NotBlank
+      newFullyQualifiedTypeName: jakarta.validation.constraints.NotBlank
+
+#####
+# Replace removed IndexColumn with standard JPA OrderColumn.
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.MigrateFromIndexColumn
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.hibernate.annotations.IndexColumn
+      newFullyQualifiedTypeName: jakarta.persistence.OrderColumn
+
+#####
+# Replace removed DefaultUniqueDelegate with AlterTableUniqueDelegate.
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus324.MigrateFromDefaultUniqueDelegate
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.hibernate.dialect.unique.DefaultUniqueDelegate
+      newFullyQualifiedTypeName: org.hibernate.dialect.unique.AlterTableUniqueDelegate
