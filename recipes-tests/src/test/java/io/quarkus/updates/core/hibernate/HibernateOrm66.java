@@ -182,13 +182,35 @@ public class HibernateOrm66 {
 			package org.hibernate.annotations;
 			public class QueryHints {
 				public static final String READ_ONLY = "org.hibernate.readOnly";
+				public static final String CACHEABLE = "org.hibernate.cacheable";
+				public static final String CACHE_MODE = "org.hibernate.cacheMode";
+				public static final String CACHE_REGION = "org.hibernate.cacheRegion";
 				public static final String COMMENT = "org.hibernate.comment";
+				public static final String FETCH_SIZE = "org.hibernate.fetchSize";
+				public static final String FLUSH_MODE = "org.hibernate.flushMode";
+				public static final String TIMEOUT_HIBERNATE = "org.hibernate.timeout";
+				public static final String TIMEOUT_JAKARTA_JPA = "jakarta.persistence.query.timeout";
+				public static final String NATIVE_LOCKMODE = "org.hibernate.lockMode";
+				public static final String FOLLOW_ON_LOCKING = "org.hibernate.followOnLocking";
+				public static final String NATIVE_SPACES = "org.hibernate.query.native.spaces";
+				public static final String CALLABLE_FUNCTION = "org.hibernate.callableFunction";
+				public static final String TIMEOUT_JPA = "javax.persistence.query.timeout";
 			}
 			""", """
 			package org.hibernate.jpa;
 			public class AvailableHints {
 				public static final String HINT_READ_ONLY = "org.hibernate.readOnly";
+				public static final String HINT_CACHEABLE = "org.hibernate.cacheable";
+				public static final String HINT_CACHE_MODE = "org.hibernate.cacheMode";
+				public static final String HINT_CACHE_REGION = "org.hibernate.cacheRegion";
 				public static final String HINT_COMMENT = "org.hibernate.comment";
+				public static final String HINT_FETCH_SIZE = "org.hibernate.fetchSize";
+				public static final String HINT_FLUSH_MODE = "org.hibernate.flushMode";
+				public static final String HINT_TIMEOUT = "org.hibernate.timeout";
+				public static final String HINT_NATIVE_LOCK_MODE = "org.hibernate.lockMode";
+				public static final String HINT_FOLLOW_ON_LOCKING = "org.hibernate.followOnLocking";
+				public static final String HINT_NATIVE_SPACES = "org.hibernate.query.native.spaces";
+				public static final String HINT_CALLABLE_FUNCTION = "org.hibernate.callableFunction";
 			}
 			""", """
 			package org.hibernate;

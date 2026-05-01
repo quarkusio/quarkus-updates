@@ -156,8 +156,44 @@ recipeList:
       existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.READ_ONLY
       fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_READ_ONLY
   - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.CACHEABLE
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_CACHEABLE
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.CACHE_MODE
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_CACHE_MODE
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.CACHE_REGION
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_CACHE_REGION
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
       existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.COMMENT
       fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_COMMENT
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.FETCH_SIZE
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_FETCH_SIZE
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.FLUSH_MODE
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_FLUSH_MODE
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.TIMEOUT_HIBERNATE
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_TIMEOUT
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.TIMEOUT_JAKARTA_JPA
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_TIMEOUT
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.NATIVE_LOCKMODE
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_NATIVE_LOCK_MODE
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.FOLLOW_ON_LOCKING
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_FOLLOW_ON_LOCKING
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.NATIVE_SPACES
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_NATIVE_SPACES
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.CALLABLE_FUNCTION
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_CALLABLE_FUNCTION
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: org.hibernate.annotations.QueryHints.TIMEOUT_JPA
+      fullyQualifiedConstantName: org.hibernate.jpa.AvailableHints.HINT_TIMEOUT
 
 #####
 # Replace removed EmptyInterceptor with Interceptor interface.
