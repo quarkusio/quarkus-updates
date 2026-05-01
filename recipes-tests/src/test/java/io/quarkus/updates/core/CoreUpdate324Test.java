@@ -985,6 +985,143 @@ public class CoreUpdate324Test implements RewriteTest {
     }
 
     @Test
+    void testQueryHints() {
+        //language=java
+        rewriteRun(java("""
+                package com.acme;
+
+                import org.hibernate.annotations.QueryHints;
+
+                public class MyRepository {
+                    public void doThings() {
+                        String readOnly = QueryHints.READ_ONLY;
+                        String comment = QueryHints.COMMENT;
+                    }
+                }
+                """, """
+                package com.acme;
+
+                import org.hibernate.jpa.AvailableHints;
+
+                public class MyRepository {
+                    public void doThings() {
+                        String readOnly = AvailableHints.HINT_READ_ONLY;
+                        String comment = AvailableHints.HINT_COMMENT;
+                    }
+                }
+                """));
+    }
+
+    @Test
+    void testEmptyInterceptor() {
+        //language=java
+        rewriteRun(java("""
+                package com.acme;
+
+                import org.hibernate.EmptyInterceptor;
+
+                public class MyInterceptor extends EmptyInterceptor {
+                    @Override
+                    public String onPrepareStatement(String sql) {
+                        return sql;
+                    }
+                }
+                """, """
+                package com.acme;
+
+                import org.hibernate.Interceptor;
+
+                import java.io.Serializable;
+
+                public class MyInterceptor implements Interceptor, Serializable {
+                    @Override
+                    public String onPrepareStatement(String sql) {
+                        return sql;
+                    }
+                }
+                """));
+    }
+
+    @Test
+    void testHibernateValidatorNotBlank() {
+        //language=java
+        rewriteRun(java("""
+                package com.acme;
+
+                import org.hibernate.validator.constraints.NotBlank;
+
+                public class MyEntity {
+                    @NotBlank
+                    public String name;
+                }
+                """, """
+                package com.acme;
+
+                import jakarta.validation.constraints.NotBlank;
+
+                public class MyEntity {
+                    @NotBlank
+                    public String name;
+                }
+                """));
+    }
+
+    @Test
+    void testIndexColumn() {
+        //language=java
+        rewriteRun(java("""
+                package com.acme;
+
+                import org.hibernate.annotations.IndexColumn;
+                import java.util.List;
+
+                public class MyEntity {
+                    @IndexColumn(name = "position")
+                    public List<String> items;
+                }
+                """, """
+                package com.acme;
+
+                import jakarta.persistence.OrderColumn;
+
+                import java.util.List;
+
+                public class MyEntity {
+                    @OrderColumn(name = "position")
+                    public List<String> items;
+                }
+                """));
+    }
+
+    @Test
+    void testDefaultUniqueDelegate() {
+        //language=java
+        rewriteRun(java("""
+                package com.acme;
+
+                import org.hibernate.dialect.Dialect;
+                import org.hibernate.dialect.unique.DefaultUniqueDelegate;
+
+                public class MyDialect extends Dialect {
+                    public Object getUniqueDelegate() {
+                        return new DefaultUniqueDelegate(this);
+                    }
+                }
+                """, """
+                package com.acme;
+
+                import org.hibernate.dialect.Dialect;
+                import org.hibernate.dialect.unique.AlterTableUniqueDelegate;
+
+                public class MyDialect extends Dialect {
+                    public Object getUniqueDelegate() {
+                        return new AlterTableUniqueDelegate(this);
+                    }
+                }
+                """));
+    }
+
+    @Test
     void testQuarkusLogConsoleAsyncRewrite() {
         @Language("properties")
         String originalProperties = """
