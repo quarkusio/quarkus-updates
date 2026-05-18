@@ -35,6 +35,7 @@ defaults:
 env:
   MAVEN_OPTS: -Xmx8g
   GRADLE_OPTS: -Dorg.gradle.jvmargs='-Xmx8g'
+  MVNW_REPOURL: https://maven-central.storage-download.googleapis.com/maven2
 
 jobs:
   build:
@@ -59,7 +60,7 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven
-        run: mvn --batch-mode --no-transfer-progress clean install -Dno-format -Dstyle.color=always
+        run: mvn -s .github/mvn-settings.xml --batch-mode --no-transfer-progress clean install -Dno-format -Dstyle.color=always
 
       # Publish build reports
       - name: Prepare build reports archive
