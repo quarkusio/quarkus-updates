@@ -59,8 +59,23 @@ jobs:
           java-version: 17
           cache: 'maven'
 
+      # Merge the Google mirror profile into ~/.m2/settings.xml so that both the
+      # Maven CLI and OpenRewrite's internal Maven resolver (which reads
+      # ~/.m2/settings.xml directly) use it. Using -s alone would only affect the
+      # CLI, not OpenRewrite's test harness.
+      - name: Inject Google mirror into Maven settings
+        run: |
+          if [ -f ~/.m2/settings.xml ]; then
+            yq eval-all -p=xml -o=xml 'select(fileIndex == 0) *+ select(fileIndex == 1)' \
+              ~/.m2/settings.xml .github/mvn-settings.xml > ~/.m2/settings-merged.xml
+            mv ~/.m2/settings-merged.xml ~/.m2/settings.xml
+          else
+            mkdir -p ~/.m2
+            cp .github/mvn-settings.xml ~/.m2/settings.xml
+          fi
+
       - name: Build with Maven
-        run: mvn -s .github/mvn-settings.xml --batch-mode --no-transfer-progress clean install -Dno-format -Dstyle.color=always
+        run: mvn --batch-mode --no-transfer-progress clean install -Dno-format -Dstyle.color=always
 
       # Publish build reports
       - name: Prepare build reports archive
