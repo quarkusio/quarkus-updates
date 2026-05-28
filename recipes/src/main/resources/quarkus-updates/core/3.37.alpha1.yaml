@@ -1,0 +1,15 @@
+#####
+# Relocations for Panache Next to Quarkus Data Hibernate rename
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus337.PanacheNextRelocations
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-hibernate-panache-next
+      newArtifactId: quarkus-data-hibernate
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-hibernate-panache-next-deployment
+      newArtifactId: quarkus-data-hibernate-deployment
