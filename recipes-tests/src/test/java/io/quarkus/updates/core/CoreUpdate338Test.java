@@ -1,6 +1,7 @@
 package io.quarkus.updates.core;
 
 import static org.openrewrite.java.Assertions.java;
+import static org.openrewrite.maven.Assertions.pomXml;
 
 import java.nio.file.Path;
 
@@ -660,5 +661,117 @@ public class CoreUpdate338Test implements RewriteTest {
                     class MyEntity implements WithId<Long> {
                     }
                 """));
+    }
+
+    @Test
+    void testHibernateProcessorToQuarkusDataProcessor() {
+        //language=xml
+        rewriteRun(pomXml(
+                """
+                        <project>
+                            <modelVersion>4.0.0</modelVersion>
+                            <groupId>org.acme</groupId>
+                            <artifactId>my-app</artifactId>
+                            <version>1.0-SNAPSHOT</version>
+                            <build>
+                                <plugins>
+                                    <plugin>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-compiler-plugin</artifactId>
+                                        <version>3.13.0</version>
+                                        <configuration>
+                                            <annotationProcessorPaths>
+                                                <path>
+                                                    <groupId>org.hibernate.orm</groupId>
+                                                    <artifactId>hibernate-processor</artifactId>
+                                                </path>
+                                            </annotationProcessorPaths>
+                                        </configuration>
+                                    </plugin>
+                                </plugins>
+                            </build>
+                        </project>
+                        """,
+                """
+                        <project>
+                            <modelVersion>4.0.0</modelVersion>
+                            <groupId>org.acme</groupId>
+                            <artifactId>my-app</artifactId>
+                            <version>1.0-SNAPSHOT</version>
+                            <build>
+                                <plugins>
+                                    <plugin>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-compiler-plugin</artifactId>
+                                        <version>3.13.0</version>
+                                        <configuration>
+                                            <annotationProcessorPaths>
+                                                <path>
+                                                    <groupId>io.quarkus</groupId>
+                                                    <artifactId>quarkus-data-processor</artifactId>
+                                                </path>
+                                            </annotationProcessorPaths>
+                                        </configuration>
+                                    </plugin>
+                                </plugins>
+                            </build>
+                        </project>
+                        """));
+    }
+
+    @Test
+    void testOldJpaModelgenToQuarkusDataProcessor() {
+        //language=xml
+        rewriteRun(pomXml(
+                """
+                        <project>
+                            <modelVersion>4.0.0</modelVersion>
+                            <groupId>org.acme</groupId>
+                            <artifactId>my-app</artifactId>
+                            <version>1.0-SNAPSHOT</version>
+                            <build>
+                                <plugins>
+                                    <plugin>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-compiler-plugin</artifactId>
+                                        <version>3.13.0</version>
+                                        <configuration>
+                                            <annotationProcessorPaths>
+                                                <path>
+                                                    <groupId>org.hibernate</groupId>
+                                                    <artifactId>hibernate-jpamodelgen</artifactId>
+                                                </path>
+                                            </annotationProcessorPaths>
+                                        </configuration>
+                                    </plugin>
+                                </plugins>
+                            </build>
+                        </project>
+                        """,
+                """
+                        <project>
+                            <modelVersion>4.0.0</modelVersion>
+                            <groupId>org.acme</groupId>
+                            <artifactId>my-app</artifactId>
+                            <version>1.0-SNAPSHOT</version>
+                            <build>
+                                <plugins>
+                                    <plugin>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-compiler-plugin</artifactId>
+                                        <version>3.13.0</version>
+                                        <configuration>
+                                            <annotationProcessorPaths>
+                                                <path>
+                                                    <groupId>io.quarkus</groupId>
+                                                    <artifactId>quarkus-data-processor</artifactId>
+                                                </path>
+                                            </annotationProcessorPaths>
+                                        </configuration>
+                                    </plugin>
+                                </plugins>
+                            </build>
+                        </project>
+                        """));
     }
 }
