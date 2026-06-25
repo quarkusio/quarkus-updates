@@ -49,6 +49,39 @@ recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: org.elasticsearch.client.WarningsHandler
       newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.WarningsHandler
+#####
+# Replace hibernate-processor annotation processor with quarkus-data-processor
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus338.ReplaceHibernateProcessorAnnotationProcessor
+recipeList:
+  - io.quarkus.updates.core.quarkus37.ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId:
+      oldGroupId: org.hibernate.orm
+      oldArtifactId: hibernate-processor
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
+      removeVersionIfManaged: true
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus338.ReplaceNewJpaModelgenAnnotationProcessor
+recipeList:
+  - io.quarkus.updates.core.quarkus37.ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId:
+      oldGroupId: org.hibernate.orm
+      oldArtifactId: hibernate-jpamodelgen
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
+      removeVersionIfManaged: true
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus338.ReplaceOldJpaModelgenAnnotationProcessor
+recipeList:
+  - io.quarkus.updates.core.quarkus37.ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-jpamodelgen
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
+      removeVersionIfManaged: true
 
 #####
 # Quarkus Data Hibernate: rename from io.quarkus.hibernate.panache to io.quarkus.data.hibernate
