@@ -11,6 +11,11 @@ recipeList:
       newGroupId: io.quarkus
       newArtifactId: quarkus-data-processor
       removeVersionIfManaged: true
+  - io.quarkus.updates.core.quarkus338.ChangeGradleAnnotationProcessorDependency:
+      oldGroupId: org.hibernate.orm
+      oldArtifactId: hibernate-processor
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus338.ReplaceNewJpaModelgenAnnotationProcessor
@@ -21,6 +26,11 @@ recipeList:
       newGroupId: io.quarkus
       newArtifactId: quarkus-data-processor
       removeVersionIfManaged: true
+  - io.quarkus.updates.core.quarkus338.ChangeGradleAnnotationProcessorDependency:
+      oldGroupId: org.hibernate.orm
+      oldArtifactId: hibernate-jpamodelgen
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus338.ReplaceOldJpaModelgenAnnotationProcessor
@@ -31,6 +41,11 @@ recipeList:
       newGroupId: io.quarkus
       newArtifactId: quarkus-data-processor
       removeVersionIfManaged: true
+  - io.quarkus.updates.core.quarkus338.ChangeGradleAnnotationProcessorDependency:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-jpamodelgen
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
 
 #####
 # Quarkus Data Hibernate: rename from io.quarkus.hibernate.panache to io.quarkus.data.hibernate

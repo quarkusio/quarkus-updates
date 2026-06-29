@@ -1,6 +1,7 @@
 package io.quarkus.updates.core;
 
 import static org.openrewrite.java.Assertions.java;
+import static org.openrewrite.gradle.Assertions.buildGradle;
 import static org.openrewrite.maven.Assertions.pomXml;
 
 import java.nio.file.Path;
@@ -720,6 +721,81 @@ public class CoreUpdate338Test implements RewriteTest {
     }
 
     @Test
+    void testHibernateProcessorWithVersionToQuarkusDataProcessor() {
+        //language=xml
+        rewriteRun(pomXml(
+                """
+                        <project>
+                            <modelVersion>4.0.0</modelVersion>
+                            <groupId>org.acme</groupId>
+                            <artifactId>my-app</artifactId>
+                            <version>1.0-SNAPSHOT</version>
+                            <dependencyManagement>
+                                <dependencies>
+                                    <dependency>
+                                        <groupId>io.quarkus</groupId>
+                                        <artifactId>quarkus-data-processor</artifactId>
+                                        <version>3.38.0</version>
+                                    </dependency>
+                                </dependencies>
+                            </dependencyManagement>
+                            <build>
+                                <plugins>
+                                    <plugin>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-compiler-plugin</artifactId>
+                                        <version>3.13.0</version>
+                                        <configuration>
+                                            <annotationProcessorPaths>
+                                                <path>
+                                                    <groupId>org.hibernate.orm</groupId>
+                                                    <artifactId>hibernate-processor</artifactId>
+                                                    <version>6.6.3.Final</version>
+                                                </path>
+                                            </annotationProcessorPaths>
+                                        </configuration>
+                                    </plugin>
+                                </plugins>
+                            </build>
+                        </project>
+                        """,
+                """
+                        <project>
+                            <modelVersion>4.0.0</modelVersion>
+                            <groupId>org.acme</groupId>
+                            <artifactId>my-app</artifactId>
+                            <version>1.0-SNAPSHOT</version>
+                            <dependencyManagement>
+                                <dependencies>
+                                    <dependency>
+                                        <groupId>io.quarkus</groupId>
+                                        <artifactId>quarkus-data-processor</artifactId>
+                                        <version>3.38.0</version>
+                                    </dependency>
+                                </dependencies>
+                            </dependencyManagement>
+                            <build>
+                                <plugins>
+                                    <plugin>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-compiler-plugin</artifactId>
+                                        <version>3.13.0</version>
+                                        <configuration>
+                                            <annotationProcessorPaths>
+                                                <path>
+                                                    <groupId>io.quarkus</groupId>
+                                                    <artifactId>quarkus-data-processor</artifactId>
+                                                </path>
+                                            </annotationProcessorPaths>
+                                        </configuration>
+                                    </plugin>
+                                </plugins>
+                            </build>
+                        </project>
+                        """));
+    }
+
+    @Test
     void testOldJpaModelgenToQuarkusDataProcessor() {
         //language=xml
         rewriteRun(pomXml(
@@ -773,5 +849,133 @@ public class CoreUpdate338Test implements RewriteTest {
                             </build>
                         </project>
                         """));
+    }
+
+    @Test
+    void testGradleHibernateProcessorWithVersionToQuarkusDataProcessor() {
+        org.openrewrite.maven.tree.Dependency dep = org.openrewrite.maven.tree.Dependency.builder()
+                .gav(new org.openrewrite.maven.tree.GroupArtifactVersion("org.hibernate.orm", "hibernate-processor", "6.6.3.Final"))
+                .build();
+        org.openrewrite.gradle.marker.GradleDependencyConfiguration apConfig =
+                new org.openrewrite.gradle.marker.GradleDependencyConfiguration("annotationProcessor", null, true, true, true, true,
+                        java.util.Collections.emptyList(), java.util.List.of(dep), java.util.Collections.emptyList(), null, null, null, null);
+        org.openrewrite.gradle.marker.GradleProject gp = org.openrewrite.gradle.marker.GradleProject.builder()
+                .group("org.acme")
+                .name("my-app")
+                .version("1.0-SNAPSHOT")
+                .nameToConfiguration(java.util.Map.of("annotationProcessor", apConfig))
+                .build();
+        rewriteRun(
+                buildGradle(
+                        """
+                            plugins {
+                                id 'java'
+                            }
+                            repositories {
+                                mavenCentral()
+                            }
+                            dependencies {
+                                annotationProcessor enforcedPlatform("io.quarkus.platform:quarkus-bom:3.38.0")
+                                annotationProcessor 'org.hibernate.orm:hibernate-processor:6.6.3.Final'
+                            }
+                            """,
+                        """
+                            plugins {
+                                id 'java'
+                            }
+                            repositories {
+                                mavenCentral()
+                            }
+                            dependencies {
+                                annotationProcessor enforcedPlatform("io.quarkus.platform:quarkus-bom:3.38.0")
+                                annotationProcessor 'io.quarkus:quarkus-data-processor'
+                            }
+                            """,
+                        spec2 -> spec2.markers(gp)));
+    }
+
+    @Test
+    void testGradleHibernateProcessorWithoutVersionToQuarkusDataProcessor() {
+        org.openrewrite.maven.tree.Dependency dep = org.openrewrite.maven.tree.Dependency.builder()
+                .gav(new org.openrewrite.maven.tree.GroupArtifactVersion("org.hibernate.orm", "hibernate-processor", null))
+                .build();
+        org.openrewrite.gradle.marker.GradleDependencyConfiguration apConfig =
+                new org.openrewrite.gradle.marker.GradleDependencyConfiguration("annotationProcessor", null, true, true, true, true,
+                        java.util.Collections.emptyList(), java.util.List.of(dep), java.util.Collections.emptyList(), null, null, null, null);
+        org.openrewrite.gradle.marker.GradleProject gp = org.openrewrite.gradle.marker.GradleProject.builder()
+                .group("org.acme")
+                .name("my-app")
+                .version("1.0-SNAPSHOT")
+                .nameToConfiguration(java.util.Map.of("annotationProcessor", apConfig))
+                .build();
+        rewriteRun(
+                buildGradle(
+                        """
+                            plugins {
+                                id 'java'
+                            }
+                            repositories {
+                                mavenCentral()
+                            }
+                            dependencies {
+                                annotationProcessor enforcedPlatform("io.quarkus.platform:quarkus-bom:3.38.0")
+                                annotationProcessor 'org.hibernate.orm:hibernate-processor'
+                            }
+                            """,
+                        """
+                            plugins {
+                                id 'java'
+                            }
+                            repositories {
+                                mavenCentral()
+                            }
+                            dependencies {
+                                annotationProcessor enforcedPlatform("io.quarkus.platform:quarkus-bom:3.38.0")
+                                annotationProcessor 'io.quarkus:quarkus-data-processor'
+                            }
+                            """,
+                        spec2 -> spec2.markers(gp)));
+    }
+
+    @Test
+    void testGradleHibernateProcessorWithVersionNoEnforcedPlatform() {
+        org.openrewrite.maven.tree.Dependency dep = org.openrewrite.maven.tree.Dependency.builder()
+                .gav(new org.openrewrite.maven.tree.GroupArtifactVersion("org.hibernate.orm", "hibernate-processor", "6.6.3.Final"))
+                .build();
+        org.openrewrite.gradle.marker.GradleDependencyConfiguration apConfig =
+                new org.openrewrite.gradle.marker.GradleDependencyConfiguration("annotationProcessor", null, true, true, true, true,
+                        java.util.Collections.emptyList(), java.util.List.of(dep), java.util.Collections.emptyList(), null, null, null, null);
+        org.openrewrite.gradle.marker.GradleProject gp = org.openrewrite.gradle.marker.GradleProject.builder()
+                .group("org.acme")
+                .name("my-app")
+                .version("1.0-SNAPSHOT")
+                .nameToConfiguration(java.util.Map.of("annotationProcessor", apConfig))
+                .build();
+        rewriteRun(
+                buildGradle(
+                        """
+                            plugins {
+                                id 'java'
+                            }
+                            repositories {
+                                mavenCentral()
+                            }
+                            dependencies {
+                                annotationProcessor 'org.hibernate.orm:hibernate-processor:6.6.3.Final'
+                            }
+                            """,
+                        """
+                            plugins {
+                                id 'java'
+                            }
+                            repositories {
+                                mavenCentral()
+                            }
+                            dependencies {
+                                annotationProcessor enforcedPlatform("io.quarkus.platform:quarkus-bom:$quarkusPlatformVersion")
+                                annotationProcessor 'io.quarkus:quarkus-data-processor'
+                            }
+                            """,
+                        spec2 -> spec2.markers(gp)));
     }
 }
