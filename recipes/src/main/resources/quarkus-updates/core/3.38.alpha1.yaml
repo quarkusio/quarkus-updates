@@ -1,0 +1,51 @@
+#####
+# Elasticsearch REST client migration
+# Migrate from org.elasticsearch.client (REST 4) to co.elastic.clients.transport.rest5_client.low_level (REST 5)
+# See https://github.com/quarkusio/quarkus/commit/a6b51c11611551beb0a5ebbbbef0b097c6be0369
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus338.ElasticsearchRestClientMigration
+description: Migrate Elasticsearch low-level REST client from org.elasticsearch.client to co.elastic.clients.transport.rest5_client.low_level.
+recipeList:
+  # Configurer changed and the user needs to rewrite the method, we only change the type
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.RestClientBuilder.HttpClientConfigCallback
+      newFullyQualifiedTypeName: io.quarkus.elasticsearch.restclient.lowlevel.ElasticsearchClientConfigConfigurer
+  # Main client classes
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.RestClient
+      newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.Rest5Client
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.RestClientBuilder
+      newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.Rest5ClientBuilder
+  # Request/Response
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.Request
+      newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.Request
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.Response
+      newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.Response
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.ResponseException
+      newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.ResponseException
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.ResponseListener
+      newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.ResponseListener
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.RequestOptions
+      newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.RequestOptions
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.Cancellable
+      newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.Cancellable
+  # Async response handling
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.HttpAsyncResponseConsumerFactory
+      newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.HttpAsyncResponseConsumerFactory
+  # Warnings
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.WarningFailureException
+      newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.WarningFailureException
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.elasticsearch.client.WarningsHandler
+      newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.WarningsHandler
