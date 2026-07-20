@@ -605,6 +605,14 @@
                                 </dependency>
 
 
+                                <!-- AWS SDK S3 for camel-aws2-s3 type migration tests -->
+                                <artifactItem>
+                                    <groupId>software.amazon.awssdk</groupId>
+                                    <artifactId>s3</artifactId>
+                                    <version>2.20.0</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+
                                 <artifactItem>
                                     <groupId>jakarta.xml.bind</groupId>
                                     <artifactId>jakarta.xml.bind-api</artifactId>
