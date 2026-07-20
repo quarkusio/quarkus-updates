@@ -49,3 +49,126 @@ recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: org.elasticsearch.client.WarningsHandler
       newFullyQualifiedTypeName: co.elastic.clients.transport.rest5_client.low_level.WarningsHandler
+#####
+# Replace hibernate-processor annotation processor with quarkus-data-processor
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus338.ReplaceHibernateProcessorAnnotationProcessor
+recipeList:
+  - io.quarkus.updates.core.quarkus37.ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId:
+      oldGroupId: org.hibernate.orm
+      oldArtifactId: hibernate-processor
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
+      removeVersionIfManaged: true
+  - io.quarkus.updates.core.quarkus338.ChangeGradleAnnotationProcessorDependency:
+      oldGroupId: org.hibernate.orm
+      oldArtifactId: hibernate-processor
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus338.ReplaceNewJpaModelgenAnnotationProcessor
+recipeList:
+  - io.quarkus.updates.core.quarkus37.ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId:
+      oldGroupId: org.hibernate.orm
+      oldArtifactId: hibernate-jpamodelgen
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
+      removeVersionIfManaged: true
+  - io.quarkus.updates.core.quarkus338.ChangeGradleAnnotationProcessorDependency:
+      oldGroupId: org.hibernate.orm
+      oldArtifactId: hibernate-jpamodelgen
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus338.ReplaceOldJpaModelgenAnnotationProcessor
+recipeList:
+  - io.quarkus.updates.core.quarkus37.ChangeMavenCompilerAnnotationProcessorGroupIdAndArtifactId:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-jpamodelgen
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
+      removeVersionIfManaged: true
+  - io.quarkus.updates.core.quarkus338.ChangeGradleAnnotationProcessorDependency:
+      oldGroupId: org.hibernate
+      oldArtifactId: hibernate-jpamodelgen
+      newGroupId: io.quarkus
+      newArtifactId: quarkus-data-processor
+
+#####
+# Quarkus Data Hibernate: rename from io.quarkus.hibernate.panache to io.quarkus.data.hibernate
+#####
+#####
+# Inner type renames must come before their outer class renames, otherwise
+# the outer rename changes the prefix and inner rules no longer match.
+# ChangeTypeWithInnerClass wraps ChangeType and adds the outer class import
+# (workaround for a known OpenRewrite bug with inner class targets).
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus338.QuarkusDataHibernateRenames
+displayName: Rename Quarkus Hibernate Panache types to Quarkus Data Hibernate
+description: >-
+  Migrate from `io.quarkus.hibernate.panache` to `io.quarkus.data.hibernate` package
+  and rename Panache types to Quarkus Data types.
+recipeList:
+  # PanacheEntity inner types (before outer class rename)
+  - io.quarkus.updates.core.quarkus338.ChangeTypeWithInnerClass:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheEntity$Reactive$Stateless
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.RecordEntity$Reactive$CustomId
+  - io.quarkus.updates.core.quarkus338.ChangeTypeWithInnerClass:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheEntity$Reactive
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.ManagedEntity$Reactive$CustomId
+  - io.quarkus.updates.core.quarkus338.ChangeTypeWithInnerClass:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheEntity$Stateless
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.RecordEntity$CustomId
+  - io.quarkus.updates.core.quarkus338.ChangeTypeWithInnerClass:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheEntity$Managed
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.ManagedEntity$CustomId
+  # PanacheRepository inner types (before outer class rename)
+  - io.quarkus.updates.core.quarkus338.ChangeTypeWithInnerClass:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheRepository$Reactive$Stateless
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.RecordRepository$Reactive$CustomId
+  - io.quarkus.updates.core.quarkus338.ChangeTypeWithInnerClass:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheRepository$Reactive
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.ManagedRepository$Reactive$CustomId
+  - io.quarkus.updates.core.quarkus338.ChangeTypeWithInnerClass:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheRepository$Stateless
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.RecordRepository$CustomId
+  - io.quarkus.updates.core.quarkus338.ChangeTypeWithInnerClass:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheRepository$Managed
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.ManagedRepository$CustomId
+  # Outer class renames
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheEntity
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.ManagedEntity
+  - io.quarkus.updates.core.quarkus338.ChangeTypeWithInnerClass:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheEntityBase
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.ManagedEntity$CustomId
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheRepository
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.ManagedRepository
+  # Standalone type renames
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.Panache
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.QuarkusData
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheQuery
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.DataQuery
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheEntityMarker
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.EntitySwitcher
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheRepositoryQueries
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.RepositoryQueries
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheRepositorySwitcher
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.RepositorySwitcher
+  # Catch-all package rename for remaining types (same class name, different package)
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: io.quarkus.hibernate.panache
+      newPackageName: io.quarkus.data.hibernate
+      recursive: true
