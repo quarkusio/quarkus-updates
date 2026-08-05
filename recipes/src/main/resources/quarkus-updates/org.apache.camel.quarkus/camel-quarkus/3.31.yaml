@@ -33,6 +33,7 @@ recipeList:
   - org.openrewrite.java.ChangePackage:
       oldPackageName: org.apache.camel.test.junit5
       newPackageName: org.apache.camel.test.junit6
+      recursive: true
   - org.openrewrite.java.dependencies.ChangeDependency:
       oldGroupId: org.apache.camel.quarkus
       oldArtifactId: camel-quarkus-junit5
