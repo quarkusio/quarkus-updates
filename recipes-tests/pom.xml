@@ -626,7 +626,7 @@
                                 <artifactItem>
                                     <groupId>io.minio</groupId>
                                     <artifactId>minio</artifactId>
-                                    <version>8.5.7</version>
+                                    <version>9.0.3</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
 
