@@ -40,6 +40,7 @@
         <test.camel-quarkus-3-23.camel-version>4.12.0</test.camel-quarkus-3-23.camel-version>
         <test.camel-quarkus-3-29.camel-version>4.14.0</test.camel-quarkus-3-29.camel-version>
         <test.camel-quarkus-3-31.camel-version>4.17.0</test.camel-quarkus-3-31.camel-version>
+        <test.camel-quarkus-3-33.camel-version>4.18.0</test.camel-quarkus-3-33.camel-version>
 
         <test.camel-tahu-version>1.0.18</test.camel-tahu-version>
     </properties>
@@ -610,6 +611,30 @@
                                     <groupId>software.amazon.awssdk</groupId>
                                     <artifactId>s3</artifactId>
                                     <version>2.20.0</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+
+                                <!-- Azure component JARs for CredentialType migration tests (4.22) -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-azure-storage-blob</artifactId>
+                                    <version>${test.camel-quarkus-3-33.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+
+                                <!-- Minio client for minio type migration tests (4.22) -->
+                                <artifactItem>
+                                    <groupId>io.minio</groupId>
+                                    <artifactId>minio</artifactId>
+                                    <version>8.5.7</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+
+                                <!-- OpenAI SDK with the pre-4.22 package layout for ChatCompletion migration tests (4.22) -->
+                                <artifactItem>
+                                    <groupId>com.openai</groupId>
+                                    <artifactId>openai-java-core</artifactId>
+                                    <version>0.8.1</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
 
