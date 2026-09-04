@@ -1,0 +1,14 @@
+#####
+# Jackson 2.x to 3.x migration
+# See https://github.com/openrewrite/rewrite-jackson
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.Jackson3Migration
+displayName: Migrate Jackson from 2.x to 3.x
+description: >
+  Jackson 3.x uses new package names (tools.jackson instead of com.fasterxml.jackson),
+  new group IDs, and includes various API changes. This recipe applies the OpenRewrite
+  Jackson 2 to 3 migration.
+recipeList:
+  - org.openrewrite.java.jackson.UpgradeJackson_2_3
