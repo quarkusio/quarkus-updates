@@ -1,0 +1,20 @@
+#####
+# Rules coming from https://docs.quarkiverse.io/quarkus-cxf/dev/release-notes/3.16.0.html
+#####
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.cxf.cxf316.UpdateAll
+displayName: Migrate quarkus-cxf to 3.16
+description: >-
+  quarkus-cxf 3.16.0 switched the default HTTP conduit to the Vert.x HttpClient, where
+  hostname-verifier fails at runtime, and deprecated the per client trust-store*/key-store*
+  options in favor of the Quarkus TLS registry. A safe automatic rewrite is not possible for
+  every configuration, so this recipe only adds a deprecation warning comment at the top of the
+  affected properties files and leaves the migration to the user.
+recipeList:
+  - io.quarkus.updates.quarkiverse.cxf.CommentDeprecatedProperties:
+      keyPattern: (%[^.]+\.)?quarkus\.cxf\.client\.[^.]+\.(hostname-verifier|trust-store(-password|-type)?|key-store(-password|-type)?|key-password)
+      comment: >-
+        Deprecation warning: this file uses deprecated quarkus-cxf TLS options (hostname-verifier,
+        trust-store*, key-store*); if they are not migrated to the Quarkus TLS registry, they can
+        silently stop working in 4.x - see
+        https://docs.quarkiverse.io/quarkus-cxf/dev/release-notes/3.16.0.html

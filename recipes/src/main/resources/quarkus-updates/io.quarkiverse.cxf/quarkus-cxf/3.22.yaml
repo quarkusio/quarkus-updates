@@ -1,0 +1,20 @@
+#####
+# Rules coming from https://docs.quarkiverse.io/quarkus-cxf/dev/release-notes/3.22.0.html
+#####
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.cxf.cxf322.UpdateAll
+displayName: Migrate quarkus-cxf to 3.22
+description: >-
+  Removes the quarkus-cxf-rt-transports-http-hc5 extension (asynchronous mode is provided by the
+  Vert.x HttpClient based conduit in io.quarkiverse.cxf:quarkus-cxf) and drops the removed
+  HttpClientHTTPConduitFactory value of *.http-conduit-factory so that the default
+  VertxHttpClientHTTPConduit takes over, for quarkus-cxf 3.22.0. Other http-conduit-factory
+  values such as URLConnectionHTTPConduitFactory stay supported and are left untouched.
+recipeList:
+  - org.openrewrite.java.dependencies.RemoveDependency:
+      groupId: io.quarkiverse.cxf
+      artifactId: quarkus-cxf-rt-transports-http-hc5
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus\.cxf\.(client\.[^.]+\.)?http-conduit-factory
+      oldValue: HttpClientHTTPConduitFactory
+      deleteFromAllProfiles: true

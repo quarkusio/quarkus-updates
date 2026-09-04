@@ -1,0 +1,21 @@
+#####
+# Rules coming from https://docs.quarkiverse.io/quarkus-cxf/dev/release-notes/3.31.1.html
+#####
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.cxf.cxf331.UpdateAll
+displayName: Migrate quarkus-cxf to 3.31
+description: >-
+  quarkus-cxf 3.31.0 deprecated the per client proxy options (proxy-server, proxy-server-port,
+  proxy-server-type, proxy-username, proxy-password, non-proxy-hosts) in favor of the Quarkus
+  Proxy Registry, with removal announced for 4.0.0. A safe automatic rewrite is not possible for
+  every configuration, so this recipe only adds a deprecation warning comment at the top of the
+  affected properties files and leaves the migration to the user.
+recipeList:
+  - io.quarkus.updates.quarkiverse.cxf.CommentDeprecatedProperties:
+      keyPattern: (%[^.]+\.)?quarkus\.cxf\.client\.[^.]+\.(proxy-server(-port|-type)?|proxy-username|proxy-password|non-proxy-hosts)
+      comment: >-
+        Deprecation warning: this file uses deprecated quarkus-cxf proxy options (proxy-server*,
+        proxy-username, proxy-password, non-proxy-hosts); they will be removed in quarkus-cxf 4.0.0 -
+        migrate them to quarkus.proxy.* referenced via
+        quarkus.cxf.client."client-name".proxy-configuration-name, see
+        https://docs.quarkiverse.io/quarkus-cxf/dev/release-notes/3.31.1.html

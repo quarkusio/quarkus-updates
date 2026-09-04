@@ -1,0 +1,29 @@
+#####
+# Rules coming from https://docs.quarkiverse.io/quarkus-cxf/dev/release-notes/3.39.0.html
+#####
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.cxf.cxf339.UpdateAll
+displayName: Migrate quarkus-cxf to 3.39
+description: >-
+  quarkus-cxf 3.39.0 no longer pulls io.quarkus:quarkus-jackson transitively. Adds an explicit
+  quarkus-jackson dependency to applications that use Jackson classes in their sources and do not
+  get the dependency from elsewhere.
+recipeList:
+  - io.quarkus.updates.cxf.cxf339.AddQuarkusJacksonIfUsed
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.cxf.cxf339.AddQuarkusJacksonIfUsed
+displayName: Add quarkus-jackson if Jackson is used
+description: >-
+  Adds io.quarkus:quarkus-jackson to applications that use Jackson types in their sources, because
+  quarkus-cxf stopped pulling quarkus-jackson transitively in 3.39.0. The detection is source based
+  only: the dependency is not added when it is already available directly or transitively through
+  another extension. The update tooling applies this recipe only to projects depending on
+  io.quarkiverse.cxf:quarkus-cxf.
+recipeList:
+  - org.openrewrite.maven.AddDependency:
+      groupId: io.quarkus
+      artifactId: quarkus-jackson
+      version: latest.release
+      onlyIfUsing: com.fasterxml.jackson..*
+      acceptTransitive: true
