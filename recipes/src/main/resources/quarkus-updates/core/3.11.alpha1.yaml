@@ -8,3 +8,19 @@ recipeList:
   - io.quarkus.updates.core.quarkus37.SyncMavenCompilerAnnotationProcessorVersion:
       groupId: org.hibernate.orm
       artifactId: hibernate-jpamodelgen
+
+#####
+# Relocations for the WebJars Locator to Web Dependency Locator rename
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus311.WebDependencyLocatorRelocations
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-webjars-locator
+      newArtifactId: quarkus-web-dependency-locator
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-webjars-locator-deployment
+      newArtifactId: quarkus-web-dependency-locator-deployment

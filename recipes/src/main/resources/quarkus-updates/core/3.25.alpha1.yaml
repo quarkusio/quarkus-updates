@@ -1,0 +1,16 @@
+#####
+# Relocations for the Dev UI SPI artifact renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus325.DevUiSpiRelocations
+description: Rename the Dev UI SPI artifacts quarkus-vertx-http-dev-ui-spi to quarkus-devui-deployment-spi and quarkus-vertx-http-dev-ui-tests to quarkus-devui-test-spi.
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-vertx-http-dev-ui-spi
+      newArtifactId: quarkus-devui-deployment-spi
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-vertx-http-dev-ui-tests
+      newArtifactId: quarkus-devui-test-spi
