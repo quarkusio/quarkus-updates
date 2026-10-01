@@ -12,11 +12,14 @@ import org.openrewrite.java.AddImport;
 import org.openrewrite.java.ChangeType;
 import org.openrewrite.java.JavaIsoVisitor;
 import org.openrewrite.java.JavaVisitor;
+import org.openrewrite.java.ShortenFullyQualifiedTypeReferences;
 import org.openrewrite.java.tree.Expression;
 import org.openrewrite.java.tree.J;
 import org.openrewrite.java.tree.JLeftPadded;
 import org.openrewrite.java.tree.JavaType;
 import org.openrewrite.java.tree.Space;
+import org.openrewrite.java.tree.TypeTree;
+import org.openrewrite.java.tree.TypeUtils;
 import org.openrewrite.marker.Markers;
 
 import lombok.EqualsAndHashCode;
@@ -55,12 +58,89 @@ public class ChangeTypeWithInnerClass extends Recipe {
         String outerClass = getOuterClass(newFullyQualifiedTypeName);
         if (outerClass != null) {
             List<Recipe> recipes = new ArrayList<>();
-            recipes.add(new ChangeType(oldFullyQualifiedTypeName, newFullyQualifiedTypeName, null));
+            if (oldFullyQualifiedTypeName.contains("$") && newFullyQualifiedTypeName.contains("$")) {
+                recipes.add(new ChangeNestedType(oldFullyQualifiedTypeName, newFullyQualifiedTypeName));
+            } else {
+                recipes.add(new ChangeType(oldFullyQualifiedTypeName, newFullyQualifiedTypeName, null));
+            }
             recipes.add(new AddImportRecipe(outerClass));
             recipes.add(new RemoveInnerImportRecipe(newFullyQualifiedTypeName, outerClass));
             return recipes;
         }
         return List.of(new ChangeType(oldFullyQualifiedTypeName, newFullyQualifiedTypeName, null));
+    }
+
+    /**
+     * Changes nested types in one traversal. Running ChangeType repeatedly over a nested
+     * reference can leave a FieldAccess as the name child of another FieldAccess; OpenRewrite
+     * 8.89's ChangeType then assumes that child is an Identifier and throws.
+     */
+    @Value
+    @EqualsAndHashCode(callSuper = false)
+    private static class ChangeNestedType extends Recipe {
+        String oldType;
+        String newType;
+
+        @Override
+        public String getDisplayName() {
+            return "Change nested type";
+        }
+
+        @Override
+        public String getDescription() {
+            return "Changes references to a nested type without creating invalid intermediate field accesses.";
+        }
+
+        @Override
+        public TreeVisitor<?, ExecutionContext> getVisitor() {
+            JavaType.FullyQualified oldJavaType = TypeUtils.asFullyQualified(JavaType.buildType(oldType));
+            JavaType.FullyQualified newJavaType = TypeUtils.asFullyQualified(JavaType.buildType(newType));
+            if (oldJavaType == null || newJavaType == null) {
+                return TreeVisitor.noop();
+            }
+            return new JavaVisitor<>() {
+                @Override
+                public J visitFieldAccess(J.FieldAccess fieldAccess, ExecutionContext ctx) {
+                    String reference = typeName(fieldAccess);
+                    if (TypeUtils.isOfType(fieldAccess.getType(), oldJavaType)
+                            || oldType.replace('$', '.').equals(reference)) {
+                        maybeRemoveImport(oldJavaType.getOwningClass());
+                        Expression replacement = TypeTree.build(newType.replace('$', '.')).withPrefix(fieldAccess.getPrefix());
+                        doAfterVisit(ShortenFullyQualifiedTypeReferences.modifyOnly(replacement));
+                        return (J) replacement;
+                    }
+                    return super.visitFieldAccess(fieldAccess, ctx);
+                }
+
+                @Override
+                public J visitIdentifier(J.Identifier identifier, ExecutionContext ctx) {
+                    if (TypeUtils.isOfType(identifier.getType(), oldJavaType)
+                            || oldType.replace('$', '.').equals(identifier.getSimpleName())) {
+                        maybeRemoveImport(oldJavaType.getOwningClass());
+                        Expression replacement = TypeTree.build(newType.replace('$', '.')).withPrefix(identifier.getPrefix());
+                        doAfterVisit(ShortenFullyQualifiedTypeReferences.modifyOnly(replacement));
+                        return (J) replacement;
+                    }
+                    return super.visitIdentifier(identifier, ctx);
+                }
+
+                private String typeName(Expression expression) {
+                    if (expression instanceof J.Identifier) {
+                        return ((J.Identifier) expression).getSimpleName();
+                    }
+                    if (expression instanceof J.FieldAccess) {
+                        J.FieldAccess access = (J.FieldAccess) expression;
+                        if (!(access.getName() instanceof J.Identifier)) {
+                            return "";
+                        }
+                        String prefix = typeName(access.getTarget());
+                        String name = ((J.Identifier) access.getName()).getSimpleName();
+                        return prefix.isEmpty() ? name : prefix + "." + name;
+                    }
+                    return "";
+                }
+            };
+        }
     }
 
     private static String getOuterClass(String fqn) {
