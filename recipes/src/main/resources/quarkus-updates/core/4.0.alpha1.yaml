@@ -12,3 +12,252 @@ description: >-
   Jackson 2 to 3 migration.
 recipeList:
   - org.openrewrite.java.jackson.UpgradeJackson_2_3
+
+#####
+# Hibernate ORM property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.HibernateORMConfigProperties
+displayName: Rename deprecated Hibernate ORM configuration properties
+description: >-
+  Rename Hibernate ORM configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.batch-fetch-size
+      newPropertyKey: quarkus.hibernate-orm.fetch.batch-size
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.batch-fetch-size
+      newPropertyKey: quarkus.hibernate-orm.$1.fetch.batch-size
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.max-fetch-depth
+      newPropertyKey: quarkus.hibernate-orm.fetch.max-depth
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.max-fetch-depth
+      newPropertyKey: quarkus.hibernate-orm.$1.fetch.max-depth
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.log\.bind-param
+      newPropertyKey: quarkus.hibernate-orm.log.bind-parameters
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.log\.bind-param
+      newPropertyKey: quarkus.hibernate-orm.$1.log.bind-parameters
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.multitenant-schema-datasource
+      newPropertyKey: quarkus.hibernate-orm.datasource
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.multitenant-schema-datasource
+      newPropertyKey: quarkus.hibernate-orm.$1.datasource
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.dialect\.storage-engine
+      newPropertyKey: quarkus.hibernate-orm.dialect.mysql.storage-engine
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.dialect\.storage-engine
+      newPropertyKey: quarkus.hibernate-orm.$1.dialect.mysql.storage-engine
+
+#####
+# OIDC property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.OidcConfigProperties
+displayName: Rename deprecated OIDC configuration properties
+description: >-
+  Rename OIDC configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.oidc\.authentication\.pkce-secret
+      newPropertyKey: quarkus.oidc.authentication.state-secret
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.oidc\.(.+)\.authentication\.pkce-secret
+      newPropertyKey: quarkus.oidc.$1.authentication.state-secret
+
+#####
+# REST Client property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.RestClientConfigProperties
+displayName: Rename deprecated REST Client configuration properties
+description: >-
+  Rename REST Client configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.rest-client\.multipart\.max-chunk-size
+      newPropertyKey: quarkus.rest-client.max-chunk-size
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.rest-client\.(.+)\.multipart\.max-chunk-size
+      newPropertyKey: quarkus.rest-client.$1.max-chunk-size
+
+#####
+# Infinispan property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.InfinispanConfigProperties
+displayName: Rename deprecated Infinispan configuration properties
+description: >-
+  Rename Infinispan configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.infinispan-client\.server-list
+      newPropertyKey: quarkus.infinispan-client.hosts
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.infinispan-client\.(.+)\.server-list
+      newPropertyKey: quarkus.infinispan-client.$1.hosts
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.infinispan-client\.auth-username
+      newPropertyKey: quarkus.infinispan-client.username
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.infinispan-client\.(.+)\.auth-username
+      newPropertyKey: quarkus.infinispan-client.$1.username
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.infinispan-client\.auth-password
+      newPropertyKey: quarkus.infinispan-client.password
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.infinispan-client\.(.+)\.auth-password
+      newPropertyKey: quarkus.infinispan-client.$1.password
+
+#####
+# Mailer property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.MailerConfigProperties
+displayName: Rename deprecated Mailer configuration properties
+description: >-
+  Rename Mailer configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.mailer\.ssl
+      newPropertyKey: quarkus.mailer.tls
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.mailer\.(.+)\.ssl
+      newPropertyKey: quarkus.mailer.$1.tls
+
+#####
+# Micrometer property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.MicrometerConfigProperties
+displayName: Rename deprecated Micrometer configuration properties
+description: >-
+  Rename Micrometer configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.micrometer\.binder\.vertx\.match-patterns
+      newPropertyKey: quarkus.micrometer.binder.http-server.match-patterns
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.micrometer\.binder\.vertx\.ignore-patterns
+      newPropertyKey: quarkus.micrometer.binder.http-server.ignore-patterns
+
+#####
+# Redis Cache property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.RedisCacheConfigProperties
+displayName: Rename deprecated Redis Cache configuration properties
+description: >-
+  Rename Redis Cache configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.cache\.redis\.ttl
+      newPropertyKey: quarkus.cache.redis.expire-after-write
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.cache\.redis\.(.+)\.ttl
+      newPropertyKey: quarkus.cache.redis.$1.expire-after-write
+
+#####
+# SmallRye property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.SmallRyeConfigProperties
+displayName: Rename deprecated SmallRye configuration properties
+description: >-
+  Rename SmallRye configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.smallrye-health\.enable
+      newPropertyKey: quarkus.smallrye-health.enabled
+
+#####
+# Kubernetes property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.KubernetesConfigProperties
+displayName: Rename deprecated Kubernetes configuration properties
+description: >-
+  Rename Kubernetes configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.kubernetes\.init-task\.image
+      newPropertyKey: quarkus.kubernetes.init-task-defaults.wait-for-container.image
+
+#####
+# HTTP/SSL property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.HttpSslConfigProperties
+displayName: Rename deprecated HTTP SSL configuration properties
+description: >-
+  Rename HTTP SSL configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.http\.ssl\.certificate\.key-store-key-alias
+      newPropertyKey: quarkus.http.ssl.certificate.key-store-alias
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.http\.ssl\.certificate\.key-store-key-password
+      newPropertyKey: quarkus.http.ssl.certificate.key-store-alias-password
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.http\.ssl\.certificate\.key-store-key-password-key
+      newPropertyKey: quarkus.http.ssl.certificate.key-store-alias-password-key
+
+#####
+# Keycloak Policy Enforcer property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.KeycloakPolicyEnforcerConfigProperties
+displayName: Rename deprecated Keycloak Policy Enforcer configuration properties
+description: >-
+  Rename Keycloak Policy Enforcer configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.keycloak\.policy-enforcer\.paths\.(.+)\.path
+      newPropertyKey: quarkus.keycloak.policy-enforcer.paths.$1.paths
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.keycloak\.(.+)\.policy-enforcer\.paths\.(.+)\.path
+      newPropertyKey: quarkus.keycloak.$1.policy-enforcer.paths.$2.paths
+
+#####
+# Other property renames
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.MiscConfigProperties
+displayName: Rename miscellaneous deprecated configuration properties
+description: >-
+  Rename miscellaneous configuration properties that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.debug\.dump-build-metrics
+      newPropertyKey: quarkus.builder.metrics.enabled
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.jar\.appcds\.use-aot
+      newPropertyKey: quarkus.package.jar.aot.enabled
