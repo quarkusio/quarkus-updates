@@ -979,4 +979,140 @@ public class CoreUpdate339Test implements RewriteTest {
                             """,
                         spec2 -> spec2.markers(gp)));
     }
+
+    @Test
+    void testManagedEntityAndRepositoryInSameClass() {
+        //language=java
+        rewriteRun(java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.hibernate.panache.PanacheEntity;
+                    import io.quarkus.hibernate.panache.PanacheRepository;
+
+                    public class MyPanacheEntityManaged implements PanacheEntity.Managed {
+
+                        public String name;
+
+                        public interface Repository extends PanacheRepository.Managed<Object, Long> {
+                        }
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import io.quarkus.data.hibernate.ManagedEntity;
+                    import io.quarkus.data.hibernate.ManagedRepository;
+
+                    public class MyPanacheEntityManaged implements ManagedEntity.CustomId {
+
+                        public String name;
+
+                        public interface Repository extends ManagedRepository.CustomId<Object, Long> {
+                        }
+                    }
+                """));
+    }
+
+    @Test
+    void testReactiveEntityAndRepositoryInSameClass() {
+        //language=java
+        rewriteRun(java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.hibernate.panache.PanacheEntity;
+                    import io.quarkus.hibernate.panache.PanacheRepository;
+
+                    public class MyPanacheEntityReactive implements PanacheEntity.Reactive {
+
+                        public String name;
+
+                        public interface Repository extends PanacheRepository.Reactive<Object, Long> {
+                        }
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import io.quarkus.data.hibernate.ManagedEntity;
+                    import io.quarkus.data.hibernate.ManagedRepository;
+
+                    public class MyPanacheEntityReactive implements ManagedEntity.Reactive.CustomId {
+
+                        public String name;
+
+                        public interface Repository extends ManagedRepository.Reactive.CustomId<Object, Long> {
+                        }
+                    }
+                """));
+    }
+
+    @Test
+    void testStatelessEntityAndRepositoryInSameClass() {
+        //language=java
+        rewriteRun(java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.hibernate.panache.PanacheEntity;
+                    import io.quarkus.hibernate.panache.PanacheRepository;
+
+                    public class MyPanacheEntityStateless implements PanacheEntity.Stateless {
+
+                        public String name;
+
+                        public interface Repository extends PanacheRepository.Stateless<Object, Long> {
+                        }
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import io.quarkus.data.hibernate.RecordEntity;
+                    import io.quarkus.data.hibernate.RecordRepository;
+
+                    public class MyPanacheEntityStateless implements RecordEntity.CustomId {
+
+                        public String name;
+
+                        public interface Repository extends RecordRepository.CustomId<Object, Long> {
+                        }
+                    }
+                """));
+    }
+
+    @Test
+    void testReactiveStatelessEntityAndRepositoryInSameClass() {
+        //language=java
+        rewriteRun(java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.hibernate.panache.PanacheEntity;
+                    import io.quarkus.hibernate.panache.PanacheRepository;
+
+                    public class MyPanacheEntityReactiveStateless implements PanacheEntity.Reactive.Stateless {
+
+                        public String name;
+
+                        public interface Repository extends PanacheRepository.Reactive.Stateless<Object, Long> {
+                        }
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import io.quarkus.data.hibernate.RecordEntity;
+                    import io.quarkus.data.hibernate.RecordRepository;
+
+                    public class MyPanacheEntityReactiveStateless implements RecordEntity.Reactive.CustomId {
+
+                        public String name;
+
+                        public interface Repository extends RecordRepository.Reactive.CustomId<Object, Long> {
+                        }
+                    }
+                """));
+    }
 }
