@@ -508,6 +508,154 @@ public class CoreUpdate339Test implements RewriteTest {
     }
 
     @Test
+    void testPanacheEntityAndRepositoryReactiveStatelessInnerTypes() {
+        //language=java
+        rewriteRun(spec -> spec.parser(JavaParser.fromJavaVersion()
+                .dependsOn(
+                        """
+                            package io.quarkus.hibernate.panache;
+
+                            public class PanacheEntity {
+                                public interface Reactive {
+                                    public interface Stateless {}
+                                }
+                            }
+                            """,
+                        """
+                            package io.quarkus.hibernate.panache;
+
+                            public interface PanacheRepository<Entity> {
+                                public interface Reactive<Entity, Id> {
+                                    public interface Stateless<Entity, Id> {}
+                                }
+                            }
+                            """,
+                        """
+                            package io.quarkus.data.hibernate;
+
+                            public class RecordEntity {
+                                public static class Reactive {
+                                    public interface CustomId {}
+                                }
+                            }
+                            """,
+                        """
+                            package io.quarkus.data.hibernate;
+
+                            public interface RecordRepository<Entity> {
+                                public interface Reactive<Entity, Id> {
+                                    public interface CustomId<Entity, Id> {}
+                                }
+                            }
+                """)), java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.hibernate.panache.PanacheEntity;
+                    import io.quarkus.hibernate.panache.PanacheRepository;
+
+                    public class MyPanacheEntityReactiveStateless implements PanacheEntity.Reactive.Stateless {
+                        public String name;
+
+                        public interface Repository extends PanacheRepository.Reactive.Stateless<Object, Long> {
+                        }
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import io.quarkus.data.hibernate.RecordEntity;
+                    import io.quarkus.data.hibernate.RecordRepository;
+
+                    public class MyPanacheEntityReactiveStateless implements RecordEntity.Reactive.CustomId {
+                        public String name;
+
+                        public interface Repository extends RecordRepository.Reactive.CustomId<Object, Long> {
+                        }
+                    }
+                """));
+    }
+
+    @Test
+    void testPanacheEntityManagedInnerTypeDoesNotUseRepositoryName() {
+        //language=java
+        rewriteRun(java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.hibernate.panache.PanacheEntity;
+                    import io.quarkus.hibernate.panache.PanacheRepository;
+
+                    public class MyEntity implements PanacheEntity.Managed {
+                        public interface Repository extends PanacheRepository.Managed<Object, Long> {}
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import io.quarkus.data.hibernate.ManagedEntity;
+                    import io.quarkus.data.hibernate.ManagedRepository;
+
+                    public class MyEntity implements ManagedEntity.CustomId {
+                        public interface Repository extends ManagedRepository.CustomId<Object, Long> {}
+                    }
+                """));
+    }
+
+    @Test
+    void testPanacheEntityReactiveInnerTypeDoesNotUseRepositoryName() {
+        //language=java
+        rewriteRun(java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.hibernate.panache.PanacheEntity;
+                    import io.quarkus.hibernate.panache.PanacheRepository;
+
+                    public class MyEntity implements PanacheEntity.Reactive {
+                        public interface Repository extends PanacheRepository.Reactive<Object, Long> {}
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import io.quarkus.data.hibernate.ManagedEntity;
+                    import io.quarkus.data.hibernate.ManagedRepository;
+
+                    public class MyEntity implements ManagedEntity.Reactive.CustomId {
+                        public interface Repository extends ManagedRepository.Reactive.CustomId<Object, Long> {}
+                    }
+                """));
+    }
+
+    @Test
+    void testPanacheEntityStatelessInnerTypeDoesNotUseRepositoryName() {
+        //language=java
+        rewriteRun(java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.hibernate.panache.PanacheEntity;
+                    import io.quarkus.hibernate.panache.PanacheRepository;
+
+                    public class MyEntity implements PanacheEntity.Stateless {
+                        public interface Repository extends PanacheRepository.Stateless<Object, Long> {}
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import io.quarkus.data.hibernate.RecordEntity;
+                    import io.quarkus.data.hibernate.RecordRepository;
+
+                    public class MyEntity implements RecordEntity.CustomId {
+                        public interface Repository extends RecordRepository.CustomId<Object, Long> {}
+                    }
+                """));
+    }
+
+
+    @Test
     void testPanacheRepositoryToManagedRepository() {
         //language=java
         rewriteRun(java(
