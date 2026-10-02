@@ -127,6 +127,12 @@ public class ChangeTypeWithInnerClass extends Recipe {
 
                 @Override
                 public J visitIdentifier(J.Identifier identifier, ExecutionContext ctx) {
+                    // An identifier that is the name part of an already qualified access (e.g. the
+                    // CustomId in ManagedEntity.CustomId, produced by another rename) must be left alone.
+                    Object parent = getCursor().getParentTreeCursor().getValue();
+                    if (parent instanceof J.FieldAccess && ((J.FieldAccess) parent).getName() == identifier) {
+                        return identifier;
+                    }
                     if (needsQualification && identifier.getSimpleName().equals(innerSimpleName)) {
                         return buildQualifiedAccess(qualifiedName, identifier.getPrefix(), identifier.getType());
                     }
