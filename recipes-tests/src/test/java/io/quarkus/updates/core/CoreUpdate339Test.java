@@ -168,6 +168,13 @@ public class CoreUpdate339Test implements RewriteTest {
                 }
                 """;
         @Language("java")
+        String panacheRepositoryBlockingQueries = """
+                package io.quarkus.hibernate.panache.blocking;
+
+                public interface PanacheRepositoryBlockingQueries<Entity, Id> {
+                }
+                """;
+        @Language("java")
         String newWithId = """
                 package io.quarkus.data.hibernate;
 
@@ -300,6 +307,7 @@ public class CoreUpdate339Test implements RewriteTest {
                                 panacheRepository,
                                 panacheEntityMarker, panacheRepositoryQueries, panacheRepositorySwitcher,
                                 panacheBlockingQuery,
+                                panacheRepositoryBlockingQueries,
                                 newWithId,
                                 newManagedBlockingEntity, newStatelessBlockingEntity,
                                 newManagedReactiveEntity, newStatelessReactiveEntity,
@@ -596,7 +604,7 @@ public class CoreUpdate339Test implements RewriteTest {
     }
 
     @Test
-    void testPackageRenameForRemainingTypes() {
+    void testPanacheBlockignQueryToBlockingDataQuery() {
         //language=java
         rewriteRun(java(
                 """
@@ -611,10 +619,34 @@ public class CoreUpdate339Test implements RewriteTest {
                 """
                     package org.acme;
 
-                    import io.quarkus.data.hibernate.blocking.PanacheBlockingQuery;
+                    import io.quarkus.data.hibernate.blocking.BlockingDataQuery;
 
                     class MyService {
-                        PanacheBlockingQuery<Object> query;
+                        BlockingDataQuery<Object> query;
+                    }
+                """));
+    }
+
+    @Test
+    void testPanacheBlockingRepositoryQueriesToBlockingRepositoryQueries() {
+        //language=java
+        rewriteRun(java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.hibernate.panache.blocking.PanacheRepositoryBlockingQueries;
+
+                    class MyService {
+                        PanacheRepositoryBlockingQueries<Object, Id> query;
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import io.quarkus.data.hibernate.blocking.BlockingRepositoryQueries;
+
+                    class MyService {
+                        BlockingRepositoryQueries<Object, Id> query;
                     }
                 """));
     }

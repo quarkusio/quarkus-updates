@@ -108,11 +108,17 @@ recipeList:
       oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheQuery
       newFullyQualifiedTypeName: io.quarkus.data.hibernate.DataQuery
   - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.blocking.PanacheBlockingQuery
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.blocking.BlockingDataQuery
+  - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheEntityMarker
       newFullyQualifiedTypeName: io.quarkus.data.hibernate.EntitySwitcher
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheRepositoryQueries
       newFullyQualifiedTypeName: io.quarkus.data.hibernate.RepositoryQueries
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.blocking.PanacheRepositoryBlockingQueries
+      newFullyQualifiedTypeName: io.quarkus.data.hibernate.blocking.BlockingRepositoryQueries
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: io.quarkus.hibernate.panache.PanacheRepositorySwitcher
       newFullyQualifiedTypeName: io.quarkus.data.hibernate.RepositorySwitcher
