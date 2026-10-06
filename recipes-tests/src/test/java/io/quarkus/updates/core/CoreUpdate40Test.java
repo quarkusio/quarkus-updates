@@ -1,6 +1,7 @@
 package io.quarkus.updates.core;
 
 import static org.openrewrite.java.Assertions.java;
+import static org.openrewrite.maven.Assertions.pomXml;
 import static org.openrewrite.properties.Assertions.properties;
 
 import java.net.URI;
@@ -128,6 +129,67 @@ public class CoreUpdate40Test implements RewriteTest {
                         private String userName;
                     }
                 """));
+    }
+
+    @Test
+    void testMavenCompilerJavaVersion() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus.bot</groupId>
+                <artifactId>release</artifactId>
+                <version>999-SNAPSHOT</version>
+                <properties>
+                    <maven.compiler.release>17</maven.compiler.release>
+                    <maven.compiler.target>17</maven.compiler.target>
+                    <maven.compiler.source>17</maven.compiler.source>
+                </properties>
+            </project>
+            """,
+            """
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus.bot</groupId>
+                <artifactId>release</artifactId>
+                <version>999-SNAPSHOT</version>
+                <properties>
+                    <maven.compiler.release>21</maven.compiler.release>
+                    <maven.compiler.target>21</maven.compiler.target>
+                    <maven.compiler.source>21</maven.compiler.source>
+                </properties>
+            </project>
+            """));
+
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus.bot</groupId>
+                <artifactId>release</artifactId>
+                <version>999-SNAPSHOT</version>
+                <properties>
+                    <maven.compiler.release>21</maven.compiler.release>
+                    <maven.compiler.target>21</maven.compiler.target>
+                    <maven.compiler.source>21</maven.compiler.source>
+                </properties>
+            </project>
+            """));
+
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>io.quarkus.bot</groupId>
+                <artifactId>release</artifactId>
+                <version>999-SNAPSHOT</version>
+                <properties>
+                    <maven.compiler.release>25</maven.compiler.release>
+                    <maven.compiler.target>25</maven.compiler.target>
+                    <maven.compiler.source>25</maven.compiler.source>
+                </properties>
+            </project>
+            """));
     }
 
     @Test

@@ -1,4 +1,37 @@
 #####
+# Upgrade to Java 21
+#
+# These rules were extracted from OpenRewrite to avoid unnecessary noise when upgrading.
+# Typically, we do not update multiline strings to text blocks.
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.UpgradeToJava21
+displayName: Migrate to Java 21
+description: >
+  This recipe will apply changes commonly needed when migrating to Java 21.
+  Build files will be updated to use Java 21 as the target/source and plugins will be
+  also be upgraded to versions that are compatible with Java 21.
+tags:
+  - java21
+recipeList:
+  - io.quarkus.updates.core.quarkus37.SetupJavaUpgradeJavaVersion:
+      minimumJavaMajorVersion: 21
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.JavaVersion21
+displayName: Change Maven and Gradle Java version property values to 21
+description: Change maven.compiler.source and maven.compiler.target values to 21.
+tags:
+  - java21
+  - compiler
+recipeList:
+  - io.quarkus.updates.core.quarkus37.UpgradeJavaVersion:
+      version: 21
+  - org.openrewrite.maven.UseMavenCompilerPluginReleaseConfiguration:
+      releaseVersion: 21
+
+#####
 # Jackson 2.x to 3.x migration
 # See https://github.com/openrewrite/rewrite-jackson
 #####
