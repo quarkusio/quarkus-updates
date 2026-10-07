@@ -294,3 +294,96 @@ recipeList:
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.package\.jar\.appcds\.use-aot
       newPropertyKey: quarkus.package.jar.aot.enabled
+
+#####
+# ArC - @DefaultBean to @Reserve migration
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.ArcDefaultBeanToReserve
+displayName: Replace @DefaultBean with @Reserve
+description: >-
+  Replace ArC's @DefaultBean annotation with CDI 5.0's @Reserve annotation
+  and add @Priority(0) if not already present. Also replace InjectableBean.isDefaultBean()
+  with Bean.isReserve().
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.quarkus.arc.DefaultBean
+      newFullyQualifiedTypeName: jakarta.enterprise.inject.Reserve
+  - io.quarkus.updates.core.quarkus40.AddPriorityToReserveAnnotation
+
+#####
+# Dropped relocations - re-enforce artifact renames that had relocations in 3.x
+# but are fully dropped in Quarkus 4.0
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.DroppedRelocations
+displayName: Handle dropped relocations in Quarkus 4.0
+description: >-
+  Rename artifacts whose relocations have been dropped in Quarkus 4.0.
+  These relocations were introduced in Quarkus 3.x and are no longer available.
+recipeList:
+  # Publicly consumed modules
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5
+      newArtifactId: quarkus-junit
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-component
+      newArtifactId: quarkus-junit-component
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-mockito
+      newArtifactId: quarkus-junit-mockito
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-webjars-locator
+      newArtifactId: quarkus-web-dependency-locator
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-hibernate-search-orm-coordination-outbox-polling
+      newArtifactId: quarkus-hibernate-search-orm-outbox-polling
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-hibernate-panache-next
+      newArtifactId: quarkus-data-hibernate
+  # Extension developer modules
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-config
+      newArtifactId: quarkus-junit-config
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-internal
+      newArtifactId: quarkus-junit-internal
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-junit5-mockito-config
+      newArtifactId: quarkus-junit-mockito-config
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus.junit5
+      oldArtifactId: junit5-virtual-threads
+      newGroupId: io.quarkus.junit
+      newArtifactId: junit-virtual-threads
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-webjars-locator-deployment
+      newArtifactId: quarkus-web-dependency-locator-deployment
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-hibernate-search-orm-coordination-outbox-polling-deployment
+      newArtifactId: quarkus-hibernate-search-orm-outbox-polling-deployment
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-hibernate-panache-next-deployment
+      newArtifactId: quarkus-data-hibernate-deployment
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-vertx-http-dev-ui-spi
+      newArtifactId: quarkus-devui-deployment-spi
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-vertx-http-dev-ui-tests
+      newArtifactId: quarkus-devui-test-spi

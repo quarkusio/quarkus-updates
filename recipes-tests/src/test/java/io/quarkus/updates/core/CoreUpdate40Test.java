@@ -63,6 +63,77 @@ public class CoreUpdate40Test implements RewriteTest {
                 public class JsonMapper extends ObjectMapper {
                 }
                 """;
+        @Language("java")
+        String defaultBean = """
+                package io.quarkus.arc;
+
+                import java.lang.annotation.ElementType;
+                import java.lang.annotation.Retention;
+                import java.lang.annotation.RetentionPolicy;
+                import java.lang.annotation.Target;
+
+                @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+                @Retention(RetentionPolicy.RUNTIME)
+                public @interface DefaultBean {
+                }
+                """;
+        @Language("java")
+        String reserve = """
+                package jakarta.enterprise.inject;
+
+                import java.lang.annotation.ElementType;
+                import java.lang.annotation.Retention;
+                import java.lang.annotation.RetentionPolicy;
+                import java.lang.annotation.Target;
+
+                @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+                @Retention(RetentionPolicy.RUNTIME)
+                public @interface Reserve {
+                }
+                """;
+        @Language("java")
+        String priority = """
+                package jakarta.annotation;
+
+                import java.lang.annotation.ElementType;
+                import java.lang.annotation.Retention;
+                import java.lang.annotation.RetentionPolicy;
+                import java.lang.annotation.Target;
+
+                @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+                @Retention(RetentionPolicy.RUNTIME)
+                public @interface Priority {
+                    int value();
+                }
+                """;
+        @Language("java")
+        String applicationScoped = """
+                package jakarta.enterprise.context;
+
+                import java.lang.annotation.ElementType;
+                import java.lang.annotation.Retention;
+                import java.lang.annotation.RetentionPolicy;
+                import java.lang.annotation.Target;
+
+                @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+                @Retention(RetentionPolicy.RUNTIME)
+                public @interface ApplicationScoped {
+                }
+                """;
+        @Language("java")
+        String produces = """
+                package jakarta.enterprise.inject;
+
+                import java.lang.annotation.ElementType;
+                import java.lang.annotation.Retention;
+                import java.lang.annotation.RetentionPolicy;
+                import java.lang.annotation.Target;
+
+                @Target({ElementType.METHOD, ElementType.FIELD})
+                @Retention(RetentionPolicy.RUNTIME)
+                public @interface Produces {
+                }
+                """;
 
         String recipeResource = "quarkus-updates/core/4.0.alpha1.yaml";
         YamlResourceLoader yrl = new YamlResourceLoader(
@@ -82,7 +153,9 @@ public class CoreUpdate40Test implements RewriteTest {
         spec.recipe(recipe)
                 .parser(JavaParser.fromJavaVersion()
                         .dependsOn(objectMapper, jsonProperty,
-                                newObjectMapper, newJsonMapper)
+                                newObjectMapper, newJsonMapper,
+                                defaultBean, reserve, priority,
+                                applicationScoped, produces)
                         .logCompilationWarningsAndErrors(true))
                 .typeValidationOptions(TypeValidation.none());
     }
@@ -299,5 +372,281 @@ public class CoreUpdate40Test implements RewriteTest {
             """;
 
         rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testDefaultBeanToReserveWithPriorityAdded() {
+        //language=java
+        rewriteRun(java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.arc.DefaultBean;
+                    import jakarta.enterprise.context.ApplicationScoped;
+
+                    @DefaultBean
+                    @ApplicationScoped
+                    class MyDefaultService {
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import jakarta.annotation.Priority;
+                    import jakarta.enterprise.context.ApplicationScoped;
+                    import jakarta.enterprise.inject.Reserve;
+
+                    @Reserve
+                    @ApplicationScoped
+                    @Priority(0)
+                    class MyDefaultService {
+                    }
+                """));
+    }
+
+    @Test
+    void testDefaultBeanToReserveWithExistingPriority() {
+        //language=java
+        rewriteRun(java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.arc.DefaultBean;
+                    import jakarta.annotation.Priority;
+                    import jakarta.enterprise.context.ApplicationScoped;
+
+                    @DefaultBean
+                    @Priority(10)
+                    @ApplicationScoped
+                    class MyPrioritizedService {
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import jakarta.annotation.Priority;
+                    import jakarta.enterprise.context.ApplicationScoped;
+                    import jakarta.enterprise.inject.Reserve;
+
+                    @Reserve
+                    @Priority(10)
+                    @ApplicationScoped
+                    class MyPrioritizedService {
+                    }
+                """));
+    }
+
+    @Test
+    void testDefaultBeanOnProducerMethod() {
+        //language=java
+        rewriteRun(java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.arc.DefaultBean;
+                    import jakarta.enterprise.context.ApplicationScoped;
+                    import jakarta.enterprise.inject.Produces;
+
+                    @ApplicationScoped
+                    class MyProducer {
+
+                        @Produces
+                        @DefaultBean
+                        String defaultValue() {
+                            return "default";
+                        }
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import jakarta.annotation.Priority;
+                    import jakarta.enterprise.context.ApplicationScoped;
+                    import jakarta.enterprise.inject.Produces;
+                    import jakarta.enterprise.inject.Reserve;
+
+                    @ApplicationScoped
+                    class MyProducer {
+
+                        @Priority(0)
+                        @Produces
+                        @Reserve
+                        String defaultValue() {
+                            return "default";
+                        }
+                    }
+                """));
+    }
+
+    @Test
+    void testDroppedRelocations() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>org.acme</groupId>
+                <artifactId>my-app</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <properties>
+                    <maven.compiler.release>21</maven.compiler.release>
+                </properties>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit5</artifactId>
+                        <version>3.39.0</version>
+                        <scope>test</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit5-component</artifactId>
+                        <version>3.39.0</version>
+                        <scope>test</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit5-mockito</artifactId>
+                        <version>3.39.0</version>
+                        <scope>test</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-webjars-locator</artifactId>
+                        <version>3.39.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-hibernate-search-orm-coordination-outbox-polling</artifactId>
+                        <version>3.39.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-hibernate-panache-next</artifactId>
+                        <version>3.39.0</version>
+                    </dependency>
+                </dependencies>
+            </project>
+            """,
+            """
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>org.acme</groupId>
+                <artifactId>my-app</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <properties>
+                    <maven.compiler.release>21</maven.compiler.release>
+                </properties>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit</artifactId>
+                        <version>3.39.0</version>
+                        <scope>test</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit-component</artifactId>
+                        <version>3.39.0</version>
+                        <scope>test</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-junit-mockito</artifactId>
+                        <version>3.39.0</version>
+                        <scope>test</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-web-dependency-locator</artifactId>
+                        <version>3.39.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-hibernate-search-orm-outbox-polling</artifactId>
+                        <version>3.39.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-data-hibernate</artifactId>
+                        <version>3.39.0</version>
+                    </dependency>
+                </dependencies>
+            </project>
+            """));
+    }
+
+    @Test
+    void testDroppedRelocationsExtensionDeveloper() {
+        //language=xml
+        rewriteRun(pomXml("""
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>org.acme</groupId>
+                <artifactId>my-extension</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <properties>
+                    <maven.compiler.release>21</maven.compiler.release>
+                </properties>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-vertx-http-dev-ui-spi</artifactId>
+                        <version>3.39.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-vertx-http-dev-ui-tests</artifactId>
+                        <version>3.39.0</version>
+                        <scope>test</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-webjars-locator-deployment</artifactId>
+                        <version>3.39.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus.junit5</groupId>
+                        <artifactId>junit5-virtual-threads</artifactId>
+                        <version>3.39.0</version>
+                        <scope>test</scope>
+                    </dependency>
+                </dependencies>
+            </project>
+            """,
+            """
+            <project>
+                <modelVersion>4.0.0</modelVersion>
+                <groupId>org.acme</groupId>
+                <artifactId>my-extension</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <properties>
+                    <maven.compiler.release>21</maven.compiler.release>
+                </properties>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-devui-deployment-spi</artifactId>
+                        <version>3.39.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-devui-test-spi</artifactId>
+                        <version>3.39.0</version>
+                        <scope>test</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-web-dependency-locator-deployment</artifactId>
+                        <version>3.39.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.quarkus.junit</groupId>
+                        <artifactId>junit-virtual-threads</artifactId>
+                        <version>3.39.0</version>
+                        <scope>test</scope>
+                    </dependency>
+                </dependencies>
+            </project>
+            """));
     }
 }
