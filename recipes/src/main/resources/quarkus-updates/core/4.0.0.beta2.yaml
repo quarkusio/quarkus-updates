@@ -1,0 +1,14 @@
+#####
+# Flyway MongoDB artifact rename
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.FlywayMongoDBDependencyRename
+displayName: Rename Flyway MongoDB artifact
+description: >-
+  Flyway renamed flyway-database-mongodb to flyway-database-nc-mongodb in version 13.
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: org.flywaydb
+      oldArtifactId: flyway-database-mongodb
+      newArtifactId: flyway-database-nc-mongodb
