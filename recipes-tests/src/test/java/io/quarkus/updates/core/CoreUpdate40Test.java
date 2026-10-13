@@ -671,7 +671,9 @@ public class CoreUpdate40Test implements RewriteTest {
                 }
                 """;
         //language=java
-        rewriteRun(spec -> spec.parser(parserWithStubs(observerInfo, capability)),
+        rewriteRun(spec -> spec.parser(JavaParser.fromJavaVersion()
+                        .dependsOn(observerInfo, capability)
+                        .logCompilationWarningsAndErrors(true)),
                 java(
                 """
                     package org.acme.deployment;
@@ -739,7 +741,9 @@ public class CoreUpdate40Test implements RewriteTest {
                 }
                 """;
         //language=java
-        rewriteRun(spec -> spec.parser(parserWithStubs(prometheusConfig, collectorRegistry, prometheusMeterRegistry)),
+        rewriteRun(spec -> spec.parser(JavaParser.fromJavaVersion()
+                        .dependsOn(prometheusConfig, collectorRegistry, prometheusMeterRegistry)
+                        .logCompilationWarningsAndErrors(true)),
                 java(
                 """
                     package org.acme;
@@ -777,11 +781,5 @@ public class CoreUpdate40Test implements RewriteTest {
                         }
                     }
                 """));
-    }
-
-    private static JavaParser.Builder<?, ?> parserWithStubs(String... stubs) {
-        return JavaParser.fromJavaVersion()
-                .dependsOn(stubs)
-                .logCompilationWarningsAndErrors(true);
     }
 }
