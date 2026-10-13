@@ -649,4 +649,139 @@ public class CoreUpdate40Test implements RewriteTest {
             </project>
             """));
     }
+
+    @Test
+    void testObserverInfoGetIdAndMessagingCapability() {
+        @Language("java")
+        String observerInfo = """
+                package io.quarkus.arc.processor;
+
+                public class ObserverInfo {
+                    public String getId() { return null; }
+                    public String getUserId() { return null; }
+                }
+                """;
+        @Language("java")
+        String capability = """
+                package io.quarkus.deployment;
+
+                public interface Capability {
+                    String SMALLRYE_REACTIVE_MESSAGING = "io.quarkus.smallrye.reactive.messaging";
+                    String MESSAGING = "io.quarkus.messaging";
+                }
+                """;
+        //language=java
+        rewriteRun(spec -> spec.parser(parserWithStubs(observerInfo, capability)),
+                java(
+                """
+                    package org.acme.deployment;
+
+                    import io.quarkus.arc.processor.ObserverInfo;
+                    import io.quarkus.deployment.Capability;
+
+                    class MyProcessor {
+                        String observerId(ObserverInfo observer) {
+                            return observer.getId();
+                        }
+
+                        String messagingCapability() {
+                            return Capability.SMALLRYE_REACTIVE_MESSAGING;
+                        }
+                    }
+                """,
+                """
+                    package org.acme.deployment;
+
+                    import io.quarkus.arc.processor.ObserverInfo;
+                    import io.quarkus.deployment.Capability;
+
+                    class MyProcessor {
+                        String observerId(ObserverInfo observer) {
+                            return observer.getUserId();
+                        }
+
+                        String messagingCapability() {
+                            return Capability.MESSAGING;
+                        }
+                    }
+                """));
+    }
+
+    @Test
+    void testMicrometerPrometheusMetricsPackage() {
+        @Language("java")
+        String prometheusConfig = """
+                package io.micrometer.prometheus;
+
+                public interface PrometheusConfig {
+                    PrometheusConfig DEFAULT = null;
+                }
+                """;
+        @Language("java")
+        String collectorRegistry = """
+                package io.prometheus.client;
+
+                public class CollectorRegistry {
+                    public CollectorRegistry() { }
+                    public CollectorRegistry(boolean autoDescribe) { }
+                }
+                """;
+        @Language("java")
+        String prometheusMeterRegistry = """
+                package io.micrometer.prometheus;
+
+                import io.prometheus.client.CollectorRegistry;
+
+                public class PrometheusMeterRegistry {
+                    public PrometheusMeterRegistry(PrometheusConfig config) { }
+                    public CollectorRegistry getPrometheusRegistry() { return null; }
+                    public String scrape() { return null; }
+                }
+                """;
+        //language=java
+        rewriteRun(spec -> spec.parser(parserWithStubs(prometheusConfig, collectorRegistry, prometheusMeterRegistry)),
+                java(
+                """
+                    package org.acme;
+
+                    import io.micrometer.prometheus.PrometheusConfig;
+                    import io.micrometer.prometheus.PrometheusMeterRegistry;
+                    import io.prometheus.client.CollectorRegistry;
+
+                    class MyMetrics {
+                        CollectorRegistry registry() {
+                            PrometheusMeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+                            return registry.getPrometheusRegistry();
+                        }
+
+                        CollectorRegistry collectorRegistry() {
+                            return new CollectorRegistry(true);
+                        }
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import io.micrometer.prometheusmetrics.PrometheusConfig;
+                    import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
+                    import io.prometheus.metrics.model.registry.PrometheusRegistry;
+
+                    class MyMetrics {
+                        PrometheusRegistry registry() {
+                            PrometheusMeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+                            return registry.getPrometheusRegistry();
+                        }
+
+                        PrometheusRegistry collectorRegistry() {
+                            return new PrometheusRegistry();
+                        }
+                    }
+                """));
+    }
+
+    private static JavaParser.Builder<?, ?> parserWithStubs(String... stubs) {
+        return JavaParser.fromJavaVersion()
+                .dependsOn(stubs)
+                .logCompilationWarningsAndErrors(true);
+    }
 }

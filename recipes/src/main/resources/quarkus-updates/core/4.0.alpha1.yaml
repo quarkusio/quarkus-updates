@@ -313,6 +313,46 @@ recipeList:
   - io.quarkus.updates.core.quarkus40.AddPriorityToReserveAnnotation
 
 #####
+# ArC - extension developer API removals
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.ArcExtensionApiRemovals
+displayName: Migrate removed ArC and Quarkus deployment APIs
+description: >-
+  Replace ArC processor and Quarkus deployment APIs that were deprecated in Quarkus 3.x
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: io.quarkus.arc.processor.ObserverInfo getId()
+      newMethodName: getUserId
+  - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
+      existingFullyQualifiedConstantName: io.quarkus.deployment.Capability.SMALLRYE_REACTIVE_MESSAGING
+      fullyQualifiedConstantName: io.quarkus.deployment.Capability.MESSAGING
+
+#####
+# Micrometer Prometheus registry - Prometheus client 1.x
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.MicrometerPrometheusMetrics
+displayName: Migrate to the Prometheus client 1.x based Micrometer registry
+description: >-
+  Quarkus 4.0 switches from `micrometer-registry-prometheus-simpleclient` to `micrometer-registry-prometheus`,
+  whose classes live in the `io.micrometer.prometheusmetrics` package and use `PrometheusRegistry`
+  instead of `CollectorRegistry`.
+recipeList:
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: io.micrometer.prometheus
+      newPackageName: io.micrometer.prometheusmetrics
+  - org.openrewrite.java.DeleteMethodArgument:
+      methodPattern: io.prometheus.client.CollectorRegistry <constructor>(boolean)
+      argumentIndex: 0
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.prometheus.client.CollectorRegistry
+      newFullyQualifiedTypeName: io.prometheus.metrics.model.registry.PrometheusRegistry
+
+#####
 # Dropped relocations - re-enforce artifact renames that had relocations in 3.x
 # but are fully dropped in Quarkus 4.0
 #####
