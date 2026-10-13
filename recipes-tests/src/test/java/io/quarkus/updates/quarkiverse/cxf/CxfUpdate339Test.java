@@ -122,8 +122,10 @@ public class CxfUpdate339Test implements RewriteTest {
     }
 
     @Test
-    void noChangeWhenJacksonStillTransitive() {
-        // quarkus-cxf 3.38.0 still pulls quarkus-jackson transitively, nothing to add
+    void addQuarkusJacksonEvenWhenStillTransitive() {
+        // quarkus-cxf 3.38.0 still pulls quarkus-jackson transitively. A module whose parent pom gets
+        // the version upgrade still sees it that way during the update, so only a direct dependency
+        // prevents the addition, see https://github.com/openrewrite/rewrite/issues/9169
         rewriteRun(
                 mavenProject("test-project",
                         srcMainJava(
@@ -149,6 +151,58 @@ public class CxfUpdate339Test implements RewriteTest {
                                                     <groupId>io.quarkiverse.cxf</groupId>
                                                     <artifactId>quarkus-cxf</artifactId>
                                                     <version>3.38.0</version>
+                                                </dependency>
+                                            </dependencies>
+                                        </project>
+                                        """,
+                                spec -> spec.after(pom -> {
+                                    assertThat(pom).contains("<artifactId>quarkus-jackson</artifactId>");
+                                    return pom;
+                                }))));
+    }
+
+    @Test
+    void noChangeWhenQuarkusJacksonDeclared() {
+        rewriteRun(
+                mavenProject("test-project",
+                        srcMainJava(
+                                //language=java
+                                java(
+                                        """
+                                                import com.fasterxml.jackson.databind.ObjectMapper;
+
+                                                public class UsesJackson {
+                                                    ObjectMapper mapper = new ObjectMapper();
+                                                }
+                                                """)),
+                        //language=xml
+                        pomXml(
+                                """
+                                        <project>
+                                            <modelVersion>4.0.0</modelVersion>
+                                            <groupId>org.acme</groupId>
+                                            <artifactId>test-project</artifactId>
+                                            <version>1.0.0-SNAPSHOT</version>
+                                            <dependencyManagement>
+                                                <dependencies>
+                                                    <dependency>
+                                                        <groupId>io.quarkus</groupId>
+                                                        <artifactId>quarkus-bom</artifactId>
+                                                        <version>3.39.1</version>
+                                                        <type>pom</type>
+                                                        <scope>import</scope>
+                                                    </dependency>
+                                                </dependencies>
+                                            </dependencyManagement>
+                                            <dependencies>
+                                                <dependency>
+                                                    <groupId>io.quarkiverse.cxf</groupId>
+                                                    <artifactId>quarkus-cxf</artifactId>
+                                                    <version>3.39.0</version>
+                                                </dependency>
+                                                <dependency>
+                                                    <groupId>io.quarkus</groupId>
+                                                    <artifactId>quarkus-jackson</artifactId>
                                                 </dependency>
                                             </dependencies>
                                         </project>
