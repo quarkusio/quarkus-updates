@@ -31,7 +31,7 @@ public class CxfUpdate339Test implements RewriteTest {
     @Test
     void addQuarkusJacksonWhenJacksonIsUsed() {
         // quarkus-cxf 3.39.0 does not bring quarkus-jackson transitively anymore; the added
-        // quarkus-jackson version is resolved dynamically (latest.release), asserted by pattern
+        // quarkus-jackson version is resolved dynamically (latest.integration), asserted by pattern
         rewriteRun(
                 mavenProject("test-project",
                         srcMainJava(
@@ -115,6 +115,59 @@ public class CxfUpdate339Test implements RewriteTest {
                                         """,
                                 spec -> spec.after(pom -> {
                                     assertThat(pom)
+                                            .contains("<artifactId>quarkus-jackson</artifactId>")
+                                            .doesNotContainPattern("quarkus-jackson</artifactId>\\s*<version>");
+                                    return pom;
+                                }))));
+    }
+
+    @Test
+    void addQuarkusJacksonWithoutVersionWhenManagedVersionHasQualifier() {
+        // the managed quarkus-jackson version 3.40.0.CR1 is not a release for latest.release, which would
+        // override it, see https://github.com/openrewrite/rewrite/issues/9207
+        rewriteRun(
+                mavenProject("test-project",
+                        srcMainJava(
+                                //language=java
+                                java(
+                                        """
+                                                import com.fasterxml.jackson.databind.ObjectMapper;
+
+                                                public class UsesJackson {
+                                                    ObjectMapper mapper = new ObjectMapper();
+                                                }
+                                                """)),
+                        //language=xml
+                        pomXml(
+                                """
+                                        <project>
+                                            <modelVersion>4.0.0</modelVersion>
+                                            <groupId>org.acme</groupId>
+                                            <artifactId>test-project</artifactId>
+                                            <version>1.0.0-SNAPSHOT</version>
+                                            <dependencyManagement>
+                                                <dependencies>
+                                                    <dependency>
+                                                        <groupId>io.quarkus</groupId>
+                                                        <artifactId>quarkus-bom</artifactId>
+                                                        <version>3.40.0.CR1</version>
+                                                        <type>pom</type>
+                                                        <scope>import</scope>
+                                                    </dependency>
+                                                </dependencies>
+                                            </dependencyManagement>
+                                            <dependencies>
+                                                <dependency>
+                                                    <groupId>io.quarkiverse.cxf</groupId>
+                                                    <artifactId>quarkus-cxf</artifactId>
+                                                    <version>3.39.0</version>
+                                                </dependency>
+                                            </dependencies>
+                                        </project>
+                                        """,
+                                spec -> spec.after(pom -> {
+                                    assertThat(pom)
+                                            .contains("<version>3.40.0.CR1</version>")
                                             .contains("<artifactId>quarkus-jackson</artifactId>")
                                             .doesNotContainPattern("quarkus-jackson</artifactId>\\s*<version>");
                                     return pom;
