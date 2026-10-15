@@ -23,7 +23,9 @@ recipeList:
   - org.openrewrite.maven.AddDependency:
       groupId: io.quarkus
       artifactId: quarkus-jackson
-      version: latest.release
+      # latest.integration: latest.release overrides a managed version with a qualifier (e.g. .CR1),
+      # see https://github.com/openrewrite/rewrite/issues/9207
+      version: latest.integration
       onlyIfUsing: com.fasterxml.jackson..*
       # false: a module whose parent pom gets the upgrade still sees the old quarkus-cxf and its
       # transitive quarkus-jackson during the update, see https://github.com/openrewrite/rewrite/issues/9169
