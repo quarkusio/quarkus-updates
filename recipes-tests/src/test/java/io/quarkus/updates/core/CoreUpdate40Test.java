@@ -311,6 +311,9 @@ public class CoreUpdate40Test implements RewriteTest {
             quarkus.http.ssl.certificate.key-store-key-alias=myalias
             quarkus.http.ssl.certificate.key-store-key-password=mypassword
             quarkus.http.ssl.certificate.key-store-key-password-key=mykey
+            quarkus.management.ssl.certificate.key-store-key-alias=myalias
+            quarkus.management.ssl.certificate.key-store-key-password=mypassword
+            quarkus.management.ssl.certificate.key-store-key-password-key=mykey
             # Keycloak Policy Enforcer
             quarkus.keycloak.policy-enforcer.paths.login.path=/api/login
             quarkus.keycloak."tenant1".policy-enforcer.paths.login.path=/api/login
@@ -363,6 +366,9 @@ public class CoreUpdate40Test implements RewriteTest {
             quarkus.http.ssl.certificate.key-store-alias=myalias
             quarkus.http.ssl.certificate.key-store-alias-password=mypassword
             quarkus.http.ssl.certificate.key-store-alias-password-key=mykey
+            quarkus.management.ssl.certificate.key-store-alias=myalias
+            quarkus.management.ssl.certificate.key-store-alias-password=mypassword
+            quarkus.management.ssl.certificate.key-store-alias-password-key=mykey
             # Keycloak Policy Enforcer
             quarkus.keycloak.policy-enforcer.paths.login.paths=/api/login
             quarkus.keycloak."tenant1".policy-enforcer.paths.login.paths=/api/login
