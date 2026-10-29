@@ -303,10 +303,6 @@ public class CoreUpdate40Test implements RewriteTest {
             # Redis Cache
             quarkus.cache.redis.ttl=10S
             quarkus.cache.redis."my-cache".ttl=30S
-            # SmallRye
-            quarkus.smallrye-health.enable=true
-            # Kubernetes
-            quarkus.kubernetes.init-task.image=my-image:latest
             # HTTP SSL
             quarkus.http.ssl.certificate.key-store-key-alias=myalias
             quarkus.http.ssl.certificate.key-store-key-password=mypassword
@@ -355,10 +351,6 @@ public class CoreUpdate40Test implements RewriteTest {
             # Redis Cache
             quarkus.cache.redis.expire-after-write=10S
             quarkus.cache.redis."my-cache".expire-after-write=30S
-            # SmallRye
-            quarkus.smallrye-health.enabled=true
-            # Kubernetes
-            quarkus.kubernetes.init-task-defaults.wait-for-container.image=my-image:latest
             # HTTP SSL
             quarkus.http.ssl.certificate.key-store-alias=myalias
             quarkus.http.ssl.certificate.key-store-alias-password=mypassword
@@ -372,6 +364,41 @@ public class CoreUpdate40Test implements RewriteTest {
             """;
 
         rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testSmallRyeHealthEnableNotRenamed() {
+        //language=properties
+        rewriteRun(properties(
+            """
+            quarkus.smallrye-health.enable=false
+            """,
+            spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testInitTaskImage() {
+        //language=properties
+        rewriteRun(properties(
+            """
+            quarkus.kubernetes.init-task-defaults.image=wait-for:1.0
+            quarkus.kubernetes.init-tasks.migrate.image=wait-for:1.1
+            quarkus.openshift.init-task-defaults.image=wait-for:2.0
+            quarkus.openshift.init-tasks."my.task".image=wait-for:2.1
+            quarkus.knative.init-task-defaults.image=wait-for:3.0
+            quarkus.knative.init-tasks.migrate.image=wait-for:3.1
+            quarkus.kubernetes.init-tasks.seed.wait-for-container.image=wait-for:4.0
+            """,
+            """
+            quarkus.kubernetes.init-task-defaults.wait-for-container.image=wait-for:1.0
+            quarkus.kubernetes.init-tasks.migrate.wait-for-container.image=wait-for:1.1
+            quarkus.openshift.init-task-defaults.wait-for-container.image=wait-for:2.0
+            quarkus.openshift.init-tasks."my.task".wait-for-container.image=wait-for:2.1
+            quarkus.knative.init-task-defaults.wait-for-container.image=wait-for:3.0
+            quarkus.knative.init-tasks.migrate.wait-for-container.image=wait-for:3.1
+            quarkus.kubernetes.init-tasks.seed.wait-for-container.image=wait-for:4.0
+            """,
+            spec -> spec.path("src/main/resources/application.properties")));
     }
 
     @Test
