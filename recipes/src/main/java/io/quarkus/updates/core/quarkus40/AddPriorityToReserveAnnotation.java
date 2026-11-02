@@ -36,16 +36,27 @@ public class AddPriorityToReserveAnnotation extends Recipe {
     public TreeVisitor<?, ExecutionContext> getVisitor() {
         return new JavaIsoVisitor<ExecutionContext>() {
 
+            // We provide a stub for jakarta.annotation.Priority rather than relying on the runtime classpath:
+            // when executed by the rewrite Maven/Gradle plugin, the runtime classpath is the one of the plugin,
+            // not the one of the project, and jakarta.annotation-api is not part of it.
+            // Without proper type attribution, the import would not be added and an existing @Priority
+            // would not be detected.
             private final JavaTemplate priorityTemplate = JavaTemplate.builder("@Priority(0)")
                     .imports(PRIORITY)
-                    .javaParser(JavaParser.fromJavaVersion().classpath(JavaParser.runtimeClasspath()))
+                    .javaParser(JavaParser.fromJavaVersion().dependsOn(
+                            "package jakarta.annotation;\n"
+                                    + "import java.lang.annotation.*;\n"
+                                    + "@Target({ElementType.TYPE, ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})\n"
+                                    + "@Retention(RetentionPolicy.RUNTIME)\n"
+                                    + "@Documented\n"
+                                    + "public @interface Priority { int value(); }"))
                     .build();
 
             @Override
             public J.ClassDeclaration visitClassDeclaration(J.ClassDeclaration classDecl, ExecutionContext ctx) {
                 J.ClassDeclaration cd = super.visitClassDeclaration(classDecl, ctx);
                 if (shouldAddPriority(cd.getLeadingAnnotations())) {
-                    maybeAddImport(PRIORITY);
+                    maybeAddImport(PRIORITY, false);
                     cd = priorityTemplate.apply(getCursor(),
                             cd.getCoordinates().addAnnotation(Comparator.comparing(J.Annotation::getSimpleName)));
                 }
@@ -56,7 +67,7 @@ public class AddPriorityToReserveAnnotation extends Recipe {
             public J.MethodDeclaration visitMethodDeclaration(J.MethodDeclaration method, ExecutionContext ctx) {
                 J.MethodDeclaration md = super.visitMethodDeclaration(method, ctx);
                 if (shouldAddPriority(md.getLeadingAnnotations())) {
-                    maybeAddImport(PRIORITY);
+                    maybeAddImport(PRIORITY, false);
                     md = priorityTemplate.apply(getCursor(),
                             md.getCoordinates().addAnnotation(Comparator.comparing(J.Annotation::getSimpleName)));
                 }
@@ -68,7 +79,7 @@ public class AddPriorityToReserveAnnotation extends Recipe {
                     ExecutionContext ctx) {
                 J.VariableDeclarations vd = super.visitVariableDeclarations(multiVariable, ctx);
                 if (shouldAddPriority(vd.getLeadingAnnotations())) {
-                    maybeAddImport(PRIORITY);
+                    maybeAddImport(PRIORITY, false);
                     vd = priorityTemplate.apply(getCursor(),
                             vd.getCoordinates().addAnnotation(Comparator.comparing(J.Annotation::getSimpleName)));
                 }
