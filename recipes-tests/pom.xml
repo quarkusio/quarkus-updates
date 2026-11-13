@@ -27,6 +27,9 @@
         <!-- Place for jars of the different version, used to compile tests -->
         <rewrite-tmp-classpath>${project.build.testOutputDirectory}/META-INF/rewrite/classpath</rewrite-tmp-classpath>
 
+        <test.hibernate-orm-7-4.version>7.4.11.Final</test.hibernate-orm-7-4.version>
+        <test.jakarta-persistence-3-2.version>3.2.0</test.jakarta-persistence-3-2.version>
+
         <!-- Versions of the camel dependencies used by camel-quarkus 3.0 and 3.8 -->
         <test.camel-quarkus-3-0.camel-version>3.18.6</test.camel-quarkus-3-0.camel-version>
         <test.camel-quarkus-3-0.http-client-version>4.5.14</test.camel-quarkus-3-0.http-client-version>
@@ -275,6 +278,19 @@
                         </goals>
                         <configuration>
                             <artifactItems>
+                                <!-- Source APIs for the Hibernate ORM 8.0 migration tests. -->
+                                <artifactItem>
+                                    <groupId>org.hibernate.orm</groupId>
+                                    <artifactId>hibernate-core</artifactId>
+                                    <version>${test.hibernate-orm-7-4.version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>jakarta.persistence</groupId>
+                                    <artifactId>jakarta.persistence-api</artifactId>
+                                    <version>${test.jakarta-persistence-3-2.version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
                                 <!-- camel 3.18 dependencies-->
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>

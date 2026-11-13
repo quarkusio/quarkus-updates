@@ -51,6 +51,15 @@ recipeList:
 #####
 ---
 type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.HibernateORM80
+displayName: Migrate to Hibernate ORM 8.0 and Jakarta Persistence 4.0
+description: >-
+  Apply the required Hibernate ORM 8.0 and Jakarta Persistence 4.0 migrations.
+  Unsupported usages and behavior changes may require manual migration.
+recipeList:
+  - org.hibernate.migration.recipes.orm80-required
+---
+type: specs.openrewrite.org/v1beta/recipe
 name: io.quarkus.updates.core.quarkus40.HibernateORMConfigProperties
 displayName: Rename deprecated Hibernate ORM configuration properties
 description: >-
