@@ -41,6 +41,7 @@
         <test.camel-quarkus-3-29.camel-version>4.14.0</test.camel-quarkus-3-29.camel-version>
         <test.camel-quarkus-3-31.camel-version>4.17.0</test.camel-quarkus-3-31.camel-version>
         <test.camel-quarkus-3-33.camel-version>4.18.0</test.camel-quarkus-3-33.camel-version>
+        <test.camel-quarkus-3-39.camel-version>4.22.0</test.camel-quarkus-3-39.camel-version>
 
         <test.camel-tahu-version>1.0.18</test.camel-tahu-version>
     </properties>
@@ -635,6 +636,76 @@
                                     <groupId>com.openai</groupId>
                                     <artifactId>openai-java-core</artifactId>
                                     <version>0.8.1</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+
+                                <!-- camel-openai for OpenAIConstants on the classpath, for the 4.22.1 recipe test (the 4.22 artifacts are version-labelled camel-quarkus-3-39 = Camel 4.22.0) -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-openai</artifactId>
+                                    <version>${test.camel-quarkus-3-39.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+
+                                <!-- Bouncy Castle 1.85, the last version with the BCPQC parameter spec classes (4.22.2, 4.23) -->
+                                <artifactItem>
+                                    <groupId>org.bouncycastle</groupId>
+                                    <artifactId>bcprov-jdk18on</artifactId>
+                                    <version>1.85</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+
+                                <!-- camel-zeebe for the zeebe to camunda migration tests (4.23) -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-zeebe</artifactId>
+                                    <version>${test.camel-quarkus-3-33.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+
+                                <!-- 4.22 APIs removed or renamed in 4.23: csimple, joor, debezium-oracle, Endpoint and Component DSL -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-core-languages</artifactId>
+                                    <version>${test.camel-quarkus-3-39.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-joor</artifactId>
+                                    <version>${test.camel-quarkus-3-39.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-debezium-oracle</artifactId>
+                                    <version>${test.camel-quarkus-3-39.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-debezium-common</artifactId>
+                                    <version>${test.camel-quarkus-3-39.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-endpointdsl</artifactId>
+                                    <version>${test.camel-quarkus-3-39.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-componentdsl</artifactId>
+                                    <version>${test.camel-quarkus-3-39.camel-version}</version>
+                                    <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
+                                </artifactItem>
+
+                                <!-- the bazaarvoice jolt library replaced by the jolt-community fork (4.23) -->
+                                <artifactItem>
+                                    <groupId>com.bazaarvoice.jolt</groupId>
+                                    <artifactId>jolt-core</artifactId>
+                                    <version>0.1.8</version>
                                     <outputDirectory>${rewrite-tmp-classpath}</outputDirectory>
                                 </artifactItem>
 
