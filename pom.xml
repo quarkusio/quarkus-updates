@@ -68,6 +68,8 @@
         <rewrite-gradle-plugin.version>7.39.0</rewrite-gradle-plugin.version>
         <!-- https://github.com/apache/camel-upgrade-recipes -->
         <camel-upgrade-recipes.version>4.23.0</camel-upgrade-recipes.version>
+        <!-- https://github.com/hibernate/hibernate-migration-recipes -->
+        <hibernate-migration-recipes.version>1.0.0</hibernate-migration-recipes.version>
         <!-- align with https://central.sonatype.com/artifact/org.openrewrite/rewrite-core -->
         <micrometer-core.version>1.9.17</micrometer-core.version>
         <!-- tests-->
