@@ -829,4 +829,201 @@ public class CoreUpdate40Test implements RewriteTest {
                     }
                 """));
     }
+
+    @Test
+    void testPackageConfigFastJar() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.package.type=fast-jar
+            quarkus.package.create-appcds=true
+            quarkus.package.appcds-builder-image=my-image
+            quarkus.package.appcds-use-container=true
+            quarkus.package.compress-jar=true
+            quarkus.package.filter-optional-dependencies=true
+            quarkus.package.user-configured-ignored-entries=foo
+            quarkus.package.user-providers-directory=providers
+            quarkus.package.included-optional-dependencies=org.acme:foo
+            quarkus.package.include-dependency-list=false
+            quarkus.package.decompiler.enabled=true
+            quarkus.package.decompiler.jar-directory=decompiler
+            quarkus.package.manifest.attributes.key1=value1
+            quarkus.package.manifest.sections."section1"."key1"=value11
+            quarkus.package.manifest.add-implementation-entries=true
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.package.jar.appcds.enabled=true
+            quarkus.package.jar.appcds.builder-image=my-image
+            quarkus.package.jar.appcds.use-container=true
+            quarkus.package.jar.compress=true
+            quarkus.package.jar.filter-optional-dependencies=true
+            quarkus.package.jar.user-configured-ignored-entries=foo
+            quarkus.package.jar.user-providers-directory=providers
+            quarkus.package.jar.included-optional-dependencies=org.acme:foo
+            quarkus.package.jar.type=fast-jar
+            quarkus.package.jar.include-dependency-list=false
+            quarkus.package.jar.decompiler.enabled=true
+            quarkus.package.jar.decompiler.jar-directory=decompiler
+            quarkus.package.jar.manifest.attributes.key1=value1
+            quarkus.package.jar.manifest.sections."section1"."key1"=value11
+            quarkus.package.jar.manifest.add-implementation-entries=true
+            """;
+
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testPackageConfigUberJar() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.package.type=uber-jar
+            quarkus.package.add-runner-suffix=false
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.package.jar.add-runner-suffix=false
+            quarkus.package.jar.type=uber-jar
+            """;
+
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testPackageConfigJar() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.package.type=jar
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.package.jar.type=jar
+            """;
+
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testPackageConfigMutableJar() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.package.type=mutable-jar
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.package.jar.type=mutable-jar
+            """;
+
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testPackageConfigNative() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.package.type=native
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.native.enabled=true
+            quarkus.package.jar.enabled=false
+            """;
+
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testPackageConfigNativeSources() {
+        @Language("properties")
+        String originalProperties = """
+            quarkus.package.type=native-sources
+            """;
+
+        @Language("properties")
+        String afterProperties = """
+            quarkus.native.enabled=true
+            quarkus.native.sources-only=true
+            quarkus.package.jar.enabled=false
+            """;
+
+        rewriteRun(properties(originalProperties, afterProperties, spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testPackagePomProperties() {
+        //language=xml
+        rewriteRun(pomXml("""
+                <project>
+                    <modelVersion>4.0.0</modelVersion>
+                    <groupId>org.acme</groupId>
+                    <artifactId>code-with-quarkus</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>21</maven.compiler.release>
+                    </properties>
+                    <profiles>
+                        <profile>
+                            <id>fast-jar</id>
+                            <properties>
+                                <quarkus.package.type>fast-jar</quarkus.package.type>
+                                <quarkus.package.create-appcds>true</quarkus.package.create-appcds>
+                                <quarkus.package.compress-jar>true</quarkus.package.compress-jar>
+                            </properties>
+                        </profile>
+                        <profile>
+                            <id>native</id>
+                            <properties>
+                                <quarkus.package.type>native</quarkus.package.type>
+                            </properties>
+                        </profile>
+                        <profile>
+                            <id>native-sources</id>
+                            <properties>
+                                <quarkus.package.type>native-sources</quarkus.package.type>
+                            </properties>
+                        </profile>
+                    </profiles>
+                </project>
+                """,
+                """
+                <project>
+                    <modelVersion>4.0.0</modelVersion>
+                    <groupId>org.acme</groupId>
+                    <artifactId>code-with-quarkus</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                    <properties>
+                        <maven.compiler.release>21</maven.compiler.release>
+                    </properties>
+                    <profiles>
+                        <profile>
+                            <id>fast-jar</id>
+                            <properties>
+                                <quarkus.package.jar.appcds.enabled>true</quarkus.package.jar.appcds.enabled>
+                                <quarkus.package.jar.compress>true</quarkus.package.jar.compress>
+                                <quarkus.package.jar.type>fast-jar</quarkus.package.jar.type>
+                            </properties>
+                        </profile>
+                        <profile>
+                            <id>native</id>
+                            <properties>
+                                <quarkus.native.enabled>true</quarkus.native.enabled>
+                                <quarkus.package.jar.enabled>false</quarkus.package.jar.enabled>
+                            </properties>
+                        </profile>
+                        <profile>
+                            <id>native-sources</id>
+                            <properties>
+                                <quarkus.native.enabled>true</quarkus.native.enabled>
+                                <quarkus.native.sources-only>true</quarkus.native.sources-only>
+                                <quarkus.package.jar.enabled>false</quarkus.package.jar.enabled>
+                            </properties>
+                        </profile>
+                    </profiles>
+                </project>
+                """));
+    }
 }
