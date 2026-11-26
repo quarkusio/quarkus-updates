@@ -116,6 +116,20 @@ recipeList:
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.database\.generation\.halt-on-error
       newPropertyKey: quarkus.hibernate-orm.$1.schema-management.halt-on-error
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus\.hibernate-orm\.(.+\.)?database\.globally-quoted-identifiers
+      oldValue: 'true'
+      newValue: all
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus\.hibernate-orm\.(.+\.)?database\.globally-quoted-identifiers
+      oldValue: 'false'
+      newValue: none
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.database\.globally-quoted-identifiers
+      newPropertyKey: quarkus.hibernate-orm.quote-identifiers.strategy
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.database\.globally-quoted-identifiers
+      newPropertyKey: quarkus.hibernate-orm.$1.quote-identifiers.strategy
 
 #####
 # OIDC property renames
@@ -311,6 +325,68 @@ recipeList:
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.package\.jar\.appcds\.use-aot
       newPropertyKey: quarkus.package.jar.aot.enabled
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.jar\.appcds\.enabled
+      newPropertyKey: quarkus.package.jar.aot.enabled
+
+#####
+# Logging async property renames, only the console handler was covered in 3.24
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.LogAsyncConfigProperties
+displayName: Rename deprecated logging async configuration properties
+description: >-
+  Rename the boolean `async` logging handler properties that were deprecated in Quarkus 3.24
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.log\.(file|syslog|socket)\.async
+      newPropertyKey: quarkus.log.$1.async.enabled
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.log\.handler\.(console|file|syslog|socket)\.(.+)\.async
+      newPropertyKey: quarkus.log.handler.$1.$2.async.enabled
+
+#####
+# Quarkus Data Hibernate - stateless renamed to record
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.DataHibernateRecordRenames
+displayName: Rename Quarkus Data Hibernate stateless types and accessors
+description: >-
+  Move types from `io.quarkus.data.hibernate.stateless` to `io.quarkus.data.hibernate.record`, and rename the
+  `managedBlocking()`, `statelessBlocking()` and `statelessReactive()` switchers to `managed()`, `record()` and `recordReactive()`.
+  References to generated default repository types still need to be updated after recompiling.
+recipeList:
+  - org.openrewrite.java.ChangePackage:
+      oldPackageName: io.quarkus.data.hibernate.stateless
+      newPackageName: io.quarkus.data.hibernate.record
+      recursive: true
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: io.quarkus.data.hibernate.EntitySwitcher managedBlocking()
+      newMethodName: managed
+      matchOverrides: true
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: io.quarkus.data.hibernate.EntitySwitcher statelessBlocking()
+      newMethodName: record
+      matchOverrides: true
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: io.quarkus.data.hibernate.EntitySwitcher statelessReactive()
+      newMethodName: recordReactive
+      matchOverrides: true
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: io.quarkus.data.hibernate.RepositorySwitcher managedBlocking()
+      newMethodName: managed
+      matchOverrides: true
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: io.quarkus.data.hibernate.RepositorySwitcher statelessBlocking()
+      newMethodName: record
+      matchOverrides: true
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: io.quarkus.data.hibernate.RepositorySwitcher statelessReactive()
+      newMethodName: recordReactive
+      matchOverrides: true
 
 #####
 # Package property renames
@@ -440,15 +516,11 @@ description: >-
   Rename package configuration properties that were deprecated in Quarkus 3.10
   and removed in Quarkus 4.0.
 recipeList:
+  # AppCDS has been replaced by AOT in 4.0 and the builder-image and use-container
+  # properties have no replacement
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.package\.create-appcds
-      newPropertyKey: quarkus.package.jar.appcds.enabled
-  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
-      oldPropertyKey: quarkus\.package\.appcds-builder-image
-      newPropertyKey: quarkus.package.jar.appcds.builder-image
-  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
-      oldPropertyKey: quarkus\.package\.appcds-use-container
-      newPropertyKey: quarkus.package.jar.appcds.use-container
+      newPropertyKey: quarkus.package.jar.aot.enabled
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.package\.compress-jar
       newPropertyKey: quarkus.package.jar.compress

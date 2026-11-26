@@ -853,9 +853,9 @@ public class CoreUpdate40Test implements RewriteTest {
 
         @Language("properties")
         String afterProperties = """
-            quarkus.package.jar.appcds.enabled=true
-            quarkus.package.jar.appcds.builder-image=my-image
-            quarkus.package.jar.appcds.use-container=true
+            quarkus.package.jar.aot.enabled=true
+            quarkus.package.appcds-builder-image=my-image
+            quarkus.package.appcds-use-container=true
             quarkus.package.jar.compress=true
             quarkus.package.jar.filter-optional-dependencies=true
             quarkus.package.jar.user-configured-ignored-entries=foo
@@ -1024,6 +1024,170 @@ public class CoreUpdate40Test implements RewriteTest {
                         </profile>
                     </profiles>
                 </project>
+                """));
+    }
+
+    @Test
+    void testLogAsyncRenames() {
+        //language=properties
+        rewriteRun(properties(
+            """
+            quarkus.log.file.async=true
+            quarkus.log.syslog.async=false
+            quarkus.log.socket.async=true
+            quarkus.log.handler.console."audit".async=true
+            quarkus.log.handler.file."audit".async=true
+            quarkus.log.handler.file."audit".async.queue-length=256
+            """,
+            """
+            quarkus.log.file.async.enabled=true
+            quarkus.log.syslog.async.enabled=false
+            quarkus.log.socket.async.enabled=true
+            quarkus.log.handler.console."audit".async.enabled=true
+            quarkus.log.handler.file."audit".async.enabled=true
+            quarkus.log.handler.file."audit".async.queue-length=256
+            """,
+            spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testGloballyQuotedIdentifiers() {
+        //language=properties
+        rewriteRun(properties(
+            """
+            quarkus.hibernate-orm.database.globally-quoted-identifiers=true
+            quarkus.hibernate-orm."users".database.globally-quoted-identifiers=false
+            %dev.quarkus.hibernate-orm.database.globally-quoted-identifiers=false
+            """,
+            """
+            quarkus.hibernate-orm.quote-identifiers.strategy=all
+            quarkus.hibernate-orm."users".quote-identifiers.strategy=none
+            %dev.quarkus.hibernate-orm.quote-identifiers.strategy=none
+            """,
+            spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testAppcdsEnabled() {
+        //language=properties
+        rewriteRun(properties(
+            """
+            quarkus.package.jar.appcds.enabled=true
+            """,
+            """
+            quarkus.package.jar.aot.enabled=true
+            """,
+            spec -> spec.path("src/main/resources/application.properties")));
+    }
+
+    @Test
+    void testDataHibernateRecordRenames() {
+        @Language("java")
+        String blockingManagedEntity = """
+                package io.quarkus.data.hibernate.managed.blocking;
+
+                public interface BlockingManagedEntity {
+                }
+                """;
+        @Language("java")
+        String blockingRecordEntity = """
+                package io.quarkus.data.hibernate.stateless.blocking;
+
+                public interface BlockingRecordEntity {
+                }
+                """;
+        @Language("java")
+        String reactiveRecordEntity = """
+                package io.quarkus.data.hibernate.stateless.reactive;
+
+                public interface ReactiveRecordEntity {
+                }
+                """;
+        @Language("java")
+        String entitySwitcher = """
+                package io.quarkus.data.hibernate;
+
+                import io.quarkus.data.hibernate.managed.blocking.BlockingManagedEntity;
+                import io.quarkus.data.hibernate.stateless.blocking.BlockingRecordEntity;
+                import io.quarkus.data.hibernate.stateless.reactive.ReactiveRecordEntity;
+
+                public interface EntitySwitcher {
+                    default BlockingManagedEntity managedBlocking() { return null; }
+                    default BlockingRecordEntity statelessBlocking() { return null; }
+                    default ReactiveRecordEntity statelessReactive() { return null; }
+                }
+                """;
+        @Language("java")
+        String blockingRecordRepositoryBase = """
+                package io.quarkus.data.hibernate.stateless.blocking;
+
+                public interface BlockingRecordRepositoryBase<Entity, Id> {
+                }
+                """;
+        @Language("java")
+        String repositorySwitcher = """
+                package io.quarkus.data.hibernate;
+
+                import io.quarkus.data.hibernate.stateless.blocking.BlockingRecordRepositoryBase;
+
+                public interface RepositorySwitcher<Entity, Id> {
+                    default Object managedBlocking() { return null; }
+                    default Object managedReactive() { return null; }
+                    default BlockingRecordRepositoryBase<Entity, Id> statelessBlocking() { return null; }
+                    default Object statelessReactive() { return null; }
+                }
+                """;
+        //language=java
+        rewriteRun(spec -> spec.parser(JavaParser.fromJavaVersion()
+                        .dependsOn(blockingManagedEntity, blockingRecordEntity, reactiveRecordEntity, entitySwitcher,
+                                blockingRecordRepositoryBase, repositorySwitcher)
+                        .logCompilationWarningsAndErrors(true)),
+                java(
+                """
+                    package org.acme;
+
+                    import io.quarkus.data.hibernate.EntitySwitcher;
+                    import io.quarkus.data.hibernate.RepositorySwitcher;
+                    import io.quarkus.data.hibernate.stateless.blocking.BlockingRecordEntity;
+                    import io.quarkus.data.hibernate.stateless.blocking.BlockingRecordRepositoryBase;
+
+                    class BookService {
+                        BlockingRecordEntity asRecord(EntitySwitcher book) {
+                            book.managedBlocking();
+                            book.statelessReactive();
+                            return book.statelessBlocking();
+                        }
+
+                        BlockingRecordRepositoryBase<Object, Long> records(RepositorySwitcher<Object, Long> books) {
+                            books.managedBlocking();
+                            books.managedReactive();
+                            books.statelessReactive();
+                            return books.statelessBlocking();
+                        }
+                    }
+                """,
+                """
+                    package org.acme;
+
+                    import io.quarkus.data.hibernate.EntitySwitcher;
+                    import io.quarkus.data.hibernate.RepositorySwitcher;
+                    import io.quarkus.data.hibernate.record.blocking.BlockingRecordEntity;
+                    import io.quarkus.data.hibernate.record.blocking.BlockingRecordRepositoryBase;
+
+                    class BookService {
+                        BlockingRecordEntity asRecord(EntitySwitcher book) {
+                            book.managed();
+                            book.recordReactive();
+                            return book.record();
+                        }
+
+                        BlockingRecordRepositoryBase<Object, Long> records(RepositorySwitcher<Object, Long> books) {
+                            books.managed();
+                            books.managedReactive();
+                            books.recordReactive();
+                            return books.record();
+                        }
+                    }
                 """));
     }
 }

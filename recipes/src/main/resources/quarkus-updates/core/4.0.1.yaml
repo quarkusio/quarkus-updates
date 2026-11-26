@@ -1,0 +1,15 @@
+#####
+# Spring Test artifact rename, quarkus-spring-test is only published from 4.0.1
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus401.SpringTestDependencyRename
+displayName: Rename `quarkus-test-spring` to `quarkus-spring-test`
+description: >-
+  The `@SpringBootTest` support artifact was renamed to align with the other Spring compatibility artifacts.
+  The old artifact is still relocated for now.
+recipeList:
+  - org.openrewrite.java.dependencies.ChangeDependency:
+      oldGroupId: io.quarkus
+      oldArtifactId: quarkus-test-spring
+      newArtifactId: quarkus-spring-test
