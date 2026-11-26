@@ -96,6 +96,26 @@ recipeList:
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.dialect\.storage-engine
       newPropertyKey: quarkus.hibernate-orm.$1.dialect.mysql.storage-engine
+  # Already handled in 3.23 but only applied when updating from < 3.23,
+  # so we need to apply it again as the old properties have been removed in 4.0
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.database\.generation
+      newPropertyKey: quarkus.hibernate-orm.schema-management.strategy
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.database\.generation\.create-schemas
+      newPropertyKey: quarkus.hibernate-orm.schema-management.create-schemas
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.database\.generation\.halt-on-error
+      newPropertyKey: quarkus.hibernate-orm.schema-management.halt-on-error
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.database\.generation
+      newPropertyKey: quarkus.hibernate-orm.$1.schema-management.strategy
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.database\.generation\.create-schemas
+      newPropertyKey: quarkus.hibernate-orm.$1.schema-management.create-schemas
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.database\.generation\.halt-on-error
+      newPropertyKey: quarkus.hibernate-orm.$1.schema-management.halt-on-error
 
 #####
 # OIDC property renames
@@ -291,6 +311,186 @@ recipeList:
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.package\.jar\.appcds\.use-aot
       newPropertyKey: quarkus.package.jar.aot.enabled
+
+#####
+# Package property renames
+#
+# Already handled in 3.10 but only applied when updating from < 3.10,
+# so we need to apply them again as the old properties have been removed in 4.0
+#####
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.UpdateConfigPackagePom
+displayName: Rename deprecated package properties in POM files
+description: >-
+  Rename package configuration properties that were deprecated in Quarkus 3.10
+  and removed in Quarkus 4.0 in POM files.
+recipeList:
+  - io.quarkus.updates.core.quarkus310.AdjustPackageProperty
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.UpdateConfigPackageTypeJar
+displayName: Replace quarkus.package.type=jar
+description: Replace the removed `quarkus.package.type=jar` configuration property.
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.type
+      value: jar
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus\.package\.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus\.package\.type
+      oldValue: jar
+      newValue: dummy
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.UpdateConfigPackageTypeFastJar
+displayName: Replace quarkus.package.type=fast-jar
+description: Replace the removed `quarkus.package.type=fast-jar` configuration property.
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.type
+      value: fast-jar
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus\.package\.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus\.package\.type
+      oldValue: fast-jar
+      newValue: dummy
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.UpdateConfigPackageTypeUberJar
+displayName: Replace quarkus.package.type=uber-jar
+description: Replace the removed `quarkus.package.type=uber-jar` configuration property.
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.type
+      value: uber-jar
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus\.package\.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus\.package\.type
+      oldValue: uber-jar
+      newValue: dummy
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.UpdateConfigPackageTypeMutableJar
+displayName: Replace quarkus.package.type=mutable-jar
+description: Replace the removed `quarkus.package.type=mutable-jar` configuration property.
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.type
+      value: mutable-jar
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus\.package\.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus\.package\.type
+      oldValue: mutable-jar
+      newValue: dummy
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.UpdateConfigPackageTypeNative
+displayName: Replace quarkus.package.type=native
+description: Replace the removed `quarkus.package.type=native` configuration property.
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.native.enabled
+      value: true
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.enabled
+      value: false
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus\.package\.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus\.package\.type
+      oldValue: native
+      newValue: dummy
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.UpdateConfigPackageTypeNativeSources
+displayName: Replace quarkus.package.type=native-sources
+description: Replace the removed `quarkus.package.type=native-sources` configuration property.
+recipeList:
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.native.enabled
+      value: true
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.package.jar.enabled
+      value: false
+  - org.openrewrite.quarkus.AddQuarkusProperty:
+      property: quarkus.native.sources-only
+      value: true
+  - org.openrewrite.quarkus.DeleteQuarkusProperty:
+      propertyKey: quarkus\.package\.type
+preconditions:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyValue:
+      propertyKey: quarkus\.package\.type
+      oldValue: native-sources
+      newValue: dummy
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.quarkus.updates.core.quarkus40.UpdateConfigPackageSimpleProperties
+displayName: Rename deprecated package configuration properties
+description: >-
+  Rename package configuration properties that were deprecated in Quarkus 3.10
+  and removed in Quarkus 4.0.
+recipeList:
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.create-appcds
+      newPropertyKey: quarkus.package.jar.appcds.enabled
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.appcds-builder-image
+      newPropertyKey: quarkus.package.jar.appcds.builder-image
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.appcds-use-container
+      newPropertyKey: quarkus.package.jar.appcds.use-container
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.compress-jar
+      newPropertyKey: quarkus.package.jar.compress
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.filter-optional-dependencies
+      newPropertyKey: quarkus.package.jar.filter-optional-dependencies
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.add-runner-suffix
+      newPropertyKey: quarkus.package.jar.add-runner-suffix
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.user-configured-ignored-entries
+      newPropertyKey: quarkus.package.jar.user-configured-ignored-entries
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.user-providers-directory
+      newPropertyKey: quarkus.package.jar.user-providers-directory
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.included-optional-dependencies
+      newPropertyKey: quarkus.package.jar.included-optional-dependencies
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.include-dependency-list
+      newPropertyKey: quarkus.package.jar.include-dependency-list
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.decompiler\.enabled
+      newPropertyKey: quarkus.package.jar.decompiler.enabled
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.vineflower\.enabled
+      newPropertyKey: quarkus.package.jar.decompiler.enabled
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.decompiler\.jar-directory
+      newPropertyKey: quarkus.package.jar.decompiler.jar-directory
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.vineflower\.jar-directory
+      newPropertyKey: quarkus.package.jar.decompiler.jar-directory
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.manifest\.attributes\.(.*)
+      newPropertyKey: quarkus.package.jar.manifest.attributes.$1
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.manifest\.sections\.(.*)
+      newPropertyKey: quarkus.package.jar.manifest.sections.$1
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.package\.manifest\.add-implementation-entries
+      newPropertyKey: quarkus.package.jar.manifest.add-implementation-entries
 
 #####
 # ArC - @DefaultBean to @Reserve migration
