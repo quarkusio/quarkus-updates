@@ -23,6 +23,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UpdateProjectIT {
     private static final String MAVEN_CENTRAL_QUARKUS_REPO = "https://repo1.maven.org/maven2/io/quarkus/";
     public static final String QUARKUS_TEST_CLI = "quarkus-test-cli";
+    // We test updates between 3.x streams so we use a 3.x CLI:
+    // when updating a Gradle project, the CLI applies its own version of the Quarkus Gradle plugin
+    // and the 4.x Gradle plugin requires Gradle 9.6+, which 3.x projects don't use.
+    // TODO: switch back to quarkus@quarkusio once the 4.x CLI can update 3.x Gradle projects
+    private static final String QUARKUS_3_CLI = MAVEN_CENTRAL_QUARKUS_REPO + "quarkus-cli/3.40.2/quarkus-cli-3.40.2-runner.jar";
 
     private static volatile boolean quarkusRepoTrusted = false;
     private static Path TMP_DIR;
@@ -30,7 +35,7 @@ public class UpdateProjectIT {
     @BeforeAll
     static void beforeAll() throws IOException, InterruptedException, TimeoutException {
         TMP_DIR = Files.createTempDirectory("junit");
-        installCLI(TMP_DIR, "quarkus@quarkusio");
+        installCLI(TMP_DIR, QUARKUS_3_CLI);
     }
 
     @ParameterizedTest
