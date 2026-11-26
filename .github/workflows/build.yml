@@ -52,11 +52,11 @@ jobs:
         if: startsWith(matrix.os, 'windows')
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
           cache: 'maven'
 
       # Merge the Google mirror profile into ~/.m2/settings.xml so that both the
