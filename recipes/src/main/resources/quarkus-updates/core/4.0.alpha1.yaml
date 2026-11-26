@@ -96,6 +96,26 @@ recipeList:
   - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
       oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.dialect\.storage-engine
       newPropertyKey: quarkus.hibernate-orm.$1.dialect.mysql.storage-engine
+  # Already handled in 3.23 but only applied when updating from < 3.23,
+  # so we need to apply it again as the old properties have been removed in 4.0
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.database\.generation
+      newPropertyKey: quarkus.hibernate-orm.schema-management.strategy
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.database\.generation\.create-schemas
+      newPropertyKey: quarkus.hibernate-orm.schema-management.create-schemas
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.database\.generation\.halt-on-error
+      newPropertyKey: quarkus.hibernate-orm.schema-management.halt-on-error
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.database\.generation
+      newPropertyKey: quarkus.hibernate-orm.$1.schema-management.strategy
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.database\.generation\.create-schemas
+      newPropertyKey: quarkus.hibernate-orm.$1.schema-management.create-schemas
+  - org.openrewrite.quarkus.ChangeQuarkusPropertyKey:
+      oldPropertyKey: quarkus\.hibernate-orm\.(.+)\.database\.generation\.halt-on-error
+      newPropertyKey: quarkus.hibernate-orm.$1.schema-management.halt-on-error
 
 #####
 # OIDC property renames

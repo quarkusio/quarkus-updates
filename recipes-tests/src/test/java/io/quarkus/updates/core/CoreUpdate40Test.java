@@ -275,12 +275,19 @@ public class CoreUpdate40Test implements RewriteTest {
             quarkus.hibernate-orm.log.bind-param=true
             quarkus.hibernate-orm.multitenant-schema-datasource=other
             quarkus.hibernate-orm.dialect.storage-engine=InnoDB
+            quarkus.hibernate-orm.database.generation=drop-and-create
+            %dev.quarkus.hibernate-orm.database.generation=update
+            quarkus.hibernate-orm.database.generation.create-schemas=true
+            quarkus.hibernate-orm.database.generation.halt-on-error=true
             # Hibernate ORM - named persistence unit
             quarkus.hibernate-orm."inventory".batch-fetch-size=8
             quarkus.hibernate-orm."inventory".max-fetch-depth=2
             quarkus.hibernate-orm."inventory".log.bind-param=false
             quarkus.hibernate-orm."inventory".multitenant-schema-datasource=inventory-ds
             quarkus.hibernate-orm."inventory".dialect.storage-engine=InnoDB
+            quarkus.hibernate-orm."inventory".database.generation=validate
+            quarkus.hibernate-orm."inventory".database.generation.create-schemas=false
+            quarkus.hibernate-orm."inventory".database.generation.halt-on-error=false
             # OIDC
             quarkus.oidc.authentication.pkce-secret=my-secret
             quarkus.oidc."tenant1".authentication.pkce-secret=tenant-secret
@@ -326,12 +333,19 @@ public class CoreUpdate40Test implements RewriteTest {
             quarkus.hibernate-orm.log.bind-parameters=true
             quarkus.hibernate-orm.datasource=other
             quarkus.hibernate-orm.dialect.mysql.storage-engine=InnoDB
+            quarkus.hibernate-orm.schema-management.strategy=drop-and-create
+            %dev.quarkus.hibernate-orm.schema-management.strategy=update
+            quarkus.hibernate-orm.schema-management.create-schemas=true
+            quarkus.hibernate-orm.schema-management.halt-on-error=true
             # Hibernate ORM - named persistence unit
             quarkus.hibernate-orm."inventory".fetch.batch-size=8
             quarkus.hibernate-orm."inventory".fetch.max-depth=2
             quarkus.hibernate-orm."inventory".log.bind-parameters=false
             quarkus.hibernate-orm."inventory".datasource=inventory-ds
             quarkus.hibernate-orm."inventory".dialect.mysql.storage-engine=InnoDB
+            quarkus.hibernate-orm."inventory".schema-management.strategy=validate
+            quarkus.hibernate-orm."inventory".schema-management.create-schemas=false
+            quarkus.hibernate-orm."inventory".schema-management.halt-on-error=false
             # OIDC
             quarkus.oidc.authentication.state-secret=my-secret
             quarkus.oidc."tenant1".authentication.state-secret=tenant-secret
